@@ -91,7 +91,7 @@ public class TutorialGame implements ApplicationListener {
 		 * kunna göra för olika inputs från olika plattformer. Man helt enkelt
 		 * kollar typen som körs just nu.
 		 **/
-		final float speed = 200;
+		final float speed = 150;
 		if(appType == ApplicationType.Desktop) {
 			if(Gdx.input.isKeyPressed(Keys.W)) {
 				position.y -= speed * time;

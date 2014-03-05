@@ -16,7 +16,7 @@ public class Player implements GameObject {
 	private Texture texture;
 	private Sprite sprite;
 	
-	private final float MOVE_SPEED = 800;
+	private final float MOVE_SPEED = 1000;
 	private final float SIZE = 50;
 	
 	// Screen dimensions

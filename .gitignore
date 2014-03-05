@@ -19,7 +19,8 @@ local.properties
 .classpath
 .settings/
 .loadpath
-.snap
+*.snap
+.metadata
 
 # External tool builders
 .externalToolBuilders/
@@ -57,5 +58,3 @@ proguard/
 *.ipr
 *.iws
 .idea/
-*.snap
-.cache

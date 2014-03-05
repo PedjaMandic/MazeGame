@@ -58,3 +58,4 @@ proguard/
 *.iws
 .idea/
 *.snap
+.cache

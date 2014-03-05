@@ -58,3 +58,4 @@ proguard/
 *.ipr
 *.iws
 .idea/
+*.snap

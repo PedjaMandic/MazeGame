@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.skid.marks.manager.SoundManager;
 import com.skid.marks.manager.TextureManager;
 
 public class TutorialGame extends Game {
@@ -33,6 +34,8 @@ public class TutorialGame extends Game {
 		for(GameObject go : gameObjects) {
 			go.init();
 		}
+		
+		SoundManager.play("background");
 	}
 
 	@Override
@@ -40,6 +43,7 @@ public class TutorialGame extends Game {
 		font.dispose();
 		batch.dispose();
 		TextureManager.dispose();
+		SoundManager.dispose();
 	}
 
 	@Override
@@ -104,6 +108,7 @@ public class TutorialGame extends Game {
 		score += 1;
 		for(GameObject go : walls) {
 			if(player.getBounds().overlaps(go.getBounds())) {
+				SoundManager.play("explosion");
 				score -= 1000;
 			}
 		}

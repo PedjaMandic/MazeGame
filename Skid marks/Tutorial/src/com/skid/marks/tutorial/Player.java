@@ -52,16 +52,17 @@ public class Player implements GameObject {
 			mx = Gdx.input.getX() - (SIZE / 2);
 		}
 		
-//		float fm = MOVE_SPEED * delta;
-//		if(position.x < (mx - fm) || position.x > (mx + fm))
-//		{
-//			if(position.x < mx) {
-//				position.x += fm;
-//			} else if(position.x > mx) {
-//				position.x -= fm;
-//			}
-//		}
-		position.x = mx;
+		float fm = MOVE_SPEED * delta;
+		if(position.x < (mx - fm) || position.x > (mx + fm))
+		{
+			if(position.x < mx) {
+				position.x += fm;
+			} else if(position.x > mx) {
+				position.x -= fm;
+			}
+		}
+//		position.x = mx;
+		
 		
 		if(position.x < 0) {
 			position.x = 0;

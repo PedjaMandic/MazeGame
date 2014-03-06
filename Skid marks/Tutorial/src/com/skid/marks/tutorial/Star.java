@@ -2,12 +2,11 @@ package com.skid.marks.tutorial;
 
 import java.util.Random;
 
-import sun.rmi.runtime.Log;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.skid.marks.manager.TextureManager;
@@ -19,8 +18,9 @@ public class Star implements BaseParticle{
 	private Vector2 direction;
 	private Texture texture;
 	private Sprite sprite;
+	private TextureRegion currentFrame;
 	
-	private final float SIZE = 4;
+	private final float SIZE = 6;
 	private final float SPEED = 10;
 	
 	//Is alive
@@ -48,9 +48,13 @@ public class Star implements BaseParticle{
 		
 		position = new Vector2(x, y);
 		
-		texture = TextureManager.getTexture("data/player.png");
+		texture = TextureManager.getTexture("data/starSheet.png");
 		
-		sprite = new Sprite(texture);
+		int t = rand.nextInt(4);
+		
+		currentFrame = new TextureRegion(texture, t*5, 0, 4, 4);
+		
+		sprite = new Sprite(currentFrame);
 		sprite.flip(false, true); // OBS!
 		sprite.setSize(SIZE, SIZE);
 		

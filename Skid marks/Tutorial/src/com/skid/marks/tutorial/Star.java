@@ -13,7 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.skid.marks.manager.TextureManager;
 
 public class Star implements BaseParticle{
-
+	private boolean alive = true;
 	private Rectangle bounds;
 	private Vector2 position;
 	private Vector2 direction;
@@ -22,6 +22,9 @@ public class Star implements BaseParticle{
 	
 	private final float SIZE = 2;
 	private final float SPEED = 10;
+	
+	//Is alive
+	
 	
 	// Screen dimensions
 	private float sw;
@@ -42,7 +45,7 @@ public class Star implements BaseParticle{
 		
 		
 		//Random riktning på vart den åker
-		direction = new Vector2(rand.nextFloat(), rand.nextFloat());
+		direction = new Vector2(rand.nextFloat() - 0.5f, rand.nextFloat() - 0.5f);
 		
 		position = new Vector2(x, y);
 		
@@ -61,6 +64,9 @@ public class Star implements BaseParticle{
 		
 		bounds.setPosition(position);
 		
+		if(position.x > sw || position.x < 0 || position.y > sh || position.y < 0)
+			alive = false;
+		
 	}
 
 	@Override
@@ -74,5 +80,7 @@ public class Star implements BaseParticle{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public Boolean isAlive(){return alive;}
 
 }

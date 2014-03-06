@@ -19,6 +19,7 @@ public class TutorialGame extends Game {
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
 	private ArrayList<GameObject> gameObjects;
+	private ArrayList<BaseParticle> particles;
 	private int score = 0;
 	
 	@Override
@@ -27,6 +28,8 @@ public class TutorialGame extends Game {
 		batch = new SpriteBatch();
 		camera = new OrthographicCamera();
 		camera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		
+		particles = new ArrayList<BaseParticle>();
 		
 		gameObjects = new ArrayList<GameObject>();
 		gameObjects.add(new Player());
@@ -56,6 +59,13 @@ public class TutorialGame extends Game {
 		}
 		
 		float time = Gdx.graphics.getDeltaTime();
+		for (int i = 0; i < particles.size(); i++){
+			BaseParticle pa = particles.get(i);
+			pa.update(time);
+			if(((Star)pa).isAlive() == false){
+				particles.remove(i);
+			}
+		}
 		for (int i = 0; i < gameObjects.size(); i++) {
 			GameObject go = gameObjects.get(i);
 			go.update(time);
@@ -67,6 +77,7 @@ public class TutorialGame extends Game {
 		}
 		checkCollisions(gameObjects.get(0), gameObjects.subList(1, gameObjects.size()));
 		spawnWall(time);
+		spawnStar(time);
 		
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
@@ -75,6 +86,9 @@ public class TutorialGame extends Game {
 		font.draw(batch, String.format("Score: %d", score), 20, 50);
 		for(GameObject go : gameObjects) {
 			go.draw(batch);
+		}
+		for(BaseParticle pa : particles){
+			pa.draw(batch);
 		}
 		batch.end();
 	}
@@ -101,6 +115,18 @@ public class TutorialGame extends Game {
 			wall.init();
 			gameObjects.add(wall);
 			spawnCounter = 0;
+		}
+	}
+	
+	private final float SPAWN_TIMER_STAR = 0.03f; // 1 sec
+	private float spawnCounterStar = 0.0f;
+	void spawnStar(float delta) {
+		spawnCounterStar += delta;
+		if(spawnCounterStar >= SPAWN_TIMER_STAR) {
+			BaseParticle star = new Star();
+			star.init();
+			particles.add(star);
+			spawnCounterStar = 0;
 		}
 	}
 	

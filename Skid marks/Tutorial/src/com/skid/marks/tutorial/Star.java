@@ -20,7 +20,7 @@ public class Star implements BaseParticle{
 	private Texture texture;
 	private Sprite sprite;
 	
-	private final float SIZE = 2;
+	private final float SIZE = 4;
 	private final float SPEED = 10;
 	
 	//Is alive
@@ -41,11 +41,10 @@ public class Star implements BaseParticle{
 		//Random start position;
 		Random rand = new Random();
 		float x = rand.nextFloat() * sw;
-		float y = rand.nextFloat() * sh;
-		
+		float y = 0;
 		
 		//Random riktning på vart den åker
-		direction = new Vector2(rand.nextFloat() - 0.5f, rand.nextFloat() - 0.5f);
+		direction = new Vector2(rand.nextFloat() - 0.5f, rand.nextFloat() + 0.25f);
 		
 		position = new Vector2(x, y);
 		

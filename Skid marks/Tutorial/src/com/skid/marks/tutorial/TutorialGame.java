@@ -31,6 +31,18 @@ public class TutorialGame extends Game {
 	
 	private boolean gameOver;
 	
+	private Menu menu;
+	
+	public enum States{
+		Play,
+		Menu,
+		Settings,
+		Highscore
+		
+	}
+	
+	public static States state = States.Menu;
+	
 	
 	@Override
 	public void create() {

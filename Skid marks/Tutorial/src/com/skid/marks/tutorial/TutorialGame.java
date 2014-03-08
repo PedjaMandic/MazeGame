@@ -84,8 +84,13 @@ public class TutorialGame extends Game {
 		
 		switch(state){
 		case Menu:
+			spawnStar(time);
+			particleManager.update(time);
 			menu.update(time);
-			
+			batch.setProjectionMatrix(camera.combined);
+			batch.begin();
+			particleManager.draw(batch);
+			batch.end();
 			menu.draw(batch);
 			break;
 		case Play:

@@ -53,6 +53,7 @@ public class Menu {
 			TutorialGame.state = TutorialGame.States.Play;
 		}
 
+		
 	}
 	
 	public void draw(SpriteBatch batch){

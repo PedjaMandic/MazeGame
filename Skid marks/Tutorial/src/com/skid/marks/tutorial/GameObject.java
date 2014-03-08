@@ -8,6 +8,8 @@ public interface GameObject {
 
 	void init();
 	
+	void reset();
+	
 	void update(float delta);
 	
 	void draw(SpriteBatch batch);

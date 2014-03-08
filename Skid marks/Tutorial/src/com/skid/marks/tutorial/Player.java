@@ -50,6 +50,13 @@ public class Player implements GameObject {
 		sprites[2] = TextureManager.getSprite("data/gfx/player_C.png");
 		sprites[3] = TextureManager.getSprite("data/gfx/player_D.png");
 	}
+	
+	@Override
+	public void reset() {
+		position = new Vector2((sw / 2) - (SIZE / 2), sh - SIZE * 2);
+		mt = false;
+		mx = (sw / 2) - (SIZE / 2);
+	}
 
 	@Override
 	public void update(float delta) {

@@ -2,7 +2,6 @@ package com.skid.marks.tutorial;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -39,10 +38,6 @@ public class Player implements GameObject {
 		sh = Gdx.graphics.getHeight();
 		
 		position = new Vector2((sw / 2) - (SIZE / 2), sh - SIZE * 2);
-//		texture = TextureManager.getTexture("data/player.png");
-//		sprite = new Sprite(texture);
-//		sprite.flip(false, true); // OBS!
-//		sprite.setSize(SIZE, SIZE);
 		
 		sprites = new Sprite[4];
 		sprites[0] = TextureManager.getSprite("data/gfx/player_A.png");

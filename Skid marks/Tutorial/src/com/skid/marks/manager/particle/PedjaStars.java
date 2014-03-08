@@ -2,7 +2,6 @@ package com.skid.marks.manager.particle;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.skid.marks.manager.TextureManager;
 
@@ -16,8 +15,6 @@ public class PedjaStars implements BaseParticle {
 	private final float ANIM_TIMER = 0.3f; // 0.2 sec
 	private final int COLS = 5; // Antal bilder i sheeten
 	private final int SIZE = 64;
-	
-	private TextureRegion region;
 	
 	public PedjaStars(Vector2 position) {
 		this.position = new Vector2(position); // För att kopiera...
@@ -49,7 +46,7 @@ public class PedjaStars implements BaseParticle {
 
 	@Override
 	public boolean isAlive() {
-		return !(index >= COLS);
+		return index < COLS;
 	}
 
 }

@@ -1,9 +1,6 @@
 package com.skid.marks.tutorial;
 
-import java.util.Random;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.skid.marks.manager.TextureManager;
@@ -20,7 +17,6 @@ public class Level {
 	
 	private float points[];
 	private Row rows[];
-	private Color[] colors;
 	private int lowestRow;
 	private float levelSpeed;
 	private float rowHeight;
@@ -37,17 +33,6 @@ public class Level {
 		rowHeight = h / (nrOfRows-1);
 		distanceBetweenPoints = h/4;
 		levelSpeed = h * 0.75f;
-		
-		// slumpa lite färger
-		Random rand = new Random();
-		colors = new Color[nrOfRows];
-		float r = 0, b = 0, g = 0;
-		for(int i = 0; i < nrOfRows; i++) {
-			r = rand.nextFloat();
-			g = rand.nextFloat();
-			b = rand.nextFloat();
-			colors[i] = new Color(r, g, b, 1.0f);
-		}
 		
 		sprites = new Sprite[3];
 		sprites[0] = TextureManager.getSprite("data/gfx/bar.png");

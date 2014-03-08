@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.skid.marks.manager.SoundManager;
 import com.skid.marks.manager.TextureManager;
-import com.skid.marks.manager.particle.BaseParticle;
 import com.skid.marks.manager.particle.ParticleManager;
 import com.skid.marks.manager.particle.PedjaStars;
 import com.skid.marks.manager.particle.Star;
@@ -23,7 +22,6 @@ public class TutorialGame extends Game {
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
 	private ArrayList<GameObject> gameObjects;
-	private ArrayList<BaseParticle> particles;
 	private Player player;
 	private int score = 0;
 	
@@ -40,8 +38,6 @@ public class TutorialGame extends Game {
 		batch = new SpriteBatch();
 		camera = new OrthographicCamera();
 		camera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		
-		particles = new ArrayList<BaseParticle>();
 		
 		gameObjects = new ArrayList<GameObject>();
 		player = new Player();
@@ -134,9 +130,6 @@ public class TutorialGame extends Game {
 		gameOver = false;
 		player.reset();
 		gameObjects.clear();
-//		for(GameObject go : gameObjects) {
-//			go.reset();
-//		}
 	}
 	
 	private final float SPAWN_TIMER = 0.5f; // 1 sec

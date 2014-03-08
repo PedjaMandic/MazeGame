@@ -58,6 +58,7 @@ public class TutorialGame extends Game {
 		crazy = new CrazyBackgroundColor();
 		particleManager = new ParticleManager();
 		level = new Level();
+		menu = new Menu();
 		SoundManager.play("background");
 	}
 
@@ -81,47 +82,67 @@ public class TutorialGame extends Game {
 			Gdx.app.exit();
 		}
 		
-		// UPDATE
-		particleManager.update(time);
-		if(!gameOver) {
-			for (int i = 0; i < gameObjects.size(); i++) {
-				GameObject go = gameObjects.get(i);
-				go.update(time);
-				if(go instanceof Wall) {
-					if(((Wall)go).isAlive() == false) {
-						gameObjects.remove(i);
+		switch(state){
+		case Menu:
+			menu.update(time);
+			
+			menu.draw(batch);
+			break;
+		case Play:
+			// UPDATE
+			particleManager.update(time);
+			if(!gameOver) {
+				for (int i = 0; i < gameObjects.size(); i++) {
+					GameObject go = gameObjects.get(i);
+					go.update(time);
+					if(go instanceof Wall) {
+						if(((Wall)go).isAlive() == false) {
+							gameObjects.remove(i);
+						}
 					}
 				}
+				player.update(time);
+				checkCollisions(player, gameObjects);
+				spawnWall(time);
+				spawnStar(time);
+				level.update(time);
 			}
-			player.update(time);
-			checkCollisions(player, gameObjects);
-			spawnWall(time);
-			spawnStar(time);
-			level.update(time);
-		}
-		// DRAW
-		camera.update();
-		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
-//		font.draw(batch, String.format("FPS: %s", Gdx.graphics.getFramesPerSecond()), 20, 20);
-		font.draw(batch, String.format("Score: %d", score), 20, 20);
-		for(GameObject go : gameObjects) {
-			go.draw(batch);
-		}
-		player.draw(batch);
-		particleManager.draw(batch);
-		level.draw(batch);
-		
-		if(gameOver) {
-			font.draw(batch, "Game Over", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-			font.draw(batch, "Press Space", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 + 20);
-			if(Gdx.input.isKeyPressed(Keys.SPACE)) {
-				reset();
+			// DRAW
+			camera.update();
+			batch.setProjectionMatrix(camera.combined);
+			batch.begin();
+//			font.draw(batch, String.format("FPS: %s", Gdx.graphics.getFramesPerSecond()), 20, 20);
+			font.draw(batch, String.format("Score: %d", score), 20, 20);
+			for(GameObject go : gameObjects) {
+				go.draw(batch);
 			}
-		}
+			player.draw(batch);
+			particleManager.draw(batch);
+			level.draw(batch);
+			
+			if(gameOver) {
+				font.draw(batch, "Game Over", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+				font.draw(batch, "Press Space", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 + 20);
+				if(Gdx.input.isKeyPressed(Keys.SPACE)) {
+					reset();
+				}
+			}
+			
+			Logger.render(batch);
+			batch.end();
+			break;
+		case Settings:
+			
+			break;
+		case Highscore:
+			
+			break;
+		default:
+			
+			break;
 		
-		Logger.render(batch);
-		batch.end();
+		}
+	
 	}
 
 	@Override

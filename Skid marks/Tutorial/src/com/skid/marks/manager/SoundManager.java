@@ -28,6 +28,7 @@ public class SoundManager {
 		
 		// Music
 		_music.put("background", Gdx.audio.newMusic(Gdx.files.internal("data/sfx/background.mp3")));
+		_music.put("menu", Gdx.audio.newMusic(Gdx.files.internal("data/sfx/menu.mp3")));
 	}
 	
 	public static void dispose() {
@@ -55,5 +56,29 @@ public class SoundManager {
 		}
 	}
 	
+	public static void play(String name, boolean stopAll) {
+		if(stopAll) {
+			stopAll();
+		}
+		play(name);
+	}
 	
+	public static void stop(String name) {
+		if(_sounds.containsKey(name)) {
+			Sound sound = _sounds.get(name);
+			sound.stop();
+		} else if(_music.containsKey(name)) {
+			Music music = _music.get(name);
+			music.stop();
+		}
+	}
+	
+	public static void stopAll() {
+		for(Sound sound : _sounds.values()) {
+			sound.stop();
+		}
+		for(Music music : _music.values()) {
+			music.stop();
+		}
+	}
 }

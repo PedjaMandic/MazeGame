@@ -59,7 +59,6 @@ public class TutorialGame extends Game {
 		particleManager = new ParticleManager();
 		level = new Level();
 		menu = new Menu();
-		SoundManager.play("background");
 	}
 
 	@Override

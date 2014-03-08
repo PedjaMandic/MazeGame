@@ -1,13 +1,12 @@
 package com.skid.marks.tutorial;
 
-import com.skid.marks.manager.TextureManager;
-import com.skid.marks.tutorial.TutorialGame.States;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.skid.marks.manager.SoundManager;
+import com.skid.marks.manager.TextureManager;
 
 public class Menu {
 	
@@ -41,16 +40,20 @@ public class Menu {
 		texture = TextureManager.getTexture("data/gfx/menu_textures.png");	
 		
 		SetPosition();
+		
+		SoundManager.play("menu", true);
 	}
 	
 	public void update(float time){
 		
 		if(play_rect.contains(Gdx.input.getX(), Gdx.input.getY()) && Gdx.input.isTouched()){
 			TutorialGame.state = TutorialGame.States.Play;
+			SoundManager.play("background", true);
 		}
 		
 		if(highscore_rect.contains(Gdx.input.getX(), Gdx.input.getY()) && Gdx.input.isTouched()){
 			TutorialGame.state = TutorialGame.States.Play;
+			SoundManager.play("background", true);
 		}
 
 		

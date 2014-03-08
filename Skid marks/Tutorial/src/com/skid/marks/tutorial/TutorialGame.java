@@ -28,6 +28,8 @@ public class TutorialGame extends Game {
 	private ParticleManager particleManager;
 	private Level level;
 	
+	private boolean gameOver;
+	
 	
 	@Override
 	public void create() {
@@ -68,32 +70,45 @@ public class TutorialGame extends Game {
 			Gdx.app.exit();
 		}
 		
+		// UPDATE
 		particleManager.update(time);
-		for (int i = 0; i < gameObjects.size(); i++) {
-			GameObject go = gameObjects.get(i);
-			go.update(time);
-			if(go instanceof Wall) {
-				if(((Wall)go).isAlive() == false) {
-					gameObjects.remove(i);
+		if(!gameOver) {
+			for (int i = 0; i < gameObjects.size(); i++) {
+				GameObject go = gameObjects.get(i);
+				go.update(time);
+				if(go instanceof Wall) {
+					if(((Wall)go).isAlive() == false) {
+						gameObjects.remove(i);
+					}
 				}
 			}
+			player.update(time);
+			checkCollisions(player, gameObjects);
+			spawnWall(time);
+			spawnStar(time);
+			level.update(time);
 		}
-		player.update(time);
-		checkCollisions(player, gameObjects);
-		spawnWall(time);
-		spawnStar(time);
-		level.update(time);
+		// DRAW
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		font.draw(batch, String.format("FPS: %s", Gdx.graphics.getFramesPerSecond()), 20, 20);
-		font.draw(batch, String.format("Score: %d", score), 20, 50);
+//		font.draw(batch, String.format("FPS: %s", Gdx.graphics.getFramesPerSecond()), 20, 20);
+		font.draw(batch, String.format("Score: %d", score), 20, 20);
 		for(GameObject go : gameObjects) {
 			go.draw(batch);
 		}
 		player.draw(batch);
 		particleManager.draw(batch);
 		level.draw(batch);
+		
+		if(gameOver) {
+			font.draw(batch, "Game Over", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+			font.draw(batch, "Press Enter", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 + 20);
+			if(Gdx.input.isKeyPressed(Keys.ENTER)) {
+				reset();
+			}
+		}
+		
 		Logger.render(batch);
 		batch.end();
 	}
@@ -109,6 +124,16 @@ public class TutorialGame extends Game {
 
 	@Override
 	public void resume() {
+	}
+	
+	void reset() {
+		score = 0;
+		gameOver = false;
+		player.reset();
+		gameObjects.clear();
+//		for(GameObject go : gameObjects) {
+//			go.reset();
+//		}
 	}
 	
 	private final float SPAWN_TIMER = 0.5f; // 1 sec
@@ -139,7 +164,7 @@ public class TutorialGame extends Game {
 			if(player.getBounds().overlaps(go.getBounds())) {
 				SoundManager.play("explosion");
 				particleManager.add(new PedjaStars(player.getPosition()));
-				score -= 1000;
+				gameOver = true;
 			}
 		}
 	}

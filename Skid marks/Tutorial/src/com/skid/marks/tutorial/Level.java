@@ -1,11 +1,11 @@
 package com.skid.marks.tutorial;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.skid.marks.manager.TextureManager;
 
 
@@ -21,6 +21,7 @@ public class Level {
 	
 	private float points[];
 	private Row rows[];
+	private Color[] colors;
 	private int lowestRow;
 	private float levelSpeed;
 	private float rowHeight;
@@ -37,6 +38,17 @@ public class Level {
 		rowHeight = h / (nrOfRows-1);
 		distanceBetweenPoints = h/4;
 		levelSpeed = h * 0.75f;
+		
+		// slumpa lite färger
+		Random rand = new Random();
+		colors = new Color[nrOfRows];
+		float r = 0, b = 0, g = 0;
+		for(int i = 0; i < nrOfRows; i++) {
+			r = rand.nextFloat();
+			g = rand.nextFloat();
+			b = rand.nextFloat();
+			colors[i] = new Color(r, g, b, 1.0f);
+		}
 		
 		//punkterna som banan ska gå längs
 		points = new float[15];
@@ -66,7 +78,7 @@ public class Level {
 		
 		
 		//sprite = new Sprite(region);
-		sprite = TextureManager.getSprite("data/wall.png");
+		sprite = TextureManager.getSprite("data/gfx/bar.png");
 
 		//System.out.println(""+w+" "+h);
 	}
@@ -108,6 +120,7 @@ public class Level {
 	{
 		for(int i = 0; i < nrOfRows; i++)
 		{
+			sprite.setColor(colors[i]);
 			sprite.setBounds(0, rows[i].Y, rows[i].leftWidth, rowHeight);
 			sprite.draw(batch);
 			sprite.setBounds(w - rows[i].rightWidth, rows[i].Y, rows[i].rightWidth, rowHeight);

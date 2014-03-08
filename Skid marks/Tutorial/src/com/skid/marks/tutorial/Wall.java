@@ -48,6 +48,10 @@ public class Wall implements GameObject {
 			position = new Vector2(sw - sizeW, 0);
 		}
 	}
+	
+	@Override
+	public void reset() {		
+	}
 
 	@Override
 	public void update(float delta) {

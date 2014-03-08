@@ -19,7 +19,7 @@ public class Row {
 	
 	public void Renew(float center, float holeWidth, float height, int sprite)
 	{
-		Y = -height;
+		Y = Y - Gdx.graphics.getHeight()-height;
 		leftWidth = center - holeWidth/2;
 		rightWidth = Gdx.graphics.getWidth() - (center + holeWidth/2);
 		this.sprite = sprite;

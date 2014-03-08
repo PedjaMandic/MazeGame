@@ -1,6 +1,7 @@
 package com.skid.marks.tutorial;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,8 +14,9 @@ public class Player implements GameObject {
 	// Can use a real BoundingBox object but fuck it
 	private Rectangle bounds;
 	private Vector2 position;
-	private Texture texture;
-	private Sprite sprite;
+	//private Texture texture;
+	private Sprite[] sprites;
+	private int spriteIndex;
 	
 	private final float MOVE_SPEED = 1000;
 	private final float SIZE = 50;
@@ -36,16 +38,31 @@ public class Player implements GameObject {
 		sw = Gdx.graphics.getWidth();
 		sh = Gdx.graphics.getHeight();
 		
-		position = new Vector2((sw / 2) - (SIZE / 2), sh - SIZE);
-		texture = TextureManager.getTexture("data/player.png");
+		position = new Vector2((sw / 2) - (SIZE / 2), sh - SIZE * 2);
+//		texture = TextureManager.getTexture("data/player.png");
+//		sprite = new Sprite(texture);
+//		sprite.flip(false, true); // OBS!
+//		sprite.setSize(SIZE, SIZE);
 		
-		sprite = new Sprite(texture);
-		sprite.flip(false, true); // OBS!
-		sprite.setSize(SIZE, SIZE);
+		sprites = new Sprite[4];
+		sprites[0] = TextureManager.getSprite("data/gfx/player_A.png");
+		sprites[1] = TextureManager.getSprite("data/gfx/player_B.png");
+		sprites[2] = TextureManager.getSprite("data/gfx/player_C.png");
+		sprites[3] = TextureManager.getSprite("data/gfx/player_D.png");
 	}
 
 	@Override
 	public void update(float delta) {
+		if(Gdx.input.isKeyPressed(Keys.NUM_1)) {
+			spriteIndex = 0;
+		} else if(Gdx.input.isKeyPressed(Keys.NUM_2)) {
+			spriteIndex = 1;
+		} else if(Gdx.input.isKeyPressed(Keys.NUM_3)) {
+			spriteIndex = 2;
+		} else if(Gdx.input.isKeyPressed(Keys.NUM_4)) {
+			spriteIndex = 3;
+		}
+		
 		// isTouched fungerar både till Andriod och Desktop
 		mt = Gdx.input.isTouched();
 		if(mt) {
@@ -76,13 +93,19 @@ public class Player implements GameObject {
 
 	@Override
 	public void draw(SpriteBatch batch) {
-		sprite.setPosition(position.x, position.y);
-		sprite.draw(batch);
+		sprites[spriteIndex].setSize(SIZE, SIZE);
+		sprites[spriteIndex].setPosition(position.x, position.y);
+		sprites[spriteIndex].draw(batch);
 	}
 	
 	@Override
 	public Rectangle getBounds() {
 		return this.bounds;
+	}
+
+	@Override
+	public Vector2 getPosition() {
+		return this.position;
 	}
 	
 }

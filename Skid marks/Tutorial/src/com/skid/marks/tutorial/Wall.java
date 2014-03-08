@@ -15,10 +15,10 @@ public class Wall implements GameObject {
 	private boolean alive = true;
 	private Rectangle bounds;
 	private Vector2 position;
-	private Texture texture;
+	//private Texture texture;
 	private Sprite sprite;
 	
-	private final float MOVE_SPEED = 1000;
+	private final float MOVE_SPEED = 600;
 	
 	private static Random _rand = new Random();
 	
@@ -36,9 +36,10 @@ public class Wall implements GameObject {
 		bounds = new Rectangle();
 		bounds.setSize(sizeW, sizeH);
 		
-		texture = TextureManager.getTexture("data/wall.png");
-		sprite = new Sprite(texture);
-		sprite.flip(false, true);
+//		texture = TextureManager.getTexture("data/wall.png");
+//		sprite = new Sprite(texture);
+//		sprite.flip(false, true);
+		sprite = TextureManager.getSprite("data/wall.png");
 		sprite.setSize(sizeW, sizeH);
 		
 		if(leftOrRight == 0) {
@@ -67,6 +68,11 @@ public class Wall implements GameObject {
 	@Override
 	public Rectangle getBounds() {
 		return this.bounds;
+	}
+	
+	@Override
+	public Vector2 getPosition() {
+		return this.position;
 	}
 	
 	public boolean isAlive() {

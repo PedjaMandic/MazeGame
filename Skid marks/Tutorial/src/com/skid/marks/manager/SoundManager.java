@@ -22,7 +22,7 @@ public class SoundManager {
 	/*
 	 * Initar alla ljud i spelet
 	 **/
-	public static void init() {
+	private static void init() {
 		// Sounds
 		_sounds.put("explosion", Gdx.audio.newSound(Gdx.files.internal("data/sfx/explosion.wav")));
 		
@@ -54,5 +54,6 @@ public class SoundManager {
 			music.play();
 		}
 	}
+	
 	
 }

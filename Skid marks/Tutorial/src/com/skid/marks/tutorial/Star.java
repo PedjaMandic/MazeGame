@@ -12,7 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.skid.marks.manager.TextureManager;
 
 public class Star implements BaseParticle{
-	private boolean alive = true;
+
 	private Rectangle bounds;
 	private Vector2 position;
 	private Vector2 direction;
@@ -20,7 +20,7 @@ public class Star implements BaseParticle{
 	private Sprite sprite;
 	private TextureRegion currentFrame;
 	
-	private final float SIZE = 6;
+	private final float SIZE = 10;
 	private final float SPEED = 10;
 	
 	//Is alive
@@ -30,8 +30,11 @@ public class Star implements BaseParticle{
 	private float sw;
 	private float sh;
 	
-	@Override
-	public void init() {
+	public Star() {
+		init();
+	}
+	
+	private void init() {
 		bounds = new Rectangle();
 		bounds.setSize(SIZE);
 		
@@ -52,12 +55,12 @@ public class Star implements BaseParticle{
 		
 		int t = rand.nextInt(4);
 		
-		currentFrame = new TextureRegion(texture, t*5, 0, 4, 4);
+		currentFrame = new TextureRegion(texture, t*5, 0, 5, 5);
 		
 		sprite = new Sprite(currentFrame);
 		sprite.flip(false, true); // OBS!
 		sprite.setSize(SIZE, SIZE);
-		
+
 	}
 
 	@Override
@@ -66,10 +69,6 @@ public class Star implements BaseParticle{
 		position.y += direction.y * SPEED;
 		
 		bounds.setPosition(position);
-		
-		if(position.x > sw || position.x < 0 || position.y > sh || position.y < 0)
-			alive = false;
-		
 	}
 
 	@Override
@@ -79,11 +78,11 @@ public class Star implements BaseParticle{
 	}
 
 	@Override
-	public Rectangle getBounds() {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean isAlive() {
+		return !(position.x > sw ||
+				position.x < 0 ||
+				position.y > sh ||
+				position.y < 0);
 	}
-	
-	public Boolean isAlive(){return alive;}
 
 }

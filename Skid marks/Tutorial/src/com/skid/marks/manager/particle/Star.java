@@ -1,4 +1,4 @@
-package com.skid.marks.tutorial;
+package com.skid.marks.manager.particle;
 
 import java.util.Random;
 

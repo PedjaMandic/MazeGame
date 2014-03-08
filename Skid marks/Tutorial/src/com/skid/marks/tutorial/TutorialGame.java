@@ -10,9 +10,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.skid.marks.manager.ParticleManager;
 import com.skid.marks.manager.SoundManager;
 import com.skid.marks.manager.TextureManager;
+import com.skid.marks.manager.particle.BaseParticle;
+import com.skid.marks.manager.particle.ParticleManager;
+import com.skid.marks.manager.particle.PedjaStars;
+import com.skid.marks.manager.particle.Star;
 
 public class TutorialGame extends Game {
 
@@ -103,8 +106,8 @@ public class TutorialGame extends Game {
 		
 		if(gameOver) {
 			font.draw(batch, "Game Over", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-			font.draw(batch, "Press Enter", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 + 20);
-			if(Gdx.input.isKeyPressed(Keys.ENTER)) {
+			font.draw(batch, "Press Space", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 + 20);
+			if(Gdx.input.isKeyPressed(Keys.SPACE)) {
 				reset();
 			}
 		}

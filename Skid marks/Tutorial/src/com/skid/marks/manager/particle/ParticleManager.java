@@ -1,11 +1,9 @@
-package com.skid.marks.manager;
+package com.skid.marks.manager.particle;
 
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.skid.marks.tutorial.BaseParticle;
 import com.skid.marks.tutorial.Logger;
-import com.skid.marks.tutorial.PedjaStars;
 
 public class ParticleManager {
 	

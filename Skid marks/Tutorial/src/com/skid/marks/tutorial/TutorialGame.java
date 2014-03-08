@@ -26,6 +26,8 @@ public class TutorialGame extends Game {
 	
 	private CrazyBackgroundColor crazy;
 	private ParticleManager particleManager;
+	private Level level;
+	
 	
 	@Override
 	public void create() {
@@ -42,7 +44,7 @@ public class TutorialGame extends Game {
 		
 		crazy = new CrazyBackgroundColor();
 		particleManager = new ParticleManager();
-		
+		level = new Level();
 		SoundManager.play("background");
 	}
 
@@ -80,7 +82,7 @@ public class TutorialGame extends Game {
 		checkCollisions(player, gameObjects);
 		spawnWall(time);
 		spawnStar(time);
-		
+		//level.update(time);
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
@@ -91,7 +93,7 @@ public class TutorialGame extends Game {
 		}
 		player.draw(batch);
 		particleManager.draw(batch);
-		
+		//level.draw(batch);
 		Logger.render(batch);
 		batch.end();
 	}

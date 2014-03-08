@@ -29,7 +29,6 @@ public class TextureManager {
 	}
 	
 	// Returnera en sprite som är flippad rätt
-	// OBS! dispose() efter användning!
 	public static Sprite getSprite(String path) {
 		Texture tex = getTexture(path);
 		Sprite sprite = new Sprite(tex);

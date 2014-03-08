@@ -13,7 +13,7 @@ public class PedjaStars implements BaseParticle {
 	
 	private int index = 0;
 	private float currentTimer = 0.0f;
-	private final float ANIM_TIMER = 0.2f; // 0.2 sec
+	private final float ANIM_TIMER = 0.3f; // 0.2 sec
 	private final int COLS = 5; // Antal bilder i sheeten
 	private final int SIZE = 64;
 	
@@ -38,7 +38,10 @@ public class PedjaStars implements BaseParticle {
 	@Override
 	public void draw(SpriteBatch batch) {
 		// Detta är för sheeten (skalat upp den till 512x512)
-		sprite.setRegion((1.0f / COLS) * index, 0.0f, 1.0f / COLS, 1.0f);
+		// Ser konstig ut, men!!! för fösta bilden (0, 0, 0.2, 1)
+		//						  	  andra bilden (0.2, 0, 0.4, 1) osv..
+		sprite.setRegion((1.0f / COLS) * index, 0.0f, (1.0f / COLS) * index - (1.0f / COLS), 1.0f);
+		sprite.flip(false, true);
 		
 		sprite.setPosition(position.x, position.y);
 		sprite.draw(batch);

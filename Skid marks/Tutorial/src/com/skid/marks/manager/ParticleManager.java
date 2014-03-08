@@ -20,13 +20,9 @@ public class ParticleManager {
 	}
 	
 	public void update(float time) {
-		int pedjas = 0;
-		
 		for(int i = 0; i < particles.size(); i++) {
 			BaseParticle part = particles.get(i);
 			part.update(time);
-			if(part instanceof PedjaStars)
-				pedjas++;
 			if(part.isAlive() == false) {
 				particles.remove(i);
 			}

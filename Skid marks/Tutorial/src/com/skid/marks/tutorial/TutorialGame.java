@@ -82,7 +82,7 @@ public class TutorialGame extends Game {
 		checkCollisions(player, gameObjects);
 		spawnWall(time);
 		spawnStar(time);
-		//level.update(time);
+		level.update(time);
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
@@ -93,7 +93,7 @@ public class TutorialGame extends Game {
 		}
 		player.draw(batch);
 		particleManager.draw(batch);
-		//level.draw(batch);
+		level.draw(batch);
 		Logger.render(batch);
 		batch.end();
 	}

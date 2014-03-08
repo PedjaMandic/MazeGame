@@ -33,7 +33,7 @@ public class Level {
 		w = Gdx.graphics.getWidth();
 		h = Gdx.graphics.getHeight();
 		tunnelWidth = w*0.8f;
-		nrOfRows = 1+h/20;
+		nrOfRows = 1+h/40;
 		rowHeight = h / (nrOfRows-1);
 		distanceBetweenPoints = h/4;
 		levelSpeed = h * 0.75f;

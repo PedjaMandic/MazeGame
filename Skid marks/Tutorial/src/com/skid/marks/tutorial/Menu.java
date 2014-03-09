@@ -10,6 +10,8 @@ import com.skid.marks.manager.TextureManager;
 
 public class Menu {
 	
+	private TutorialGame game;
+	
 	private float sw;
 	private float sh;
 	
@@ -32,18 +34,20 @@ public class Menu {
 	private Rectangle highscore_rect;
 	private Rectangle settings_rect;
 	
-	public Menu(){
+	public Menu(TutorialGame game){
+		this.game = game;
+		
 		sw = Gdx.graphics.getWidth();
 		sh = Gdx.graphics.getHeight();
 		
 		sw_center = sw/2;
 		sh_center = sh/2;
 		
-		texture = TextureManager.getTexture("data/gfx/menu_textures.png");	
+		texture = game.Textures.getTexture("data/gfx/menu_textures.png");	
 		
 		SetPosition();
 		
-		SoundManager.play("menu", true);
+		game.Sounds.play("menu", true);
 	}
 	
 	public void update(float time){
@@ -53,7 +57,7 @@ public class Menu {
 		if(play_rect.contains(Gdx.input.getX(), Gdx.input.getY())){
 			if(Gdx.input.isTouched()){
 				TutorialGame.state = TutorialGame.States.Play;
-				SoundManager.play("background", true);
+				game.Sounds.play("background", true);
 			}
 			play_texture.setRegion(380, 0, 80, 80);
 			play_texture.flip(false, true);
@@ -63,7 +67,7 @@ public class Menu {
 		if(highscore_rect.contains(Gdx.input.getX(), Gdx.input.getY())){
 			if(Gdx.input.isTouched()){
 				TutorialGame.state = TutorialGame.States.Play;
-				SoundManager.play("background", true);
+				game.Sounds.play("background", true);
 			}
 			highscore_texture.setRegion(380, 80, 80, 80);
 			highscore_texture.flip(false,true);
@@ -72,7 +76,7 @@ public class Menu {
 		if(settings_rect.contains(Gdx.input.getX(), Gdx.input.getY())){
 			if(Gdx.input.isTouched()){
 				TutorialGame.state = TutorialGame.States.Play;
-				SoundManager.play("background", true);
+				game.Sounds.play("background", true);
 			}
 			settings_texture.setRegion(380, 160, 80, 80);
 			settings_texture.flip(false, true);

@@ -25,8 +25,12 @@ public class TutorialGame extends Game {
 	private Player player;
 	private int score = 0;
 	
+	// Managers
+	public TextureManager Textures;
+	public SoundManager Sounds;
+	public ParticleManager Particles;
+	
 	private CrazyBackgroundColor crazy;
-	private ParticleManager particleManager;
 	private Level level;
 	
 	private boolean gameOver;
@@ -46,27 +50,31 @@ public class TutorialGame extends Game {
 	
 	@Override
 	public void create() {
+		Textures = new TextureManager();
+		Sounds = new SoundManager();
+		Particles = new ParticleManager();
+		
 		font = new BitmapFont(true);
 		batch = new SpriteBatch();
 		camera = new OrthographicCamera();
 		camera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
 		gameObjects = new ArrayList<GameObject>();
-		player = new Player();
+		player = new Player(this);
 		player.init();
 		
 		crazy = new CrazyBackgroundColor();
-		particleManager = new ParticleManager();
-		level = new Level();
-		menu = new Menu();
+		Particles = new ParticleManager();
+		level = new Level(this);
+		menu = new Menu(this);
 	}
 
 	@Override
 	public void dispose() {
 		font.dispose();
 		batch.dispose();
-		TextureManager.dispose();
-		SoundManager.dispose();
+		Textures.dispose();
+		Sounds.dispose();
 	}
 
 	@Override
@@ -84,17 +92,17 @@ public class TutorialGame extends Game {
 		switch(state){
 		case Menu:
 			spawnStar(time);
-			particleManager.update(time);
+			Particles.update(time);
 			menu.update(time);
 			batch.setProjectionMatrix(camera.combined);
 			batch.begin();
-			particleManager.draw(batch);
+			Particles.draw(batch);
 			batch.end();
 			menu.draw(batch);
 			break;
 		case Play:
 			// UPDATE
-			particleManager.update(time);
+			Particles.update(time);
 			if(!gameOver) {
 				for (int i = 0; i < gameObjects.size(); i++) {
 					GameObject go = gameObjects.get(i);
@@ -128,13 +136,14 @@ public class TutorialGame extends Game {
 				go.draw(batch);
 			}
 			player.draw(batch);
-			particleManager.draw(batch);
+			Particles.draw(batch);
 			level.draw(batch);
 			
 			if(gameOver) {
 				font.draw(batch, "Game Over", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 				font.draw(batch, "Press Space", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 + 20);
-				if(Gdx.input.isKeyPressed(Keys.SPACE)) {
+				// För android så länge!
+				if(Gdx.input.isKeyPressed(Keys.SPACE) || Gdx.input.isTouched()) {
 					reset();
 				}
 			}
@@ -181,7 +190,7 @@ public class TutorialGame extends Game {
 	void spawnWall(float delta) {
 		spawnCounter += delta;
 		if(spawnCounter >= SPAWN_TIMER) {
-			GameObject wall = new Wall();
+			GameObject wall = new Wall(this);
 			wall.init();
 			gameObjects.add(wall);
 			spawnCounter = 0;
@@ -193,7 +202,7 @@ public class TutorialGame extends Game {
 	void spawnStar(float delta) {
 		spawnCounterStar += delta;
 		if(spawnCounterStar >= SPAWN_TIMER_STAR) {
-			particleManager.add(new Star());
+			Particles.add(new Star(this));
 			spawnCounterStar = 0;
 		}
 	}
@@ -202,8 +211,8 @@ public class TutorialGame extends Game {
 		score += 10;
 		for(GameObject go : walls) {
 			if(player.getBounds().overlaps(go.getBounds())) {
-				SoundManager.play("explosion");
-				particleManager.add(new PedjaStars(player.getPosition()));
+				Sounds.play("explosion");
+				Particles.add(new PedjaStars(this, player.getPosition()));
 				gameOver = true;
 			}
 		}

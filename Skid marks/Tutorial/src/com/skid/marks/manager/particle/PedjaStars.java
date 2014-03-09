@@ -4,9 +4,12 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.skid.marks.manager.TextureManager;
+import com.skid.marks.tutorial.TutorialGame;
 
 public class PedjaStars implements BaseParticle {
 
+	private TutorialGame game;
+	
 	private Vector2 position;
 	private Sprite sprite;
 	
@@ -16,10 +19,11 @@ public class PedjaStars implements BaseParticle {
 	private final int COLS = 5; // Antal bilder i sheeten
 	private final int SIZE = 64;
 	
-	public PedjaStars(Vector2 position) {
+	public PedjaStars(TutorialGame game, Vector2 position) {
+		this.game = game;
 		this.position = new Vector2(position); // För att kopiera...
 		
-		sprite  = TextureManager.getSprite("data/gfx/explosion_sheet.png");
+		sprite  = game.Textures.getSprite("data/gfx/explosion_sheet.png");
 		sprite.setSize(SIZE, SIZE);
 	}
 	

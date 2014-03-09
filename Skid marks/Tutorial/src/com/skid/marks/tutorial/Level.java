@@ -9,6 +9,8 @@ import com.skid.marks.manager.TextureManager;
 
 public class Level {
 	
+	private TutorialGame game;
+	
 	private Sprite[] sprites;
 	private int currentSprite = 0;
 	private float distanceSinceLastPoint = 0.0f;
@@ -25,8 +27,10 @@ public class Level {
 	private int h;
 	private int w;
 	
-	public Level()
+	public Level(TutorialGame game)
 	{
+		this.game = game;
+		
 		w = Gdx.graphics.getWidth();
 		h = Gdx.graphics.getHeight();
 		tunnelWidth = w*0.8f;
@@ -36,9 +40,9 @@ public class Level {
 		levelSpeed = h * 0.75f;
 		
 		sprites = new Sprite[3];
-		sprites[0] = TextureManager.getSprite("data/gfx/bar.png");
-		sprites[1] = TextureManager.getSprite("data/gfx/bar.png");
-		sprites[2] = TextureManager.getSprite("data/gfx/bar.png");
+		sprites[0] = game.Textures.getSprite("data/gfx/bar.png");
+		sprites[1] = game.Textures.getSprite("data/gfx/bar.png");
+		sprites[2] = game.Textures.getSprite("data/gfx/bar.png");
 		
 		sprites[0].setColor(1, 0, 0, 1);
 		sprites[1].setColor(0, 1, 0, 1);

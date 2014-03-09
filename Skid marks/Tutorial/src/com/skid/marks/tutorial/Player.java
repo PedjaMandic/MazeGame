@@ -10,6 +10,8 @@ import com.skid.marks.manager.TextureManager;
 
 public class Player implements GameObject {
 
+	private TutorialGame game;
+	
 	// Can use a real BoundingBox object but fuck it
 	private Rectangle bounds;
 	private Vector2 position;
@@ -28,6 +30,10 @@ public class Player implements GameObject {
 	private float mx;
 	// Mouse touch
 	private boolean mt;
+	
+	public Player(TutorialGame game) {
+		this.game = game;
+	}
 
 	@Override
 	public void init() {
@@ -40,10 +46,10 @@ public class Player implements GameObject {
 		position = new Vector2((sw / 2) - (SIZE / 2), sh - SIZE * 2);
 		
 		sprites = new Sprite[4];
-		sprites[0] = TextureManager.getSprite("data/gfx/player_A.png");
-		sprites[1] = TextureManager.getSprite("data/gfx/player_B.png");
-		sprites[2] = TextureManager.getSprite("data/gfx/player_C.png");
-		sprites[3] = TextureManager.getSprite("data/gfx/player_D.png");
+		sprites[0] = game.Textures.getSprite("data/gfx/player_A.png");
+		sprites[1] = game.Textures.getSprite("data/gfx/player_B.png");
+		sprites[2] = game.Textures.getSprite("data/gfx/player_C.png");
+		sprites[3] = game.Textures.getSprite("data/gfx/player_D.png");
 	}
 	
 	@Override

@@ -9,76 +9,66 @@ import com.badlogic.gdx.audio.Sound;
 
 public class SoundManager {
 
-	private static Map<String, Sound> _sounds = new HashMap<String, Sound>();
-	private static Map<String, Music> _music = new HashMap<String, Music>();
+	private Map<String, Sound> sounds = new HashMap<String, Sound>();
+	private Map<String, Music> music = new HashMap<String, Music>();
 	
-	/*
-	 * Static constructor
-	 **/
-	static {
-		init();
-	}
-	
-	/*
-	 * Initar alla ljud i spelet
-	 **/
-	private static void init() {
+	public SoundManager() {
 		// Sounds
-		_sounds.put("explosion", Gdx.audio.newSound(Gdx.files.internal("data/sfx/explosion.wav")));
+		sounds.put("explosion", Gdx.audio.newSound(Gdx.files.internal("data/sfx/explosion.wav")));
 		
 		// Music
-		_music.put("background", Gdx.audio.newMusic(Gdx.files.internal("data/sfx/background.mp3")));
-		_music.put("menu", Gdx.audio.newMusic(Gdx.files.internal("data/sfx/menu.mp3")));
+		music.put("background", Gdx.audio.newMusic(Gdx.files.internal("data/sfx/background.mp3")));
+		music.put("menu", Gdx.audio.newMusic(Gdx.files.internal("data/sfx/menu.mp3")));
 	}
 	
-	public static void dispose() {
-		for(Sound sound : _sounds.values()) {
-			sound.dispose();
+	public void dispose() {
+		for(Sound s : sounds.values()) {
+			s.dispose();
 		}
-		for(Music music : _music.values()) {
-			music.dispose();
+		for(Music m : music.values()) {
+			m.dispose();
 		}
 	}
 	
 	/*
 	 * Spela upp ett ljud eller musik
 	 **/
-	public static void play(String name) {
-		if(_sounds.containsKey(name)) {
-			Sound sound = _sounds.get(name);
-			sound.stop();
-			sound.play(0.02f);
-		} else if(_music.containsKey(name)) {
-			Music music = _music.get(name);
-			music.setVolume(0.02f);
-			music.setLooping(true);
-			music.play();
+	public void play(String name) {
+		if(sounds.containsKey(name)) {
+			Sound s = sounds.get(name);
+			s.stop();
+			s.play(0.02f);
+		} else if(music.containsKey(name)) {
+			Music m = music.get(name);
+			m.setVolume(0.02f);
+			m.setLooping(true);
+			m.play();
 		}
 	}
 	
-	public static void play(String name, boolean stopAll) {
+	public void play(String name, boolean stopAll) {
 		if(stopAll) {
 			stopAll();
 		}
 		play(name);
 	}
 	
-	public static void stop(String name) {
-		if(_sounds.containsKey(name)) {
-			Sound sound = _sounds.get(name);
-			sound.stop();
-		} else if(_music.containsKey(name)) {
-			Music music = _music.get(name);
-			music.stop();
+	public void stop(String name) {
+		if(sounds.containsKey(name)) {
+			Sound s = sounds.get(name);
+			s.stop();
+		} else if(music.containsKey(name)) {
+			Music m = music.get(name);
+			m.stop();
 		}
 	}
 	
-	public static void stopAll() {
-		for(Sound sound : _sounds.values()) {
-			sound.stop();
+	public void stopAll() {
+		for(Sound s : sounds.values()) {
+			s.stop();
 		}
-		for(Music music : _music.values()) {
-			music.stop();
+		for(Music m : music.values()) {
+			m.stop();
 		}
 	}
 }

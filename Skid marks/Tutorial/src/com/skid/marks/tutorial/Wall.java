@@ -11,6 +11,8 @@ import com.skid.marks.manager.TextureManager;
 
 public class Wall implements GameObject {
 
+	private TutorialGame game;
+	
 	private boolean alive = true;
 	private Rectangle bounds;
 	private Vector2 position;
@@ -22,6 +24,10 @@ public class Wall implements GameObject {
 	private static Random _rand = new Random();
 	
 	private float sh;
+	
+	public Wall(TutorialGame game) {
+		this.game = game;
+	}
 	
 	@Override
 	public void init() {
@@ -38,7 +44,7 @@ public class Wall implements GameObject {
 //		texture = TextureManager.getTexture("data/wall.png");
 //		sprite = new Sprite(texture);
 //		sprite.flip(false, true);
-		sprite = TextureManager.getSprite("data/wall.png");
+		sprite = game.Textures.getSprite("data/wall.png");
 		sprite.setSize(sizeW, sizeH);
 		
 		if(leftOrRight == 0) {

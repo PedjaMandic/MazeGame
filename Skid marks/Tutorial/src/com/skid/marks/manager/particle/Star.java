@@ -10,9 +10,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.skid.marks.manager.TextureManager;
+import com.skid.marks.tutorial.TutorialGame;
 
 public class Star implements BaseParticle{
 
+	private TutorialGame game;
+	
 	private Rectangle bounds;
 	private Vector2 position;
 	private Vector2 direction;
@@ -30,7 +33,8 @@ public class Star implements BaseParticle{
 	private float sw;
 	private float sh;
 	
-	public Star() {
+	public Star(TutorialGame game) {
+		this.game = game;
 		init();
 	}
 	
@@ -51,7 +55,7 @@ public class Star implements BaseParticle{
 		
 		position = new Vector2(x, y);
 		
-		texture = TextureManager.getTexture("data/starSheet.png");
+		texture = game.Textures.getTexture("data/starSheet.png");
 		
 		int t = rand.nextInt(4);
 		

@@ -16,10 +16,13 @@ public class Background {
 	
 	private final float SPEED = 50.0f;
 	
+	private CrazyBackgroundColor crazy;
+	
 	public Background(TutorialGame game) {
 		this.game = game;
 		
 		background = game.Textures.getSprite("data/gfx/background.png");
+		crazy = new CrazyBackgroundColor();
 		
 		int sx = Gdx.graphics.getWidth();
 		screenHeight = Gdx.graphics.getHeight();
@@ -31,6 +34,8 @@ public class Background {
 		if(pause)
 			return;
 		
+		crazy.update(time);
+		
 		positionY += SPEED * time;
 		if(positionY >= screenHeight) {
 			positionY = 0;
@@ -38,7 +43,8 @@ public class Background {
 	}
 	
 	public void draw(SpriteBatch batch) {
-		background.setPosition(0, positionY - background.getHeight());
+		background.setColor(crazy.getColor());
+		background.setPosition(0, positionY - background.getHeight() + 1);
 		background.draw(batch);
 		background.setPosition(0, positionY);
 		background.draw(batch);

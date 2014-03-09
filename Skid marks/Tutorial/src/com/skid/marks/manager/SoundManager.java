@@ -37,10 +37,10 @@ public class SoundManager {
 		if(sounds.containsKey(name)) {
 			Sound s = sounds.get(name);
 			s.stop();
-			s.play(0.02f);
+			s.play(0.01f);
 		} else if(music.containsKey(name)) {
 			Music m = music.get(name);
-			m.setVolume(0.02f);
+			m.setVolume(0.01f);
 			m.setLooping(true);
 			m.play();
 		}

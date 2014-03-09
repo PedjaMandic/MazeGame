@@ -87,7 +87,6 @@ public class Player implements GameObject {
 		}
 //		position.x = mx;
 		
-		
 		if(position.x < 0) {
 			position.x = 0;
 		} else if(position.x + SIZE > sw) {

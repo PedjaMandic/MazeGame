@@ -2,7 +2,7 @@ package com.skid.marks.tutorial;
 
 import java.util.Random;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 
 public class CrazyBackgroundColor {
 	
@@ -16,6 +16,8 @@ public class CrazyBackgroundColor {
 	private float mb;
 	
 	private final float MAX = 1.0f;
+	
+	private Color color = Color.WHITE;
 	
 	private Random rand = new Random();
 	
@@ -47,13 +49,18 @@ public class CrazyBackgroundColor {
 		}
 	}
 	
-	public void glClear(float delta) {
+	public void update(float delta) {
 		if(finished()) {
 			randomThatCrazyColor();
 		} else {
 			increment(delta);
 		}
-		Gdx.gl.glClearColor(r, g, b, 1.0f);
+//		Gdx.gl.glClearColor(r, g, b, 1.0f);
+	}
+	
+	public Color getColor() {
+		color.set(r, g, b, 1.0f);
+		return color;
 	}
 	
 }

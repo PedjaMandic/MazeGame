@@ -118,15 +118,16 @@ public class TutorialGame extends Game {
 				}
 				player.update(time);
 				checkCollisions(player, gameObjects);
-				spawnWall(time);
+//				spawnWall(time);
 				spawnStar(time);
 				level.update(time);
-//				if(level.HasCollided(player.getBounds()))
-//				{
-//					Sounds.play("explosion");
-//					Particles.add(new PedjaStars(this, player.getPosition()));
-//					gameOver = true;
-//				}
+				if(level.HasCollided(player.getBounds()))
+				{
+					Sounds.play("explosion");
+					Particles.add(new PedjaStars(this, player.getPosition()));
+					gameOver = true;
+					background.pause();
+				}
 				
 			}
 			background.update(time);
@@ -137,9 +138,9 @@ public class TutorialGame extends Game {
 			background.draw(batch);
 //			font.draw(batch, String.format("FPS: %s", Gdx.graphics.getFramesPerSecond()), 20, 20);
 			font.draw(batch, String.format("Score: %d", score), 20, 20);
-			for(GameObject go : gameObjects) {
-				go.draw(batch);
-			}
+//			for(GameObject go : gameObjects) {
+//				go.draw(batch);
+//			}
 			player.draw(batch);
 			Particles.draw(batch);
 			level.draw(batch);

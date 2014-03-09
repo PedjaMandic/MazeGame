@@ -12,54 +12,38 @@ public class Debug {
 		init();
 	}
 	
-	class Msg {
-		
-		public String text;
-		public float x;
-		public float y;
-		public Color color;
-		public float fontSize;
-		
-		public Msg(String text, float x, float y, Color color, float fontSize) {
-			this.text = text;
-			this.x = x;
-			this.y = y;
-			this.color = color;
-			this.fontSize = fontSize;
-		}
-	}
-	
 	private static BitmapFont _font;
 	private static final Color DEFAULT_COLOR = Color.WHITE;
-	private static final float DEFAULT_FONT_SIZE = 1.0f;
 	
-	private static ArrayList<Msg> _logs = new ArrayList<Msg>();
+	private static ArrayList<String> _text = new ArrayList<String>();
+	private static ArrayList<Color> _color = new ArrayList<Color>();
 	
 	private static void init() {
 		_font = new BitmapFont(true);
-		_logs = new ArrayList<Msg>();
+		_text = new ArrayList<String>();
+		_color = new ArrayList<Color>();
 	}
 	
-	public static void screen(String text, float x, float y, Color color, float fontSize) {
-		Debug.Msg msg = new Debug().new Msg(text, x, y, color, fontSize);
-		_logs.add(msg);
+	public static void log(String text, Color color) {
+		_text.add(text);
+		_color.add(color);
 	}
-	public static void screen(String text, float x, float y, Color color) {
-		screen(text, x, y, color, DEFAULT_FONT_SIZE);
+	public static void log(String text) {
+		log(text, DEFAULT_COLOR);
 	}
-	public static void screen(String text, float x, float y) {
-		screen(text, x, y, DEFAULT_COLOR, DEFAULT_FONT_SIZE);
-	}
-//	public static void screen(String text) {
-//	}
 	
 	public static void render(SpriteBatch batch) {
-		for (Msg msg : _logs) {
-			_font.setColor(msg.color);
-			_font.setScale(msg.fontSize);
-			_font.draw(batch, msg.text, msg.x, msg.y);
+		float oy = 50;
+		for(int i = 0; i < _text.size(); i++) {
+			Color color = _color.get(i);
+			String text = _text.get(i);
+			_font.setColor(color);
+			_font.draw(batch, text, 20, oy);
+			oy += 30;
 		}
-		_logs.clear();
+		
+		_text.clear();
+		_color.clear();
 	}
 	
 }

@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.skid.marks.manager.TextureManager;
 import com.skid.marks.tutorial.TutorialGame;
 
 public class Star implements BaseParticle{

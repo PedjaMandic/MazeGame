@@ -30,7 +30,8 @@ public class TutorialGame extends Game {
 	public SoundManager Sounds;
 	public ParticleManager Particles;
 	
-	private CrazyBackgroundColor crazy;
+//	private CrazyBackgroundColor crazy;
+	private Background background;
 	private Level level;
 	
 	private boolean gameOver;
@@ -63,8 +64,8 @@ public class TutorialGame extends Game {
 		player = new Player(this);
 		player.init();
 		
-		crazy = new CrazyBackgroundColor();
-		Particles = new ParticleManager();
+//		crazy = new CrazyBackgroundColor();
+		background = new Background(this);
 		level = new Level(this);
 		menu = new Menu(this);
 	}
@@ -81,8 +82,8 @@ public class TutorialGame extends Game {
 	public void render() {
 		float time = Gdx.graphics.getDeltaTime();
 		
-//		Gdx.gl.glClearColor(100/255f, 100/255f, 1.0f, 1.0f);
-		crazy.glClear(time);
+		Gdx.gl.glClearColor(100/255f, 100/255f, 1.0f, 1.0f);
+//		crazy.glClear(time);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		if(Gdx.input.isKeyPressed(Keys.ESCAPE)) {
@@ -120,16 +121,18 @@ public class TutorialGame extends Game {
 				level.update(time);
 //				if(level.HasCollided(player.getBounds()))
 //				{
-//					SoundManager.play("explosion");
-//					particleManager.add(new PedjaStars(player.getPosition()));
+//					Sounds.play("explosion");
+//					Particles.add(new PedjaStars(this, player.getPosition()));
 //					gameOver = true;
 //				}
 				
 			}
+			background.update(time);
 			// DRAW
 			camera.update();
 			batch.setProjectionMatrix(camera.combined);
 			batch.begin();
+			background.draw(batch);
 //			font.draw(batch, String.format("FPS: %s", Gdx.graphics.getFramesPerSecond()), 20, 20);
 			font.draw(batch, String.format("Score: %d", score), 20, 20);
 			for(GameObject go : gameObjects) {
@@ -148,7 +151,7 @@ public class TutorialGame extends Game {
 				}
 			}
 			
-			Logger.render(batch);
+			Debug.render(batch);
 			batch.end();
 			break;
 		case Settings:

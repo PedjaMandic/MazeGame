@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Logger {
+public class Debug {
 	
 	static {
 		init();
@@ -41,7 +41,7 @@ public class Logger {
 	}
 	
 	public static void screen(String text, float x, float y, Color color, float fontSize) {
-		Logger.Msg msg = new Logger().new Msg(text, x, y, color, fontSize);
+		Debug.Msg msg = new Debug().new Msg(text, x, y, color, fontSize);
 		_logs.add(msg);
 	}
 	public static void screen(String text, float x, float y, Color color) {

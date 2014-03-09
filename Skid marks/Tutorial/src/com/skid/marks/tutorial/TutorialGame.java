@@ -95,8 +95,10 @@ public class TutorialGame extends Game {
 			spawnStar(time);
 			Particles.update(time);
 			menu.update(time);
+			background.update(time);
 			batch.setProjectionMatrix(camera.combined);
 			batch.begin();
+			background.draw(batch);
 			Particles.draw(batch);
 			batch.end();
 			menu.draw(batch);
@@ -186,6 +188,7 @@ public class TutorialGame extends Game {
 		gameOver = false;
 		player.reset();
 		gameObjects.clear();
+		background.resume();
 	}
 	
 	private final float SPAWN_TIMER = 0.5f; // 1 sec
@@ -217,6 +220,7 @@ public class TutorialGame extends Game {
 				Sounds.play("explosion");
 				Particles.add(new PedjaStars(this, player.getPosition()));
 				gameOver = true;
+				background.pause();
 			}
 		}
 	}

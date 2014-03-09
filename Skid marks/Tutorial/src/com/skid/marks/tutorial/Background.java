@@ -8,6 +8,8 @@ public class Background {
 	
 	private TutorialGame game;
 	
+	private boolean pause;
+	
 	private Sprite background;
 	private float positionY;
 	private float screenHeight;
@@ -26,6 +28,9 @@ public class Background {
 	}
 	
 	public void update(float time) {
+		if(pause)
+			return;
+		
 		positionY += SPEED * time;
 		if(positionY >= screenHeight) {
 			positionY = 0;
@@ -37,6 +42,14 @@ public class Background {
 		background.draw(batch);
 		background.setPosition(0, positionY);
 		background.draw(batch);
+	}
+	
+	public void pause() {
+		pause = true;
+	}
+	
+	public void resume() {
+		pause = false;
 	}
 	
 }

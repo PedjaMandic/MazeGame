@@ -110,6 +110,13 @@ public class TutorialGame extends Game {
 				spawnWall(time);
 				spawnStar(time);
 				level.update(time);
+//				if(level.HasCollided(player.getBounds()))
+//				{
+//					SoundManager.play("explosion");
+//					particleManager.add(new PedjaStars(player.getPosition()));
+//					gameOver = true;
+//				}
+				
 			}
 			// DRAW
 			camera.update();

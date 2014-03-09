@@ -3,6 +3,7 @@ package com.skid.marks.tutorial;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.skid.marks.manager.TextureManager;
 
 
@@ -78,6 +79,22 @@ public class Level {
 		//System.out.println(""+w+" "+h);
 	}
 	
+	//förbättra på något sätt
+	public boolean HasCollided(Rectangle rect)
+	{
+		int start = nrOfRows + lowestRow - (int)((h-rect.y)/rowHeight);
+		int nrOfRowsToCheck = 1+(int)(rect.height/rowHeight);
+		//System.out.println(""+lowestRow+"/"+nrOfRows+", "+(start%nrOfRows)+"/"+nrOfRows);
+		for(int i = start; i < start+nrOfRowsToCheck; i++)
+		{
+			if(rect.x < rows[i%nrOfRows].leftWidth)
+				return true;
+			if(rect.x+rect.width >= w - rows[i%nrOfRows].rightWidth)
+				return true;
+		}
+		
+		return false;
+	}
 	
 	public void dispose() {
 	}

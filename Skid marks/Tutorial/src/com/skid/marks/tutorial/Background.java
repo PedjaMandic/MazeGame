@@ -14,29 +14,31 @@ public class Background {
 	private float positionY;
 	private float screenHeight;
 	
-	private final float SPEED = 50.0f;
+	private float speed;
+	private final float BASE_SPEED = 50.0f;
 	
-	private CrazyBackgroundColor crazy;
+//	private CrazyBackgroundColor crazy;
 	
 	public Background(TutorialGame game) {
 		this.game = game;
 		
 		background = game.Textures.getSprite("data/gfx/background.png");
-		crazy = new CrazyBackgroundColor();
+//		crazy = new CrazyBackgroundColor();
 		
 		int sx = Gdx.graphics.getWidth();
 		screenHeight = Gdx.graphics.getHeight();
 		
 		background.setSize(sx, screenHeight);
+		this.speed = BASE_SPEED;
 	}
 	
 	public void update(float time) {
 		if(pause)
 			return;
 		
-		crazy.update(time);
+//		crazy.update(time);
 		
-		positionY += SPEED * time;
+		positionY += speed * time;
 		if(positionY >= screenHeight) {
 			positionY = 0;
 		}

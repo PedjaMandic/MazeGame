@@ -70,6 +70,12 @@ public class Player implements GameObject {
 			spriteIndex = 3;
 		}
 		
+		if(Gdx.input.isKeyPressed(Keys.UP)) {
+			position.y -= 100 * delta;
+		} else if(Gdx.input.isKeyPressed(Keys.DOWN)) {
+			position.y += 100 * delta;
+		}
+		
 		// isTouched fungerar både till Andriod och Desktop
 		mt = Gdx.input.isTouched();
 		if(mt) {

@@ -25,6 +25,8 @@ public class TutorialGame extends Game {
 	private Player player;
 	private int score = 0;
 	
+	private float totalTime;
+	
 	// Managers
 	public TextureManager Textures;
 	public SoundManager Sounds;
@@ -82,6 +84,8 @@ public class TutorialGame extends Game {
 	public void render() {
 		float time = Gdx.graphics.getDeltaTime();
 		
+		this.totalTime += time;
+		
 		Gdx.gl.glClearColor(100/255f, 100/255f, 1.0f, 1.0f);
 //		crazy.glClear(time);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -120,7 +124,7 @@ public class TutorialGame extends Game {
 				checkCollisions(player, gameObjects);
 //				spawnWall(time);
 				spawnStar(time);
-				level.update(time);
+				level.update(player, time);
 				if(level.HasCollided(player.getBounds()))
 				{
 					Sounds.play("explosion");

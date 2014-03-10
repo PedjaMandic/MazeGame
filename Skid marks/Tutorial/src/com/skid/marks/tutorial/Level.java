@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 public class Level {
 	
@@ -81,7 +82,6 @@ public class Level {
 		}
 		lowestRow = nrOfRows-1;
 		
-		
 		//sprite = new Sprite(region);
 		//sprite = TextureManager.getSprite("data/gfx/bar.png");
 
@@ -108,7 +108,7 @@ public class Level {
 	public void dispose() {
 	}
 	
-	public void update(float delta)
+	public void update(Player p, float delta)
 	{
 		distanceSinceLastPoint+= levelSpeed*delta;
 		
@@ -125,6 +125,8 @@ public class Level {
 		{
 			rows[i].Y += levelSpeed*delta;
 			
+			// Anim
+			rows[i].update(p, delta);
 		}
 		while(rows[lowestRow].Y >= h)
 		{

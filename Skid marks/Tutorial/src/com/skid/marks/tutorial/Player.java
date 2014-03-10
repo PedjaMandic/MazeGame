@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -22,13 +23,15 @@ public class Player implements GameObject {
 	private final float SIZE = 50;
 	
 	// Screen dimensions
-	private float sw;
-	private float sh;
+	private float screenWidth;
+	private float screenHeight;
 	
 	// Mouse click X
-	private float mx;
+	private float mouseTochedX;
 	// Mouse touch
-	private boolean mt;
+	private boolean isMouseToched;
+	
+	private float rotation;
 	
 	public Player(TutorialGame game) {
 		this.game = game;
@@ -39,23 +42,26 @@ public class Player implements GameObject {
 		bounds = new Rectangle();
 		bounds.setSize(SIZE, SIZE);
 		
-		sw = Gdx.graphics.getWidth();
-		sh = Gdx.graphics.getHeight();
+		screenWidth = Gdx.graphics.getWidth();
+		screenHeight = Gdx.graphics.getHeight();
 		
-		position = new Vector2((sw / 2) - (SIZE / 2), sh - SIZE * 2);
+//		position = new Vector2((screenWidth / 2) - (SIZE / 2), screenHeight * 3/4f);
 		
 		sprites = new Sprite[4];
 		sprites[0] = game.Textures.getSprite("data/gfx/player_A.png");
 		sprites[1] = game.Textures.getSprite("data/gfx/player_B.png");
 		sprites[2] = game.Textures.getSprite("data/gfx/player_C.png");
 		sprites[3] = game.Textures.getSprite("data/gfx/player_D.png");
+		
+		this.reset();
 	}
 	
 	@Override
 	public void reset() {
-		position = new Vector2((sw / 2) - (SIZE / 2), sh - SIZE * 2);
-		mt = false;
-		mx = (sw / 2) - (SIZE / 2);
+//		position = new Vector2((screenWidth / 2) - (SIZE / 2), screenHeight - SIZE * 2);
+		position = new Vector2((screenWidth / 2) - (SIZE / 2), screenHeight * 3/4f);
+		isMouseToched = false;
+		mouseTochedX = (screenWidth / 2) - (SIZE / 2);
 	}
 
 	@Override
@@ -70,33 +76,41 @@ public class Player implements GameObject {
 			spriteIndex = 3;
 		}
 		
-		if(Gdx.input.isKeyPressed(Keys.UP)) {
-			position.y -= 100 * delta;
-		} else if(Gdx.input.isKeyPressed(Keys.DOWN)) {
-			position.y += 100 * delta;
-		}
+//		if(Gdx.input.isKeyPressed(Keys.UP)) {
+//			position.y -= 100 * delta;
+//		} else if(Gdx.input.isKeyPressed(Keys.DOWN)) {
+//			position.y += 100 * delta;
+//		}
 		
 		// isTouched fungerar både till Andriod och Desktop
-		mt = Gdx.input.isTouched();
-		if(mt) {
-			mx = Gdx.input.getX() - (SIZE / 2);
+		isMouseToched = Gdx.input.isTouched();
+		if(isMouseToched) {
+			mouseTochedX = Gdx.input.getX() - (SIZE / 2);
 		}
 		
 		float fm = MOVE_SPEED * delta;
-		if(position.x < (mx - fm) || position.x > (mx + fm))
+		if(position.x < (mouseTochedX - fm) || position.x > (mouseTochedX + fm))
 		{
-			if(position.x < mx) {
+			if(position.x < mouseTochedX) {
 				position.x += fm;
-			} else if(position.x > mx) {
+			} else if(position.x > mouseTochedX) {
 				position.x -= fm;
 			}
 		}
 //		position.x = mx;
 		
+		float tempRot = ((mouseTochedX - position.x) / (screenWidth / 4)) * 45;
+		
+		rotation = MathUtils.clamp(tempRot, -45, 45);
+//		rotation = Util.lerp(rotation, 0, delta);
+		
+		Debug.log("Temp: " + tempRot);
+		Debug.log("Rotaion: " + rotation); 
+		
 		if(position.x < 0) {
 			position.x = 0;
-		} else if(position.x + SIZE > sw) {
-			position.x = sw - SIZE;
+		} else if(position.x + SIZE > screenWidth) {
+			position.x = screenWidth - SIZE;
 		}
 		
 		// Uppdatera boundingbox
@@ -105,6 +119,10 @@ public class Player implements GameObject {
 
 	@Override
 	public void draw(SpriteBatch batch) {
+		sprites[spriteIndex].setOrigin(sprites[spriteIndex].getWidth() / 2,
+									   sprites[spriteIndex].getHeight());
+		sprites[spriteIndex].setRotation(rotation);
+		
 		sprites[spriteIndex].setSize(SIZE, SIZE);
 		sprites[spriteIndex].setPosition(position.x, position.y);
 		sprites[spriteIndex].draw(batch);

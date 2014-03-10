@@ -1,5 +1,7 @@
 package com.skid.marks.tutorial;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,11 +12,14 @@ public class Level {
 	
 	private TutorialGame game;
 	
+	private Random random;
 	private Sprite[] sprites;
 	private int currentSprite = 0;
 	private float distanceSinceLastPoint = 0.0f;
 	private float distanceBetweenPoints; //half screen
 	private int previousPoint = 0;
+	private float currentPoint;
+	private float nextPoint;
 	private float tunnelWidth;
 	
 	private float points[];
@@ -25,10 +30,12 @@ public class Level {
 	private int nrOfRows;
 	private int h;
 	private int w;
+	private boolean isRandom;
 	
 	public Level(TutorialGame game)
 	{
 		this.game = game;
+		random = new Random();
 		this.reset();
 	}
 	
@@ -40,6 +47,9 @@ public class Level {
 		rowHeight = h / (nrOfRows-1);
 		distanceBetweenPoints = h/4;
 		levelSpeed = h * 0.8f;
+		currentPoint = 0.5f;
+		nextPoint = 0.5f;
+		isRandom = true;
 		
 		currentSprite = 0;
 		distanceSinceLastPoint = 0.0f;
@@ -117,6 +127,18 @@ public class Level {
 			distanceSinceLastPoint -= distanceBetweenPoints;
 			previousPoint ++;
 			previousPoint %= points.length;
+			
+			if(!isRandom){
+				currentPoint = points[previousPoint];
+				nextPoint = points[(previousPoint+1)%points.length];
+			}else {
+				currentPoint = nextPoint;
+				nextPoint = currentPoint-0.25f+0.5f*random.nextFloat();
+				if(nextPoint < 0.05f+tunnelWidth/w/2)
+					nextPoint = 0.05f+tunnelWidth/w/2;
+				else if(nextPoint > 0.95f- tunnelWidth/w/2)
+					nextPoint = 0.95f-tunnelWidth/w/2;
+			}
 		}
 		
 		float ratio = distanceSinceLastPoint / distanceBetweenPoints;
@@ -130,7 +152,7 @@ public class Level {
 		}
 		while(rows[lowestRow].Y >= h)
 		{
-			float activePoint = (points[previousPoint] + (ratio * (points[(previousPoint+1)%points.length] - points[previousPoint])))*w;
+			float activePoint = (currentPoint + (ratio * (nextPoint - currentPoint)))*w;
 			rows[lowestRow].Renew(activePoint, tunnelWidth, rowHeight, currentSprite);
 			currentSprite++;
 			currentSprite %= sprites.length;

@@ -11,6 +11,7 @@ public class Background {
 	private boolean pause;
 	
 	private Sprite background;
+	private Sprite tint;
 	private float positionY;
 	private float screenHeight;
 	
@@ -23,12 +24,14 @@ public class Background {
 		this.game = game;
 		
 		background = game.Textures.getSprite("data/gfx/background.png");
+		tint = game.Textures.getSprite("data/gfx/background_tint2.png");
 //		crazy = new CrazyBackgroundColor();
 		
 		int sx = Gdx.graphics.getWidth();
 		screenHeight = Gdx.graphics.getHeight();
 		
 		background.setSize(sx, screenHeight);
+		tint.setSize(sx, screenHeight);
 		this.speed = BASE_SPEED;
 	}
 	
@@ -51,6 +54,7 @@ public class Background {
 		background.draw(batch);
 		background.setPosition(0, positionY);
 		background.draw(batch);
+		tint.draw(batch);
 	}
 	
 	public void pause() {

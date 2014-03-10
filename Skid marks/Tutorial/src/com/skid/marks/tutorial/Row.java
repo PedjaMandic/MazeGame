@@ -53,6 +53,8 @@ public class Row {
 			if(rightWidth > rightTot) {
 				rightWidth = rightTot;
 			}
+		} else {
+			// Some funky shit
 		}
 	}
 }

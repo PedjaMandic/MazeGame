@@ -32,7 +32,6 @@ public class TutorialGame extends Game {
 	public SoundManager Sounds;
 	public ParticleManager Particles;
 	
-//	private CrazyBackgroundColor crazy;
 	private Background background;
 	private Level level;
 	
@@ -65,8 +64,7 @@ public class TutorialGame extends Game {
 		gameObjects = new ArrayList<GameObject>();
 		player = new Player(this);
 		player.init();
-		
-//		crazy = new CrazyBackgroundColor();
+
 		background = new Background(this);
 		level = new Level(this);
 		menu = new Menu(this);
@@ -78,6 +76,12 @@ public class TutorialGame extends Game {
 		batch.dispose();
 		Textures.dispose();
 		Sounds.dispose();
+		Particles.dispose();
+		
+		player.dispose();
+		for(GameObject go : gameObjects) {
+			go.dispose();
+		}
 	}
 
 	@Override
@@ -97,19 +101,20 @@ public class TutorialGame extends Game {
 		switch(state){
 		case Menu:
 			spawnStar(time);
-			Particles.update(time);
+//			Particles.update(time);
 			menu.update(time);
 			background.update(time);
 			batch.setProjectionMatrix(camera.combined);
 			batch.begin();
 			background.draw(batch);
-			Particles.draw(batch);
+//			Particles.draw(batch);
+			Particles.render(batch, time);
 			batch.end();
 			menu.draw(batch);
 			break;
 		case Play:
 			// UPDATE
-			Particles.update(time);
+//			Particles.update(time);
 			if(!gameOver) {
 				for (int i = 0; i < gameObjects.size(); i++) {
 					GameObject go = gameObjects.get(i);
@@ -146,7 +151,8 @@ public class TutorialGame extends Game {
 //				go.draw(batch);
 //			}
 			player.draw(batch);
-			Particles.draw(batch);
+//			Particles.draw(batch);
+			Particles.render(batch, time);
 			level.draw(batch);
 			
 			if(gameOver) {

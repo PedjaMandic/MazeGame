@@ -54,6 +54,11 @@ public class Wall implements GameObject {
 	}
 	
 	@Override
+	public void dispose() {
+		
+	}
+	
+	@Override
 	public void reset() {		
 	}
 

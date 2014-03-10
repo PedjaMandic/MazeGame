@@ -7,18 +7,25 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Background {
+	private TutorialGame game;
 	
 	private Color[] colors = {
 			new Color(255/256.0f, 42/256.0f, 127/256.0f, 1.0f), // Rosa
 			new Color(89/256.0f, 255/256.0f, 127/256.0f, 1.0f), // Grön
-			new Color(144/256.0f, 130/256.0f, 255/256.0f, 1.0f), // Blue
+			new Color(144/256.0f, 130/256.0f, 255/256.0f, 1.0f), // Blå
 			new Color(255/256.0f, 242/256.0f, 107/256.0f, 1.0f), // Gul
 	};
 	
-	private Color currentColor;
 	private int colorIndex = 0;
 	
-	private TutorialGame game;
+	private Color currentColor;
+	private Color targetColor;
+	
+	private boolean doLerp;
+	private float lerpTimer;
+	
+	private final float LERP_TIME = 1.0f; // Hur länge vi ska lerpa (Färgövergång i en sek)
+	private final float COLOR_TIME = 3.0f; // Hur länge en färg ska visas (Varje färg visa i tre sek)
 	
 	private boolean pause;
 	
@@ -30,15 +37,12 @@ public class Background {
 	private float speed;
 	private final float BASE_SPEED = 50.0f;
 	
-//	private CrazyBackgroundColor crazy;
-	
 	public Background(TutorialGame game) {
 		this.game = game;
 		
 		background = game.Textures.getSprite("data/gfx/background.png");
 		tint = game.Textures.getSprite("data/gfx/background_tint2.png");
-//		crazy = new CrazyBackgroundColor();
-		
+
 		int sx = Gdx.graphics.getWidth();
 		screenHeight = Gdx.graphics.getHeight();
 		
@@ -46,10 +50,8 @@ public class Background {
 		tint.setSize(sx, screenHeight);
 		this.speed = BASE_SPEED;
 		
-		this.currentColor = new Color(colors[colorIndex].r,
-				colors[colorIndex].b,
-				colors[colorIndex].g,
-				colors[colorIndex].a);
+		this.currentColor = new Color(colors[colorIndex]);
+		this.targetColor = new Color();
 	}
 	
 	float timer;
@@ -57,14 +59,28 @@ public class Background {
 		if(pause)
 			return;
 		
-		timer += time;
-		if(timer > 1.0f) {
-			timer = timer - 1.0f;
-			if(++colorIndex == colors.length)
-				colorIndex = 0;
+		if(doLerp) {
+			float lerpValue = lerpTimer / LERP_TIME;
+			
+			this.currentColor.set(colors[colorIndex]);
+			this.targetColor.set(colors[(colorIndex + 1) % colors.length]);
+			this.currentColor.lerp(targetColor, lerpValue);
+
+			lerpTimer += time;
+			if(lerpTimer >= LERP_TIME) {
+				lerpTimer -= LERP_TIME;
+				doLerp = false;
+				if(++colorIndex >= colors.length) {
+					colorIndex = 0;
+				}
+			}
+		} else {
+			timer += time;
+			if(timer >= COLOR_TIME) {
+				timer -= COLOR_TIME;
+				doLerp = true;
+			}
 		}
-		currentColor = currentColor.lerp(colors[colorIndex % colors.length], timer);
-//		crazy.update(time);
 		
 		positionY += speed * time;
 		if(positionY >= screenHeight) {
@@ -73,8 +89,6 @@ public class Background {
 	}
 	
 	public void draw(SpriteBatch batch) {
-//		background.setColor(crazy.getColor());
-//		background.setColor(255/256.0f, 42/256.0f, 127/256.0f, 1.0f);
 		background.setColor(currentColor);
 		background.setPosition(0, positionY - background.getHeight() + 1);
 		background.draw(batch);

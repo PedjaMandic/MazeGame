@@ -2,6 +2,7 @@ package com.skid.marks.tutorial;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -15,6 +16,7 @@ public class Player implements GameObject {
 	// Can use a real BoundingBox object but fuck it
 	private Rectangle bounds;
 	private Vector2 position;
+	private Vector2 gasPosition;
 	//private Texture texture;
 	private Sprite[] sprites;
 	private int spriteIndex;
@@ -32,6 +34,8 @@ public class Player implements GameObject {
 	private boolean isMouseToched;
 	
 	private float rotation;
+	
+	private ParticleEffect gasEffect;
 	
 	public Player(TutorialGame game) {
 		this.game = game;
@@ -53,13 +57,24 @@ public class Player implements GameObject {
 		sprites[2] = game.Textures.getSprite("data/gfx/player_C.png");
 		sprites[3] = game.Textures.getSprite("data/gfx/player_D.png");
 		
+		gasEffect = new ParticleEffect();
+		gasEffect.load(Gdx.files.internal("data/particle/particle.p"),
+					   Gdx.files.internal("data/particle/"));
+		
 		this.reset();
+	}
+	
+	
+	@Override
+	public void dispose() {
+		gasEffect.dispose();
 	}
 	
 	@Override
 	public void reset() {
 //		position = new Vector2((screenWidth / 2) - (SIZE / 2), screenHeight - SIZE * 2);
 		position = new Vector2((screenWidth / 2) - (SIZE / 2), screenHeight * 3/4f);
+		gasPosition = new Vector2(position);
 		isMouseToched = false;
 		mouseTochedX = (screenWidth / 2) - (SIZE / 2);
 	}
@@ -110,12 +125,17 @@ public class Player implements GameObject {
 			position.x = screenWidth - SIZE;
 		}
 		
+		gasEffect.setPosition(position.x + SIZE / 2, position.y + SIZE);
+		gasEffect.update(delta);
+		
 		// Uppdatera boundingbox
 		bounds.setPosition(position);
 	}
 
 	@Override
 	public void draw(SpriteBatch batch) {
+		gasEffect.draw(batch);
+		
 		sprites[spriteIndex].setOrigin(sprites[spriteIndex].getWidth() / 2,
 									   sprites[spriteIndex].getHeight());
 		sprites[spriteIndex].setRotation(rotation);

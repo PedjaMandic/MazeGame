@@ -8,6 +8,8 @@ public interface GameObject {
 
 	void init();
 	
+	void dispose();
+	
 	void reset();
 	
 	void update(float delta);

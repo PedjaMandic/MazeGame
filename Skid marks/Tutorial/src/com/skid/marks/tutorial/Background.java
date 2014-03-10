@@ -43,7 +43,8 @@ public class Background {
 	}
 	
 	public void draw(SpriteBatch batch) {
-		background.setColor(crazy.getColor());
+//		background.setColor(crazy.getColor());
+		background.setColor(255/256.0f, 42/256.0f, 127/256.0f, 1.0f);
 		background.setPosition(0, positionY - background.getHeight() + 1);
 		background.draw(batch);
 		background.setPosition(0, positionY);

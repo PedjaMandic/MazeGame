@@ -28,14 +28,21 @@ public class Level {
 	public Level(TutorialGame game)
 	{
 		this.game = game;
-		
+		this.reset();
+	}
+	
+	public void reset() {
 		w = Gdx.graphics.getWidth();
 		h = Gdx.graphics.getHeight();
-		tunnelWidth = w*0.8f;
+		tunnelWidth = w*0.5f;
 		nrOfRows = 1+h/40;
 		rowHeight = h / (nrOfRows-1);
 		distanceBetweenPoints = h/4;
-		levelSpeed = h * 0.75f;
+		levelSpeed = h * 0.8f;
+		
+		currentSprite = 0;
+		distanceSinceLastPoint = 0.0f;
+		previousPoint = 0;
 		
 		sprites = new Sprite[3];
 		sprites[0] = game.Textures.getSprite("data/gfx/bar.png");
@@ -119,7 +126,7 @@ public class Level {
 			rows[i].Y += levelSpeed*delta;
 			
 		}
-		if(rows[lowestRow].Y >= h)
+		while(rows[lowestRow].Y >= h)
 		{
 			float activePoint = (points[previousPoint] + (ratio * (points[(previousPoint+1)%points.length] - points[previousPoint])))*w;
 			rows[lowestRow].Renew(activePoint, tunnelWidth, rowHeight, currentSprite);

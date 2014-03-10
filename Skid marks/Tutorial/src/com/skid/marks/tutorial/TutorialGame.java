@@ -189,6 +189,7 @@ public class TutorialGame extends Game {
 		gameOver = false;
 		player.reset();
 		gameObjects.clear();
+		level.reset();
 		background.resume();
 	}
 	

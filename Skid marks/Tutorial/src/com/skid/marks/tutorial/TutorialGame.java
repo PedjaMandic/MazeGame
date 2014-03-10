@@ -35,12 +35,11 @@ public class TutorialGame extends Game {
 	private Background background;
 	private Level level;
 	
-	private boolean gameOver;
-	
 	private Menu menu;
 	
 	public enum States{
 		Play,
+		GameOver,
 		Menu,
 		Settings,
 		Highscore
@@ -115,29 +114,26 @@ public class TutorialGame extends Game {
 		case Play:
 			// UPDATE
 //			Particles.update(time);
-			if(!gameOver) {
-				for (int i = 0; i < gameObjects.size(); i++) {
-					GameObject go = gameObjects.get(i);
-					go.update(time);
-					if(go instanceof Wall) {
-						if(((Wall)go).isAlive() == false) {
-							gameObjects.remove(i);
-						}
+			for (int i = 0; i < gameObjects.size(); i++) {
+				GameObject go = gameObjects.get(i);
+				go.update(time);
+				if(go instanceof Wall) {
+					if(((Wall)go).isAlive() == false) {
+						gameObjects.remove(i);
 					}
 				}
-				player.update(time);
-				checkCollisions(player, gameObjects);
-//				spawnWall(time);
-				spawnStar(time);
-				level.update(player, time);
-				if(level.HasCollided(player.getBounds()))
-				{
-					Sounds.play("explosion");
-					Particles.add(new PedjaStars(this, player.getPosition()));
-					gameOver = true;
-					background.pause();
-				}
-				
+			}
+			player.update(time);
+			checkCollisions(player, gameObjects);
+	//				spawnWall(time);
+			spawnStar(time);
+			level.update(player, time);
+			if(level.HasCollided(player.getBounds()))
+			{
+				state = States.GameOver;
+				Sounds.play("explosion");
+				Particles.add(new PedjaStars(this, player.getPosition()));
+				background.pause();
 			}
 			background.update(time);
 			// DRAW
@@ -155,16 +151,23 @@ public class TutorialGame extends Game {
 			Particles.render(batch, time);
 			level.draw(batch);
 			
-			if(gameOver) {
-				font.draw(batch, "Game Over", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-				font.draw(batch, "Press Space", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 + 20);
-				// För android så länge!
-				if(Gdx.input.isKeyPressed(Keys.SPACE) || Gdx.input.isTouched()) {
-					reset();
-				}
-			}
-			
 			Debug.render(batch);
+			batch.end();
+			break;
+		case GameOver:
+			camera.update();
+			batch.setProjectionMatrix(camera.combined);
+			batch.begin();
+			background.draw(batch);
+			font.draw(batch, String.format("Score: %d", score), 20, 20);
+			player.draw(batch);
+			Particles.render(batch, time);
+			level.draw(batch);
+			font.draw(batch, "Game Over", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+			font.draw(batch, "Press Space", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 + 20);
+			if(Gdx.input.isKeyPressed(Keys.SPACE) || Gdx.input.isTouched()) {
+				reset();
+			}
 			batch.end();
 			break;
 		case Settings:
@@ -195,8 +198,8 @@ public class TutorialGame extends Game {
 	}
 	
 	void reset() {
+		state = States.Play;
 		score = 0;
-		gameOver = false;
 		player.reset();
 		gameObjects.clear();
 		level.reset();
@@ -229,9 +232,9 @@ public class TutorialGame extends Game {
 		score += 10;
 		for(GameObject go : walls) {
 			if(player.getBounds().overlaps(go.getBounds())) {
+				state = States.GameOver;
 				Sounds.play("explosion");
 				Particles.add(new PedjaStars(this, player.getPosition()));
-				gameOver = true;
 				background.pause();
 			}
 		}

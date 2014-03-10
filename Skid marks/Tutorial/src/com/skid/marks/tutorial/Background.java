@@ -41,7 +41,7 @@ public class Background {
 		this.game = game;
 		
 		background = game.Textures.getSprite("data/gfx/background.png");
-		tint = game.Textures.getSprite("data/gfx/background_tint2.png");
+		tint = game.Textures.getSprite("data/gfx/tint_white2.png");
 
 		int sx = Gdx.graphics.getWidth();
 		screenHeight = Gdx.graphics.getHeight();

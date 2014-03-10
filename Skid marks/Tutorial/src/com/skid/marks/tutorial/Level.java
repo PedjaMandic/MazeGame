@@ -56,9 +56,9 @@ public class Level {
 		previousPoint = 0;
 		
 		sprites = new Sprite[3];
-		sprites[0] = game.Textures.getSprite("data/gfx/bar.png");
-		sprites[1] = game.Textures.getSprite("data/gfx/bar.png");
-		sprites[2] = game.Textures.getSprite("data/gfx/bar.png");
+		sprites[0] = game.Textures.getSprite("data/gfx/platform_white.png");
+		sprites[1] = game.Textures.getSprite("data/gfx/platform_white.png");
+		sprites[2] = game.Textures.getSprite("data/gfx/platform_white.png");
 		
 		sprites[0].setColor(1, 0, 0, 1);
 		sprites[1].setColor(0, 1, 0, 1);
@@ -167,9 +167,11 @@ public class Level {
 	{
 		for(int i = 0; i < nrOfRows; i++)
 		{
-			sprites[rows[i].sprite].setBounds(0, rows[i].Y, rows[i].leftWidth, rowHeight);
-			sprites[rows[i].sprite].draw(batch);
+			sprites[rows[i].sprite].flip(true, false);
 			sprites[rows[i].sprite].setBounds(w - rows[i].rightWidth, rows[i].Y, rows[i].rightWidth, rowHeight);
+			sprites[rows[i].sprite].draw(batch);
+			sprites[rows[i].sprite].flip(true, false);
+			sprites[rows[i].sprite].setBounds(0, rows[i].Y, rows[i].leftWidth, rowHeight);
 			sprites[rows[i].sprite].draw(batch);
 			
 			

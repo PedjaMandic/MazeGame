@@ -1,10 +1,22 @@
 package com.skid.marks.tutorial;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Background {
+	
+	private Color[] colors = {
+			new Color(255/256.0f, 42/256.0f, 127/256.0f, 1.0f), // Rosa
+			new Color(89/256.0f, 255/256.0f, 127/256.0f, 1.0f), // Grön
+			new Color(144/256.0f, 130/256.0f, 255/256.0f, 1.0f), // Blue
+			new Color(255/256.0f, 242/256.0f, 107/256.0f, 1.0f), // Gul
+	};
+	
+	private Color currentColor;
+	private int colorIndex = 0;
 	
 	private TutorialGame game;
 	
@@ -33,12 +45,25 @@ public class Background {
 		background.setSize(sx, screenHeight);
 		tint.setSize(sx, screenHeight);
 		this.speed = BASE_SPEED;
+		
+		this.currentColor = new Color(colors[colorIndex].r,
+				colors[colorIndex].b,
+				colors[colorIndex].g,
+				colors[colorIndex].a);
 	}
 	
+	float timer;
 	public void update(float time) {
 		if(pause)
 			return;
 		
+		timer += time;
+		if(timer > 1.0f) {
+			timer = timer - 1.0f;
+			if(++colorIndex == colors.length)
+				colorIndex = 0;
+		}
+		currentColor = currentColor.lerp(colors[colorIndex % colors.length], timer);
 //		crazy.update(time);
 		
 		positionY += speed * time;
@@ -49,7 +74,8 @@ public class Background {
 	
 	public void draw(SpriteBatch batch) {
 //		background.setColor(crazy.getColor());
-		background.setColor(255/256.0f, 42/256.0f, 127/256.0f, 1.0f);
+//		background.setColor(255/256.0f, 42/256.0f, 127/256.0f, 1.0f);
+		background.setColor(currentColor);
 		background.setPosition(0, positionY - background.getHeight() + 1);
 		background.draw(batch);
 		background.setPosition(0, positionY);

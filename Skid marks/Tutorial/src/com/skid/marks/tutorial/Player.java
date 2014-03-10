@@ -104,9 +104,6 @@ public class Player implements GameObject {
 		rotation = MathUtils.clamp(tempRot, -45, 45);
 //		rotation = Util.lerp(rotation, 0, delta);
 		
-		Debug.log("Temp: " + tempRot);
-		Debug.log("Rotaion: " + rotation); 
-		
 		if(position.x < 0) {
 			position.x = 0;
 		} else if(position.x + SIZE > screenWidth) {

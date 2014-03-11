@@ -30,7 +30,8 @@ public class Level {
 	private int nrOfRows;
 	private int h;
 	private int w;
-	private boolean isRandom;
+	
+	public static boolean isRandom;
 	
 	public Level(TutorialGame game)
 	{
@@ -49,7 +50,7 @@ public class Level {
 		levelSpeed = h * 0.8f;
 		currentPoint = 0.5f;
 		nextPoint = 0.5f;
-		isRandom = true;
+		//isRandom = true;	-> Görs i gamemode.java
 		
 		currentSprite = 0;
 		distanceSinceLastPoint = 0.0f;

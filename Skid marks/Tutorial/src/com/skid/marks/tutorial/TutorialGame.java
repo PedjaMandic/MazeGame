@@ -36,13 +36,15 @@ public class TutorialGame extends Game {
 	private Level level;
 	
 	private Menu menu;
+	private GameMode gameMode;
 	
 	public enum States{
 		Play,
 		GameOver,
 		Menu,
 		Settings,
-		Highscore
+		Highscore,
+		Gamemode
 		
 	}
 	
@@ -67,6 +69,7 @@ public class TutorialGame extends Game {
 		background = new Background(this);
 		level = new Level(this);
 		menu = new Menu(this);
+		gameMode = new GameMode(this);
 	}
 
 	@Override
@@ -175,6 +178,17 @@ public class TutorialGame extends Game {
 			break;
 		case Highscore:
 			
+			break;
+		case Gamemode:
+			spawnStar(time);
+			gameMode.update(time);
+			background.update(time);
+			batch.setProjectionMatrix(camera.combined);
+			batch.begin();
+			background.draw(batch);
+			Particles.render(batch, time);
+			batch.end();
+			gameMode.draw(batch);
 			break;
 		default:
 			

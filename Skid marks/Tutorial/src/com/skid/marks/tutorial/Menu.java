@@ -54,7 +54,7 @@ public class Menu {
 		
 		if(play_rect.contains(Gdx.input.getX(), Gdx.input.getY())){
 			if(Gdx.input.isTouched()){
-				TutorialGame.state = TutorialGame.States.Play;
+				TutorialGame.state = TutorialGame.States.Gamemode;
 				game.Sounds.play("background", true);
 			}
 			play_texture.setRegion(380, 0, 80, 80);
@@ -64,7 +64,7 @@ public class Menu {
 		
 		if(highscore_rect.contains(Gdx.input.getX(), Gdx.input.getY())){
 			if(Gdx.input.isTouched()){
-				TutorialGame.state = TutorialGame.States.Play;
+				TutorialGame.state = TutorialGame.States.Gamemode;
 				game.Sounds.play("background", true);
 			}
 			highscore_texture.setRegion(380, 80, 80, 80);
@@ -73,7 +73,7 @@ public class Menu {
 		
 		if(settings_rect.contains(Gdx.input.getX(), Gdx.input.getY())){
 			if(Gdx.input.isTouched()){
-				TutorialGame.state = TutorialGame.States.Play;
+				TutorialGame.state = TutorialGame.States.Gamemode;
 				game.Sounds.play("background", true);
 			}
 			settings_texture.setRegion(380, 160, 80, 80);

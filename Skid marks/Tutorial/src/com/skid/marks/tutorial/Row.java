@@ -53,8 +53,9 @@ public class Row {
 			if(rightWidth > rightTot) {
 				rightWidth = rightTot;
 			}
-		} else {
-			// Some funky shit
+		} else if(p.getPosition().y + Player.SIZE < Y) {
+			leftWidth -= (300 * delta);
+			rightWidth -= (300 * delta);
 		}
 	}
 }

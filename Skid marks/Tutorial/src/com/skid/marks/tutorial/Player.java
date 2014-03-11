@@ -13,16 +13,14 @@ public class Player implements GameObject {
 
 	private TutorialGame game;
 	
-	// Can use a real BoundingBox object but fuck it
 	private Rectangle bounds;
 	private Vector2 position;
 	private Vector2 gasPosition;
-	//private Texture texture;
 	private Sprite[] sprites;
 	private int spriteIndex;
 	
 	private final float MOVE_SPEED = 1000;
-	private final float SIZE = 50;
+	public static final float SIZE = 50;
 	
 	// Screen dimensions
 	private float screenWidth;
@@ -52,7 +50,7 @@ public class Player implements GameObject {
 //		position = new Vector2((screenWidth / 2) - (SIZE / 2), screenHeight * 3/4f);
 		
 		sprites = new Sprite[4];
-		sprites[0] = game.Textures.getSprite("data/gfx/player_A.png");
+		sprites[0] = game.Textures.getSprite("data/gfx/player_green.png");
 		sprites[1] = game.Textures.getSprite("data/gfx/player_B.png");
 		sprites[2] = game.Textures.getSprite("data/gfx/player_C.png");
 		sprites[3] = game.Textures.getSprite("data/gfx/player_D.png");

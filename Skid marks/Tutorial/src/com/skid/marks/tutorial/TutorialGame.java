@@ -49,6 +49,7 @@ public class TutorialGame extends Game {
 	}
 	
 	public static States state = States.Menu;
+	private float gameOverTimer;
 	
 	
 	@Override
@@ -158,6 +159,8 @@ public class TutorialGame extends Game {
 			batch.end();
 			break;
 		case GameOver:
+			gameOverTimer += time;
+			
 			camera.update();
 			batch.setProjectionMatrix(camera.combined);
 			batch.begin();
@@ -168,9 +171,13 @@ public class TutorialGame extends Game {
 			level.draw(batch);
 			font.draw(batch, "Game Over", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 			font.draw(batch, "Press Space", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 + 20);
-			if(Gdx.input.isKeyPressed(Keys.SPACE) || Gdx.input.isTouched()) {
-				reset();
+			if(gameOverTimer > 1.0f) {
+				if(Gdx.input.isKeyPressed(Keys.SPACE) || Gdx.input.isTouched()) {
+					reset();
+				}
 			}
+			
+			Debug.render(batch);
 			batch.end();
 			break;
 		case Settings:
@@ -212,6 +219,7 @@ public class TutorialGame extends Game {
 	}
 	
 	void reset() {
+		gameOverTimer = 0;
 		state = States.Play;
 		score = 0;
 		player.reset();
@@ -247,8 +255,8 @@ public class TutorialGame extends Game {
 		for(GameObject go : walls) {
 			if(player.getBounds().overlaps(go.getBounds())) {
 				state = States.GameOver;
-				Sounds.play("explosion");
-				Particles.add(new PedjaStars(this, player.getPosition()));
+//				Sounds.play("explosion");
+//				Particles.add(new PedjaStars(this, player.getPosition()));
 				background.pause();
 			}
 		}

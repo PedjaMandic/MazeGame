@@ -39,6 +39,7 @@ public class TutorialGame extends Game {
 	private Menu menu;
 	private GameMode gameMode;
 	private Highscore highscore;
+	private Settings settings;
 	
 	public enum States{
 		Play,
@@ -74,6 +75,7 @@ public class TutorialGame extends Game {
 		menu = new Menu(this);
 		gameMode = new GameMode(this);
 		highscore = new Highscore(this);
+		settings = new Settings(this);
 	}
 
 	@Override
@@ -183,7 +185,10 @@ public class TutorialGame extends Game {
 			batch.end();
 			break;
 		case Settings:
-			
+			batch.begin();
+			settings.update(time);
+			settings.draw(batch);
+			batch.end();
 			break;
 		case Highscore:
 			highscore.update(time);

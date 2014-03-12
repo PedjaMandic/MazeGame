@@ -73,7 +73,7 @@ public class Menu {
 		
 		if(settings_rect.contains(Gdx.input.getX(), Gdx.input.getY())){
 			if(Gdx.input.isTouched()){
-				TutorialGame.state = TutorialGame.States.Gamemode;
+				TutorialGame.state = TutorialGame.States.Settings;
 				game.Sounds.play("background", true);
 			}
 			settings_texture.setRegion(380, 160, 80, 80);

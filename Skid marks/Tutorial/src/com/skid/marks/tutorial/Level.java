@@ -43,7 +43,7 @@ public class Level {
 	public void reset() {
 		w = Gdx.graphics.getWidth();
 		h = Gdx.graphics.getHeight();
-		tunnelWidth = w*0.5f;
+		tunnelWidth = w*0.4f;
 		nrOfRows = 1+h/40;
 		rowHeight = h / (nrOfRows-1);
 		distanceBetweenPoints = h/4;
@@ -61,9 +61,9 @@ public class Level {
 		sprites[1] = game.Textures.getSprite("data/gfx/platform_white.png");
 		sprites[2] = game.Textures.getSprite("data/gfx/platform_white.png");
 		
-		sprites[0].setColor(1, 0, 0, 1);
-		sprites[1].setColor(0, 1, 0, 1);
-		sprites[2].setColor(0, 0, 1, 1);
+//		sprites[0].setColor(1, 0, 0, 1);
+//		sprites[1].setColor(0, 1, 0, 1);
+//		sprites[2].setColor(0, 0, 1, 1);
 		
 		//punkterna som banan ska gå längs
 		points = new float[15];

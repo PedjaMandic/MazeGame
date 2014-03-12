@@ -6,6 +6,7 @@ import java.util.List;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -37,6 +38,7 @@ public class TutorialGame extends Game {
 	
 	private Menu menu;
 	private GameMode gameMode;
+	private Highscore highscore;
 	
 	public enum States{
 		Play,
@@ -71,6 +73,7 @@ public class TutorialGame extends Game {
 		level = new Level(this);
 		menu = new Menu(this);
 		gameMode = new GameMode(this);
+		highscore = new Highscore(this);
 	}
 
 	@Override
@@ -160,7 +163,6 @@ public class TutorialGame extends Game {
 			break;
 		case GameOver:
 			gameOverTimer += time;
-			
 			camera.update();
 			batch.setProjectionMatrix(camera.combined);
 			batch.begin();
@@ -184,7 +186,9 @@ public class TutorialGame extends Game {
 			
 			break;
 		case Highscore:
-			
+			highscore.update(time);
+			batch.setProjectionMatrix(camera.combined);
+			highscore.Draw(batch);
 			break;
 		case Gamemode:
 			spawnStar(time);
@@ -260,5 +264,11 @@ public class TutorialGame extends Game {
 				background.pause();
 			}
 		}
+	}
+	private void SaveScore(){
+		
+		Preferences prefs = Gdx.app.getPreferences(highscore.SCORES_FILE);
+		prefs.putString(highscore.LOCAL_SCORES, ""+score);
+		
 	}
 }

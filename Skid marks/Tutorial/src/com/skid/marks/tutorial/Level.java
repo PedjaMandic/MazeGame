@@ -105,20 +105,24 @@ public class Level {
 	//förbättra på något sätt
 	public boolean HasCollided(Rectangle rect)
 	{
-//		int start = nrOfRows + lowestRow - (int)((w-rect.x)/rowHeight);
-//		int nrOfRowsToCheck = 1+(int)(rect.width/rowHeight);
-//		//System.out.println(""+lowestRow+"/"+nrOfRows+", "+(start%nrOfRows)+"/"+nrOfRows);
-//		for(int i = start; i < start+nrOfRowsToCheck; i++)
-//		{
-//			if(rows[i%nrOfRows].active)
-//			{
-//				if(rect.y < rows[i%nrOfRows].leftWidth)
-//					return true;
-//				if(rect.y+rect.height >= h - rows[i%nrOfRows].rightWidth)
-//					return true;
-//			}
-//		}
+		int start = (nrOfRows + lowestRow - (int)(rect.x/rowHeight)-1)%nrOfRows;
+		int nrOfExtraRowsToCheck = 0;
 		
+		while(rows[(nrOfRows+start-nrOfExtraRowsToCheck)%nrOfRows].Y+rowHeight < rect.x + rect.width)
+		{
+			nrOfExtraRowsToCheck++;
+		}
+		
+		for(int i = start; i >= start-nrOfExtraRowsToCheck; i--)
+		{
+			if(rows[(nrOfRows+i)%nrOfRows].active)
+			{
+				if(rect.y < rows[(nrOfRows+i)%nrOfRows].leftWidth)
+					return true;
+				if((rect.y+rect.height) > (h - rows[(nrOfRows+i)%nrOfRows].rightWidth))
+					return true;
+			}
+		}
 		return false;
 	}
 	

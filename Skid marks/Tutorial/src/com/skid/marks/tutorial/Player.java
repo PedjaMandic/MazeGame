@@ -140,6 +140,8 @@ public class Player implements GameObject {
 		
 		// Uppdatera boundingbox
 		bounds.setPosition(position);
+		bounds.x+= SIZE/2;
+		bounds.y+=SIZE/2;
 	}
 
 	@Override
@@ -153,6 +155,8 @@ public class Player implements GameObject {
 		sprites[spriteIndex].setSize(SIZE, SIZE);
 		sprites[spriteIndex].setPosition(position.x, position.y);
 		sprites[spriteIndex].draw(batch);
+//		sprites[2].setBounds(bounds.x, bounds.y, bounds.width, bounds.height);
+//		sprites[2].draw(batch);
 	}
 	
 	@Override

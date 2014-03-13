@@ -121,8 +121,11 @@ public class Player implements GameObject {
 			}
 		}
 		
-		float tempRot = 90 + ((mouseTochedY - position.y) / (screenHeight / 4)) * 45;
-		rotation = MathUtils.clamp(tempRot, 45, 135);
+		// TODO: Fixa rotationen
+		float tempRot = ((mouseTochedY - position.y) / (screenHeight / 4)) * 45;
+		rotation = MathUtils.clamp(tempRot, -45, 45);
+		// Temp så länge
+		rotation = 0;
 		
 //		if(position.x < 0) {
 //			position.x = 0;

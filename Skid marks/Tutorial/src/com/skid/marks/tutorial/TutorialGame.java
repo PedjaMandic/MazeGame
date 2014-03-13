@@ -33,7 +33,7 @@ public class TutorialGame extends Game {
 	public SoundManager Sounds;
 	public ParticleManager Particles;
 	
-	private Background background;
+//	private Background background;
 	private Level level;
 	
 	private Menu menu;
@@ -70,7 +70,7 @@ public class TutorialGame extends Game {
 		player = new Player(this);
 		player.init();
 
-		background = new Background(this);
+//		background = new Background(this);
 		level = new Level(this);
 		menu = new Menu(this);
 		gameMode = new GameMode(this);
@@ -111,10 +111,11 @@ public class TutorialGame extends Game {
 			spawnStar(time);
 //			Particles.update(time);
 			menu.update(time);
-			background.update(time);
+//			background.update(time);
 			batch.setProjectionMatrix(camera.combined);
 			batch.begin();
-			background.draw(batch);
+			level.draw(batch);
+//			background.draw(batch);
 //			Particles.draw(batch);
 			Particles.render(batch, time);
 			batch.end();
@@ -142,14 +143,15 @@ public class TutorialGame extends Game {
 				state = States.GameOver;
 				Sounds.play("explosion");
 				Particles.add(new PedjaStars(this, player.getPosition()));
-				background.pause();
+//				background.pause();
 			}
-			background.update(time);
+//			background.update(time);
 			// DRAW
 			camera.update();
 			batch.setProjectionMatrix(camera.combined);
 			batch.begin();
-			background.draw(batch);
+			level.draw(batch);
+//			background.draw(batch);
 //			font.draw(batch, String.format("FPS: %s", Gdx.graphics.getFramesPerSecond()), 20, 20);
 			font.draw(batch, String.format("Score: %d", score), 20, 20);
 //			for(GameObject go : gameObjects) {
@@ -158,7 +160,6 @@ public class TutorialGame extends Game {
 			player.draw(batch);
 //			Particles.draw(batch);
 			Particles.render(batch, time);
-			level.draw(batch);
 			
 			Debug.render(batch);
 			batch.end();
@@ -168,11 +169,11 @@ public class TutorialGame extends Game {
 			camera.update();
 			batch.setProjectionMatrix(camera.combined);
 			batch.begin();
-			background.draw(batch);
+			level.draw(batch);
+//			background.draw(batch);
 			font.draw(batch, String.format("Score: %d", score), 20, 20);
 			player.draw(batch);
 			Particles.render(batch, time);
-			level.draw(batch);
 			font.draw(batch, "Game Over", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 			font.draw(batch, "Press Space", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 + 20);
 			if(gameOverTimer > 1.0f) {
@@ -198,10 +199,11 @@ public class TutorialGame extends Game {
 		case Gamemode:
 			spawnStar(time);
 			gameMode.update(time);
-			background.update(time);
+//			background.update(time);
 			batch.setProjectionMatrix(camera.combined);
 			batch.begin();
-			background.draw(batch);
+			level.draw(batch);
+//			background.draw(batch);
 			Particles.render(batch, time);
 			batch.end();
 			gameMode.draw(batch);
@@ -234,7 +236,7 @@ public class TutorialGame extends Game {
 		player.reset();
 		gameObjects.clear();
 		level.reset();
-		background.resume();
+//		background.resume();
 	}
 	
 	private final float SPAWN_TIMER = 0.5f; // 1 sec
@@ -266,7 +268,7 @@ public class TutorialGame extends Game {
 				state = States.GameOver;
 //				Sounds.play("explosion");
 //				Particles.add(new PedjaStars(this, player.getPosition()));
-				background.pause();
+//				background.pause();
 			}
 		}
 	}

@@ -1,12 +1,18 @@
 package com.skid.marks.tutorial;
 
+import java.sql.Time;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.BoundingBox;
 
 public class Level {
 	
@@ -35,14 +41,28 @@ public class Level {
 	
 	public static boolean isRandom;
 	
+	private Background background;
+	
+	private ParticleEffect lightEffect;
+	private ParticleEmitter lightTouchedEmitter;
+	private ParticleEmitter lightUntouchedEmitter;
+	private boolean lightParticleCollision;
+	
 	public Level(TutorialGame game)
 	{
 		this.game = game;
-		random = new Random();
+		this.random = new Random();
+		this.background = new Background(game);
 		this.reset();
 	}
 	
 	public void reset() {
+		lightEffect = new ParticleEffect();
+		lightEffect.load(Gdx.files.internal("data/particle/lightParticle.p"),
+					   Gdx.files.internal("data/particle/"));
+		lightTouchedEmitter = lightEffect.findEmitter("touched");
+		lightUntouchedEmitter = lightEffect.findEmitter("untouched");
+		
 		w = Gdx.graphics.getWidth();
 		h = Gdx.graphics.getHeight();
 		tunnelWidth = h*0.4f;
@@ -103,12 +123,13 @@ public class Level {
 	}
 	
 	//förbättra på något sätt
+	// Rect == player bounds
 	public boolean HasCollided(Rectangle rect)
 	{
 		int start = (nrOfRows + lowestRow - (int)(rect.x/rowHeight)-1)%nrOfRows;
 		int nrOfExtraRowsToCheck = 0;
 		
-		while(rows[(nrOfRows+start-nrOfExtraRowsToCheck)%nrOfRows].Y+rowHeight < rect.x + rect.width)
+		while(rows[(nrOfRows+start-nrOfExtraRowsToCheck)%nrOfRows].X+rowHeight < rect.x + rect.width)
 		{
 			nrOfExtraRowsToCheck++;
 		}
@@ -123,6 +144,25 @@ public class Level {
 					return true;
 			}
 		}
+		
+		// Check particle collision
+		if(lightParticleCollision == false) {
+			// Kl är mycket, så det blev så här så länge
+			Rectangle partRect = new Rectangle();
+			partRect.x = lightUntouchedEmitter.getX();
+			partRect.y = lightUntouchedEmitter.getY();
+//			partRect.width = 64; // TODO: sänk värdet
+//			partRect.height = 64; // TODO: sänk värdet
+			partRect.width = lightUntouchedEmitter.getScale().getHighMax();
+			partRect.height = lightUntouchedEmitter.getScale().getHighMax();
+			
+			if(rect.overlaps(partRect)) {
+				lightParticleCollision = true;
+				lightTouchedEmitter.reset();
+				background.setColorRandom();
+			}
+		}
+		
 		return false;
 	}
 	
@@ -130,7 +170,9 @@ public class Level {
 	}
 	
 	public void update(Player p, float delta)
-	{
+	{		
+		background.update(delta);
+		
 		distanceSinceLastPoint+= levelSpeed*delta;
 		
 		if(distanceSinceLastPoint >= distanceBetweenPoints)
@@ -155,12 +197,12 @@ public class Level {
 		
 		for(int i = 0; i < rows.length;i++)
 		{
-			rows[i].Y -= levelSpeed*delta;
+			rows[i].X -= levelSpeed*delta;
 			
 			// Anim
 			rows[i].update(p, delta);
 		}
-		while(rows[lowestRow].Y <= -rowHeight)
+		while(rows[lowestRow].X <= -rowHeight)
 		{
 			float activePoint = (currentPoint + (ratio * (nextPoint - currentPoint)))*h;
 			rows[lowestRow].Renew(activePoint, tunnelWidth, rowHeight, currentSprite, (lowestRow%spacing == 0));
@@ -171,24 +213,39 @@ public class Level {
 			lowestRow = nrOfRows-1;
 		}
 		
+		if(lightParticleCollision) {
+			lightTouchedEmitter.setPosition(p.getPosition().x, p.getPosition().y);
+			lightTouchedEmitter.update(delta);
+			if(lightTouchedEmitter.isComplete()) {
+				lightParticleCollision = false;
+			}
+		} else {
+			lightUntouchedEmitter.setPosition(rows[0].X + rowHeight / 2, rows[0].leftWidth + 20);
+			lightUntouchedEmitter.update(delta);
+		}
 	}
 	
 	public void draw(SpriteBatch batch)
 	{
+		background.draw(batch);
+		
+		if(lightParticleCollision) {
+			lightTouchedEmitter.draw(batch);
+		} else {
+			lightUntouchedEmitter.draw(batch);
+		}
 		
 		for(int i = 0; i < nrOfRows; i++)
 		{
 			if(rows[i].active)
 			{
-			sprites[rows[i].sprite].flip(false, true);
-			sprites[rows[i].sprite].setBounds(rows[i].Y, 0, rowHeight, rows[i].leftWidth);
-			sprites[rows[i].sprite].draw(batch);
-			sprites[rows[i].sprite].flip(false, true);
-			sprites[rows[i].sprite].setBounds(rows[i].Y, h - rows[i].rightWidth, rowHeight, rows[i].rightWidth);
-			sprites[rows[i].sprite].draw(batch);
+				sprites[rows[i].sprite].flip(false, true);
+				sprites[rows[i].sprite].setBounds(rows[i].X, 0, rowHeight, rows[i].leftWidth);
+				sprites[rows[i].sprite].draw(batch);
+				sprites[rows[i].sprite].flip(false, true);
+				sprites[rows[i].sprite].setBounds(rows[i].X, h - rows[i].rightWidth, rowHeight, rows[i].rightWidth);
+				sprites[rows[i].sprite].draw(batch);
 			}
-			
-			
 		}
 	}
 }

@@ -1,5 +1,7 @@
 package com.skid.marks.tutorial;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
@@ -16,7 +18,7 @@ public class Background {
 			new Color(255/256.0f, 242/256.0f, 107/256.0f, 1.0f), // Gul
 	};
 	
-	private int colorIndex = 0;
+//	private int colorIndex = 0;
 	
 	private Color currentColor;
 	private Color targetColor;
@@ -25,7 +27,7 @@ public class Background {
 	private float lerpTimer;
 	
 	private final float LERP_TIME = 1.0f; // Hur länge vi ska lerpa (Färgövergång i en sek)
-	private final float COLOR_TIME = 3.0f; // Hur länge en färg ska visas (Varje färg visa i tre sek)
+//	private final float COLOR_TIME = 3.0f; // Hur länge en färg ska visas (Varje färg visa i tre sek)
 	
 	private boolean pause;
 	
@@ -52,7 +54,8 @@ public class Background {
 		tint.setSize(screenWidth, screenHeight);
 		this.speed = BASE_SPEED;
 		
-		this.currentColor = new Color(colors[colorIndex]);
+//		this.currentColor = new Color(colors[colorIndex]);
+		this.currentColor = new Color(255/256.0f, 42/256.0f, 127/256.0f, 1.0f);
 		this.targetColor = new Color();
 	}
 	
@@ -64,25 +67,26 @@ public class Background {
 		if(doLerp) {
 			float lerpValue = lerpTimer / LERP_TIME;
 			
-			this.currentColor.set(colors[colorIndex]);
-			this.targetColor.set(colors[(colorIndex + 1) % colors.length]);
+//			this.currentColor.set(colors[colorIndex]);
+//			this.targetColor.set(colors[(colorIndex + 1) % colors.length]);
 			this.currentColor.lerp(targetColor, lerpValue);
 
 			lerpTimer += time;
 			if(lerpTimer >= LERP_TIME) {
 				lerpTimer -= LERP_TIME;
 				doLerp = false;
-				if(++colorIndex >= colors.length) {
-					colorIndex = 0;
-				}
-			}
-		} else {
-			timer += time;
-			if(timer >= COLOR_TIME) {
-				timer -= COLOR_TIME;
-				doLerp = true;
+//				if(++colorIndex >= colors.length) {
+//					colorIndex = 0;
+//				}
 			}
 		}
+//		else {
+//			timer += time;
+//			if(timer >= COLOR_TIME) {
+//				timer -= COLOR_TIME;
+//				doLerp = true;
+//			}
+//		}
 		
 		positionX -= speed * time;
 		if(positionX < -background.getWidth()) {
@@ -97,6 +101,17 @@ public class Background {
 		background.setPosition(positionX, 0);
 		background.draw(batch);
 		tint.draw(batch);
+	}
+	
+	public void setColor(Color color) {
+		doLerp = true;
+		targetColor.set(color);
+	}
+	
+	public void setColorRandom() {
+		doLerp = true;
+		int index = new Random().nextInt(colors.length);
+		targetColor.set(colors[index]);
 	}
 	
 	public void pause() {

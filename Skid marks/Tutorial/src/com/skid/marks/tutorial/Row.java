@@ -8,29 +8,33 @@ public class Row {
 	public float leftWidth;
 	public float rightWidth;
 	public int sprite;
+	public boolean active;
 	
-	public Row(float center, float holeWidth, float Y, int sprite)
+	public Row(float center, float holeWidth, float Y, int sprite, boolean active)
 	{
+		this.active = active;
 		this.Y = Y;
 		this.sprite = sprite;
 //		leftWidth = center - holeWidth/2;
 //		rightWidth = Gdx.graphics.getWidth() - (center + holeWidth/2);
 		
-		leftTot = leftWidth = center - holeWidth/2;
-		rightTot = rightWidth = Gdx.graphics.getWidth() - (center + holeWidth/2);
+		leftTot = center - holeWidth/2;
+		rightTot = Gdx.graphics.getHeight() - (center + holeWidth/2);
 		leftWidth = 0;
 		rightWidth = 0;
 	}
 	
-	public void Renew(float center, float holeWidth, float height, int sprite)
+	public void Renew(float center, float holeWidth, float height, int sprite, boolean active)
 	{
-		Y = Y - Gdx.graphics.getHeight()-height;
+		this.active = active;
+		Y = Y + Gdx.graphics.getWidth() + height;
+		System.out.println(""+Y);
 		this.sprite = sprite;
 //		leftWidth = center - holeWidth/2;
 //		rightWidth = Gdx.graphics.getWidth() - (center + holeWidth/2);
 		
-		leftTot = leftWidth = center - holeWidth/2;
-		rightTot = rightWidth = Gdx.graphics.getWidth() - (center + holeWidth/2);
+		leftTot = center - holeWidth/2;
+		rightTot = Gdx.graphics.getHeight() - (center + holeWidth/2);
 		leftWidth = 0;
 		rightWidth = 0;
 	}
@@ -39,12 +43,12 @@ public class Row {
 	public float rightTot;
 	
 	public void update(Player p, float delta) {
-		float py = p.getPosition().y;
+		float py = p.getPosition().x;
 		
-		float dist = Gdx.graphics.getHeight() * 1f/8f;
-		float ratio = 0.5f *  (Y / dist) + 0.5f;
+		float dist = Gdx.graphics.getWidth() * 1f/8f;
+		float ratio = 0.5f *  ((Gdx.graphics.getWidth() - Y) / dist) + 0.5f;
 		
-		if(py > Y) {
+		if(py < Y) {
 			leftWidth = ratio * leftTot;
 			rightWidth = ratio * rightTot;
 			if(leftWidth > leftTot) {
@@ -53,9 +57,12 @@ public class Row {
 			if(rightWidth > rightTot) {
 				rightWidth = rightTot;
 			}
-		} else if(p.getPosition().y + Player.SIZE < Y) {
+		} else if(Gdx.graphics.getWidth()*3f/8 > Y) {
 			leftWidth -= (300 * delta);
 			rightWidth -= (300 * delta);
 		}
+		
+		//leftWidth = leftTot;
+		//rightWidth = rightTot;
 	}
 }

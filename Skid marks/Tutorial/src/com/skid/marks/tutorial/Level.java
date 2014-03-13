@@ -31,6 +31,8 @@ public class Level {
 	private int h;
 	private int w;
 	
+	private int spacing = 1;
+	
 	public static boolean isRandom;
 	
 	public Level(TutorialGame game)
@@ -43,11 +45,11 @@ public class Level {
 	public void reset() {
 		w = Gdx.graphics.getWidth();
 		h = Gdx.graphics.getHeight();
-		tunnelWidth = w*0.4f;
-		nrOfRows = 1+h/40;
-		rowHeight = h / (nrOfRows-1);
-		distanceBetweenPoints = h/4;
-		levelSpeed = h * 0.8f;
+		tunnelWidth = h*0.4f;
+		nrOfRows = 1+w/40;
+		rowHeight = w / (nrOfRows-1);
+		distanceBetweenPoints = w/4;
+		levelSpeed = w * 0.8f;
 		currentPoint = 0.5f;
 		nextPoint = 0.5f;
 		//isRandom = true;	-> Görs i gamemode.java
@@ -87,9 +89,10 @@ public class Level {
 		rows = new Row[nrOfRows];
 		for(int i = 0; i < rows.length; i++)
 		{
-			rows[i] = new Row(w/2, tunnelWidth, (i-1)*rowHeight, currentSprite);
+			rows[i] = new Row(h/2, tunnelWidth, (rows.length - (i-1))*rowHeight, currentSprite, (i%spacing == 0));
 			currentSprite++;
 			currentSprite %= sprites.length;
+			
 		}
 		lowestRow = nrOfRows-1;
 		
@@ -102,16 +105,19 @@ public class Level {
 	//förbättra på något sätt
 	public boolean HasCollided(Rectangle rect)
 	{
-		int start = nrOfRows + lowestRow - (int)((h-rect.y)/rowHeight);
-		int nrOfRowsToCheck = 1+(int)(rect.height/rowHeight);
-		//System.out.println(""+lowestRow+"/"+nrOfRows+", "+(start%nrOfRows)+"/"+nrOfRows);
-		for(int i = start; i < start+nrOfRowsToCheck; i++)
-		{
-			if(rect.x < rows[i%nrOfRows].leftWidth)
-				return true;
-			if(rect.x+rect.width >= w - rows[i%nrOfRows].rightWidth)
-				return true;
-		}
+//		int start = nrOfRows + lowestRow - (int)((w-rect.x)/rowHeight);
+//		int nrOfRowsToCheck = 1+(int)(rect.width/rowHeight);
+//		//System.out.println(""+lowestRow+"/"+nrOfRows+", "+(start%nrOfRows)+"/"+nrOfRows);
+//		for(int i = start; i < start+nrOfRowsToCheck; i++)
+//		{
+//			if(rows[i%nrOfRows].active)
+//			{
+//				if(rect.y < rows[i%nrOfRows].leftWidth)
+//					return true;
+//				if(rect.y+rect.height >= h - rows[i%nrOfRows].rightWidth)
+//					return true;
+//			}
+//		}
 		
 		return false;
 	}
@@ -126,19 +132,18 @@ public class Level {
 		if(distanceSinceLastPoint >= distanceBetweenPoints)
 		{
 			distanceSinceLastPoint -= distanceBetweenPoints;
-			previousPoint ++;
-			previousPoint %= points.length;
-			
 			if(!isRandom){
+				previousPoint ++;
+				previousPoint %= points.length;
 				currentPoint = points[previousPoint];
 				nextPoint = points[(previousPoint+1)%points.length];
 			}else {
 				currentPoint = nextPoint;
 				nextPoint = currentPoint-0.25f+0.5f*random.nextFloat();
-				if(nextPoint < 0.05f+tunnelWidth/w/2)
-					nextPoint = 0.05f+tunnelWidth/w/2;
-				else if(nextPoint > 0.95f- tunnelWidth/w/2)
-					nextPoint = 0.95f-tunnelWidth/w/2;
+				if(nextPoint < 0.05f+tunnelWidth/h/2)
+					nextPoint = 0.05f+tunnelWidth/h/2;
+				else if(nextPoint > 0.95f- tunnelWidth/h/2)
+					nextPoint = 0.95f-tunnelWidth/h/2;
 			}
 		}
 		
@@ -146,15 +151,15 @@ public class Level {
 		
 		for(int i = 0; i < rows.length;i++)
 		{
-			rows[i].Y += levelSpeed*delta;
+			rows[i].Y -= levelSpeed*delta;
 			
 			// Anim
 			rows[i].update(p, delta);
 		}
-		while(rows[lowestRow].Y >= h)
+		while(rows[lowestRow].Y <= -rowHeight)
 		{
-			float activePoint = (currentPoint + (ratio * (nextPoint - currentPoint)))*w;
-			rows[lowestRow].Renew(activePoint, tunnelWidth, rowHeight, currentSprite);
+			float activePoint = (currentPoint + (ratio * (nextPoint - currentPoint)))*h;
+			rows[lowestRow].Renew(activePoint, tunnelWidth, rowHeight, currentSprite, (lowestRow%spacing == 0));
 			currentSprite++;
 			currentSprite %= sprites.length;
 			lowestRow--;
@@ -166,14 +171,18 @@ public class Level {
 	
 	public void draw(SpriteBatch batch)
 	{
+		
 		for(int i = 0; i < nrOfRows; i++)
 		{
+			if(rows[i].active)
+			{
 			sprites[rows[i].sprite].flip(true, false);
-			sprites[rows[i].sprite].setBounds(w - rows[i].rightWidth, rows[i].Y, rows[i].rightWidth, rowHeight);
+			sprites[rows[i].sprite].setBounds(rows[i].Y, 0, rowHeight, rows[i].leftWidth);
 			sprites[rows[i].sprite].draw(batch);
 			sprites[rows[i].sprite].flip(true, false);
-			sprites[rows[i].sprite].setBounds(0, rows[i].Y, rows[i].leftWidth, rowHeight);
+			sprites[rows[i].sprite].setBounds(rows[i].Y, h - rows[i].rightWidth, rowHeight, rows[i].rightWidth);
 			sprites[rows[i].sprite].draw(batch);
+			}
 			
 			
 		}

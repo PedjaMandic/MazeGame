@@ -64,7 +64,7 @@ public class Menu {
 		
 		if(highscore_rect.contains(Gdx.input.getX(), Gdx.input.getY())){
 			if(Gdx.input.isTouched()){
-				TutorialGame.state = TutorialGame.States.Gamemode;
+				TutorialGame.state = TutorialGame.States.Highscore;
 				game.Sounds.play("background", true);
 			}
 			highscore_texture.setRegion(380, 80, 80, 80);

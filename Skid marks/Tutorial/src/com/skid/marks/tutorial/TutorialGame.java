@@ -274,6 +274,5 @@ public class TutorialGame extends Game {
 		
 		Preferences prefs = Gdx.app.getPreferences(highscore.SCORES_FILE);
 		prefs.putString(highscore.LOCAL_SCORES, ""+score);
-		
 	}
 }

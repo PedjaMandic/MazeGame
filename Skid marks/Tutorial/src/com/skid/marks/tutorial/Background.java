@@ -31,7 +31,8 @@ public class Background {
 	
 	private Sprite background;
 	private Sprite tint;
-	private float positionY;
+	private float positionX;
+	private float screenWidth;
 	private float screenHeight;
 	
 	private float speed;
@@ -41,13 +42,14 @@ public class Background {
 		this.game = game;
 		
 		background = game.Textures.getSprite("data/gfx/background.png");
-		tint = game.Textures.getSprite("data/gfx/tint_white2.png");
+//		tint = game.Textures.getSprite("data/gfx/tint_white2.png");
+		tint = game.Textures.getSprite("data/gfx/background_tint2.png");
 
-		int sx = Gdx.graphics.getWidth();
+		screenWidth = Gdx.graphics.getWidth();
 		screenHeight = Gdx.graphics.getHeight();
 		
-		background.setSize(sx, screenHeight);
-		tint.setSize(sx, screenHeight);
+		background.setSize(screenWidth, screenHeight);
+		tint.setSize(screenWidth, screenHeight);
 		this.speed = BASE_SPEED;
 		
 		this.currentColor = new Color(colors[colorIndex]);
@@ -82,17 +84,17 @@ public class Background {
 			}
 		}
 		
-		positionY += speed * time;
-		if(positionY >= screenHeight) {
-			positionY = 0;
+		positionX -= speed * time;
+		if(positionX < -background.getWidth()) {
+			positionX = 0;
 		}
 	}
 	
 	public void draw(SpriteBatch batch) {
 		background.setColor(currentColor);
-		background.setPosition(0, positionY - background.getHeight() + 1);
+		background.setPosition(positionX + background.getWidth() - 1, 0);
 		background.draw(batch);
-		background.setPosition(0, positionY);
+		background.setPosition(positionX, 0);
 		background.draw(batch);
 		tint.draw(batch);
 	}

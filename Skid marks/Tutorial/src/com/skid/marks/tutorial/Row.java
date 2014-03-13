@@ -28,7 +28,6 @@ public class Row {
 	{
 		this.active = active;
 		Y = Y + Gdx.graphics.getWidth() + height;
-		System.out.println(""+Y);
 		this.sprite = sprite;
 //		leftWidth = center - holeWidth/2;
 //		rightWidth = Gdx.graphics.getWidth() - (center + holeWidth/2);

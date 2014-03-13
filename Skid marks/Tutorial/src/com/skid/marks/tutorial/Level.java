@@ -176,10 +176,10 @@ public class Level {
 		{
 			if(rows[i].active)
 			{
-			sprites[rows[i].sprite].flip(true, false);
+			sprites[rows[i].sprite].flip(false, true);
 			sprites[rows[i].sprite].setBounds(rows[i].Y, 0, rowHeight, rows[i].leftWidth);
 			sprites[rows[i].sprite].draw(batch);
-			sprites[rows[i].sprite].flip(true, false);
+			sprites[rows[i].sprite].flip(false, true);
 			sprites[rows[i].sprite].setBounds(rows[i].Y, h - rows[i].rightWidth, rowHeight, rows[i].rightWidth);
 			sprites[rows[i].sprite].draw(batch);
 			}

@@ -20,14 +20,14 @@ public class Player implements GameObject {
 	private int spriteIndex;
 	
 	private final float MOVE_SPEED = 1000;
-	public static final float SIZE = 50;
+	public static float SIZE = 50;
 	
 	// Screen dimensions
 	private float screenWidth;
 	private float screenHeight;
 	
 	// Mouse click X
-	private float mouseTochedX;
+	private float mouseTochedY;
 	// Mouse touch
 	private boolean isMouseToched;
 	
@@ -41,6 +41,8 @@ public class Player implements GameObject {
 
 	@Override
 	public void init() {
+		SIZE = Gdx.graphics.getHeight() / 16;
+		
 		bounds = new Rectangle();
 		bounds.setSize(SIZE, SIZE);
 		
@@ -56,7 +58,7 @@ public class Player implements GameObject {
 		sprites[3] = game.Textures.getSprite("data/gfx/player_D.png");
 		
 		gasEffect = new ParticleEffect();
-		gasEffect.load(Gdx.files.internal("data/particle/particle.p"),
+		gasEffect.load(Gdx.files.internal("data/particle/gasParticle.p"),
 					   Gdx.files.internal("data/particle/"));
 		
 		this.reset();
@@ -70,11 +72,11 @@ public class Player implements GameObject {
 	
 	@Override
 	public void reset() {
-//		position = new Vector2((screenWidth / 2) - (SIZE / 2), screenHeight - SIZE * 2);
-		position = new Vector2((screenWidth / 2) - (SIZE / 2), screenHeight * 3/4f);
+//		position = new Vector2((screenWidth / 2) - (SIZE / 2), screenHeight * 3/4f);
+		position = new Vector2(100 * 3/4f, (screenHeight / 2) - (SIZE / 2));
 		gasPosition = new Vector2(position);
 		isMouseToched = false;
-		mouseTochedX = (screenWidth / 2) - (SIZE / 2);
+		mouseTochedY = (screenHeight / 2) - (SIZE / 2);
 	}
 
 	@Override
@@ -98,32 +100,42 @@ public class Player implements GameObject {
 		// isTouched fungerar både till Andriod och Desktop
 		isMouseToched = Gdx.input.isTouched();
 		if(isMouseToched) {
-			mouseTochedX = Gdx.input.getX() - (SIZE / 2);
+			mouseTochedY = Gdx.input.getY() - (SIZE / 2);
 		}
 		
 		float fm = MOVE_SPEED * delta;
-		if(position.x < (mouseTochedX - fm) || position.x > (mouseTochedX + fm))
+//		if(position.x < (mouseTochedY - fm) || position.x > (mouseTochedY + fm))
+//		{
+//			if(position.x < mouseTochedY) {
+//				position.x += fm;
+//			} else if(position.x > mouseTochedY) {
+//				position.x -= fm;
+//			}
+//		}
+		if(position.y < (mouseTochedY - fm) || position.y > (mouseTochedY + fm))
 		{
-			if(position.x < mouseTochedX) {
-				position.x += fm;
-			} else if(position.x > mouseTochedX) {
-				position.x -= fm;
+			if(position.y < mouseTochedY) {
+				position.y += fm;
+			} else if(position.y > mouseTochedY) {
+				position.y -= fm;
 			}
 		}
-//		position.x = mx;
 		
-		float tempRot = ((mouseTochedX - position.x) / (screenWidth / 4)) * 45;
+		float tempRot = 90 + ((mouseTochedY - position.y) / (screenHeight / 4)) * 45;
+		rotation = MathUtils.clamp(tempRot, 45, 135);
 		
-		rotation = MathUtils.clamp(tempRot, -45, 45);
-//		rotation = Util.lerp(rotation, 0, delta);
-		
-		if(position.x < 0) {
-			position.x = 0;
-		} else if(position.x + SIZE > screenWidth) {
-			position.x = screenWidth - SIZE;
+//		if(position.x < 0) {
+//			position.x = 0;
+//		} else if(position.x + SIZE > screenWidth) {
+//			position.x = screenWidth - SIZE;
+//		}
+		if(position.y < 0) {
+			position.y = 0;
+		} else if(position.y + SIZE > screenHeight) {
+			position.y = screenHeight - SIZE;
 		}
 		
-		gasEffect.setPosition(position.x + SIZE / 2, position.y + SIZE);
+		gasEffect.setPosition(position.x, position.y + SIZE / 2);
 		gasEffect.update(delta);
 		
 		// Uppdatera boundingbox

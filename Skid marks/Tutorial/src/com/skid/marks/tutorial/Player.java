@@ -143,8 +143,6 @@ public class Player implements GameObject {
 		
 		// Uppdatera boundingbox
 		bounds.setPosition(position);
-		bounds.x+= SIZE/2;
-		bounds.y+=SIZE/2;
 	}
 
 	@Override

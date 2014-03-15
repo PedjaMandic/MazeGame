@@ -1,4 +1,4 @@
-package com.skid.marks.tutorial;
+package com.skid.marks.menu;
 
 import java.util.ArrayList;
 
@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.skid.marks.tutorial.TutorialGame;
 
 public class Highscore {
 	

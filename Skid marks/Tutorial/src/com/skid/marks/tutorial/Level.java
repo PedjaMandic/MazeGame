@@ -145,24 +145,6 @@ public class Level {
 			}
 		}
 		
-		// Check particle collision
-		if(lightParticleCollision == false) {
-			// Kl är mycket, så det blev så här så länge
-			Rectangle partRect = new Rectangle();
-			partRect.x = lightUntouchedEmitter.getX();
-			partRect.y = lightUntouchedEmitter.getY();
-//			partRect.width = 64; // TODO: sänk värdet
-//			partRect.height = 64; // TODO: sänk värdet
-			partRect.width = lightUntouchedEmitter.getScale().getHighMax();
-			partRect.height = lightUntouchedEmitter.getScale().getHighMax();
-			
-			if(rect.overlaps(partRect)) {
-				lightParticleCollision = true;
-				lightTouchedEmitter.reset();
-				background.setColorRandom();
-			}
-		}
-		
 		return false;
 	}
 	
@@ -213,9 +195,27 @@ public class Level {
 			lowestRow = nrOfRows-1;
 		}
 		
+		// Check particle collision
+		if(lightParticleCollision == false) {
+			Rectangle partRect = new Rectangle();
+			partRect.x = lightUntouchedEmitter.getX();
+			partRect.y = lightUntouchedEmitter.getY();
+			partRect.width = lightUntouchedEmitter.getScale().getHighMax();
+			partRect.height = lightUntouchedEmitter.getScale().getHighMax();
+			
+			if(p.getBounds().overlaps(partRect)) {
+				lightParticleCollision = true;
+				lightTouchedEmitter.start();
+				background.setColorRandom();
+			}
+		}
 		if(lightParticleCollision) {
 			lightTouchedEmitter.setPosition(p.getPosition().x, p.getPosition().y);
 			lightTouchedEmitter.update(delta);
+			
+			lightUntouchedEmitter.setPosition(rows[0].X + rowHeight / 2, rows[0].leftWidth + 20);
+			lightUntouchedEmitter.update(delta);
+			
 			if(lightTouchedEmitter.isComplete()) {
 				lightParticleCollision = false;
 			}

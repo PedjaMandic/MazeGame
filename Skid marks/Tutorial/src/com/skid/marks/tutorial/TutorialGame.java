@@ -10,12 +10,18 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.skid.marks.manager.LocalizationManager;
 import com.skid.marks.manager.SoundManager;
 import com.skid.marks.manager.TextureManager;
 import com.skid.marks.manager.particle.ParticleManager;
 import com.skid.marks.manager.particle.PedjaStars;
 import com.skid.marks.manager.particle.Star;
+import com.skid.marks.menu.GameMode;
+import com.skid.marks.menu.Highscore;
+import com.skid.marks.menu.Menu;
+import com.skid.marks.menu.Settings;
 
 public class TutorialGame extends Game {
 
@@ -32,6 +38,7 @@ public class TutorialGame extends Game {
 	public TextureManager Textures;
 	public SoundManager Sounds;
 	public ParticleManager Particles;
+	public LocalizationManager Localization;
 	
 //	private Background background;
 	private Level level;
@@ -40,6 +47,8 @@ public class TutorialGame extends Game {
 	private GameMode gameMode;
 	private Highscore highscore;
 	private Settings settings;
+	
+//	private Sprite sprite;
 	
 	public enum States{
 		Play,
@@ -60,6 +69,10 @@ public class TutorialGame extends Game {
 		Textures = new TextureManager();
 		Sounds = new SoundManager();
 		Particles = new ParticleManager();
+		Localization = new LocalizationManager();
+		
+//		Localization = new LocalizationManager(LocalizationManager.SPANISH);
+//		sprite = Localization.getSprite("button_exit.png");
 		
 		font = new BitmapFont(true);
 		batch = new SpriteBatch();
@@ -85,6 +98,7 @@ public class TutorialGame extends Game {
 		Textures.dispose();
 		Sounds.dispose();
 		Particles.dispose();
+		Localization.dispose();
 		
 		player.dispose();
 		for(GameObject go : gameObjects) {
@@ -213,6 +227,11 @@ public class TutorialGame extends Game {
 			break;
 		
 		}
+		
+//		batch.setProjectionMatrix(camera.combined);
+//		batch.begin();
+//		sprite.draw(batch);
+//		batch.end();
 	
 	}
 

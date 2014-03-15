@@ -26,7 +26,7 @@ public class Background {
 	private boolean doLerp;
 	private float lerpTimer;
 	
-	private final float LERP_TIME = 1.0f; // Hur länge vi ska lerpa (Färgövergång i en sek)
+	private final float LERP_TIME = 3.0f; // Hur länge vi ska lerpa (Färgövergång i en sek)
 //	private final float COLOR_TIME = 3.0f; // Hur länge en färg ska visas (Varje färg visa i tre sek)
 	
 	private boolean pause;
@@ -66,6 +66,8 @@ public class Background {
 		
 		if(doLerp) {
 			float lerpValue = lerpTimer / LERP_TIME;
+//			Debug.log("Lerp value: " + lerpValue);
+//			Debug.log("Lerp Timer: " + lerpTimer);
 			
 //			this.currentColor.set(colors[colorIndex]);
 //			this.targetColor.set(colors[(colorIndex + 1) % colors.length]);
@@ -109,6 +111,7 @@ public class Background {
 	}
 	
 	public void setColorRandom() {
+		lerpTimer = 0;
 		doLerp = true;
 		int index = new Random().nextInt(colors.length);
 		targetColor.set(colors[index]);

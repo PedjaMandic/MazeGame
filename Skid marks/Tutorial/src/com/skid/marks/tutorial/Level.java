@@ -37,11 +37,17 @@ public class Level {
 	private int h;
 	private int w;
 	
+	private float timeUntilNextLevel;
+	private float timeBetweenLevels;
+	
 	private int spacing = 1;
+	
+	private int currentLevel = 0;
 	
 	public static boolean isRandom;
 	
 	private Background background;
+	private Color barColors[];
 	
 	private ParticleEffect lightEffect;
 	private ParticleEmitter lightTouchedEmitter;
@@ -73,6 +79,16 @@ public class Level {
 		currentPoint = 0.5f;
 		nextPoint = 0.5f;
 		//isRandom = true;	-> Görs i gamemode.java
+		
+		currentLevel = 0;
+		timeBetweenLevels = 20f;
+		timeUntilNextLevel = timeBetweenLevels;
+		barColors = new Color[5];
+		barColors[0] = Color.RED;
+		barColors[1] = Color.ORANGE;
+		barColors[2] = Color.YELLOW;
+		barColors[3] = Color.GREEN;
+		barColors[4] = Color.BLUE;
 		
 		currentSprite = 0;
 		distanceSinceLastPoint = 0.0f;
@@ -112,10 +128,10 @@ public class Level {
 			rows[i] = new Row(h/2, tunnelWidth, (rows.length - (i-1))*rowHeight, currentSprite, (i%spacing == 0));
 			currentSprite++;
 			currentSprite %= sprites.length;
-			
 		}
 		lowestRow = nrOfRows-1;
 		
+	
 		//sprite = new Sprite(region);
 		//sprite = TextureManager.getSprite("data/gfx/bar.png");
 
@@ -151,10 +167,25 @@ public class Level {
 	public void dispose() {
 	}
 	
+	public void StartNewLevel()
+	{
+		if(currentLevel < 5)
+		{
+			currentLevel++;
+			tunnelWidth-= 0.05f*h;
+		}
+	}
+	
 	public void update(Player p, float delta)
 	{		
 		background.update(delta);
 		
+		timeUntilNextLevel -= delta;
+		if(timeUntilNextLevel <= 0)
+		{
+			timeUntilNextLevel += timeBetweenLevels;
+			StartNewLevel();
+		}
 		distanceSinceLastPoint+= levelSpeed*delta;
 		
 		if(distanceSinceLastPoint >= distanceBetweenPoints)
@@ -239,6 +270,7 @@ public class Level {
 		{
 			if(rows[i].active)
 			{
+				sprites[rows[i].sprite].setColor(barColors[currentLevel]);
 				sprites[rows[i].sprite].flip(false, true);
 				sprites[rows[i].sprite].setBounds(rows[i].X, 0, rowHeight, rows[i].leftWidth);
 				sprites[rows[i].sprite].draw(batch);

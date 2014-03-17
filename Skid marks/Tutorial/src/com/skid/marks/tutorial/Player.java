@@ -19,7 +19,7 @@ public class Player implements GameObject {
 	private Sprite[] sprites;
 	private int spriteIndex;
 	
-	private final float MOVE_SPEED = 1000;
+	private final float MOVE_SPEED = 600;
 	public static float SIZE = 50;
 	
 	// Screen dimensions

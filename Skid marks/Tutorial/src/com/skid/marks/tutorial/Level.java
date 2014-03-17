@@ -37,7 +37,9 @@ public class Level {
 	private int h;
 	private int w;
 	
-	private float timeUntilNextLevel;
+	private float timeUntilLevelStarts;
+	private float totalPauseTime;
+	private float timeUntilLevelEnds;
 	private float timeBetweenLevels;
 	
 	private int spacing = 1;
@@ -48,6 +50,7 @@ public class Level {
 	
 	private Background background;
 	private Color barColors[];
+	private boolean isBetweenLevels;
 	
 	private ParticleEffect lightEffect;
 	private ParticleEmitter lightTouchedEmitter;
@@ -71,24 +74,29 @@ public class Level {
 		
 		w = Gdx.graphics.getWidth();
 		h = Gdx.graphics.getHeight();
-		tunnelWidth = h*0.4f;
+		tunnelWidth = h*0.5f;
 		nrOfRows = 1+w/40;
 		rowHeight = w / (nrOfRows-1);
 		distanceBetweenPoints = w/4;
 		levelSpeed = w * 0.8f;
 		currentPoint = 0.5f;
 		nextPoint = 0.5f;
+		isBetweenLevels = true;
 		//isRandom = true;	-> Görs i gamemode.java
 		
 		currentLevel = 0;
 		timeBetweenLevels = 20f;
-		timeUntilNextLevel = timeBetweenLevels;
-		barColors = new Color[5];
+		timeUntilLevelEnds = timeBetweenLevels;
+		totalPauseTime = 4f;
+		timeUntilLevelStarts = totalPauseTime;
+		barColors = new Color[7];
 		barColors[0] = Color.RED;
 		barColors[1] = Color.ORANGE;
 		barColors[2] = Color.YELLOW;
 		barColors[3] = Color.GREEN;
-		barColors[4] = Color.BLUE;
+		barColors[4] = Color.WHITE;
+		barColors[5] = Color.YELLOW;
+		barColors[6] = Color.RED;
 		
 		currentSprite = 0;
 		distanceSinceLastPoint = 0.0f;
@@ -125,17 +133,12 @@ public class Level {
 		rows = new Row[nrOfRows];
 		for(int i = 0; i < rows.length; i++)
 		{
-			rows[i] = new Row(h/2, tunnelWidth, (rows.length - (i-1))*rowHeight, currentSprite, (i%spacing == 0));
+			rows[i] = new Row(h/2, tunnelWidth, (rows.length - (i-1))*rowHeight, currentSprite, !isBetweenLevels);
 			currentSprite++;
 			currentSprite %= sprites.length;
 		}
 		lowestRow = nrOfRows-1;
 		
-	
-		//sprite = new Sprite(region);
-		//sprite = TextureManager.getSprite("data/gfx/bar.png");
-
-		//System.out.println(""+w+" "+h);
 	}
 	
 	//förbättra på något sätt
@@ -167,25 +170,46 @@ public class Level {
 	public void dispose() {
 	}
 	
-	public void StartNewLevel()
+	
+	private void StartPause()
 	{
-		if(currentLevel < 5)
+		if(currentLevel < 7)
 		{
 			currentLevel++;
-			tunnelWidth-= 0.05f*h;
+			tunnelWidth *= 0.85f;
 		}
+	}
+	
+	private void StartNewLevel()
+	{
+		
+		
 	}
 	
 	public void update(Player p, float delta)
 	{		
 		background.update(delta);
 		
-		timeUntilNextLevel -= delta;
-		if(timeUntilNextLevel <= 0)
+		if(isBetweenLevels)
 		{
-			timeUntilNextLevel += timeBetweenLevels;
-			StartNewLevel();
+			timeUntilLevelStarts -= delta;
+			if(timeUntilLevelStarts <= 0)
+			{
+				timeUntilLevelStarts+= totalPauseTime;
+				isBetweenLevels = false;
+				StartPause();
+			}
 		}
+		else {
+			timeUntilLevelEnds -= delta;
+			if(timeUntilLevelEnds <= 0)
+			{
+				timeUntilLevelEnds += timeBetweenLevels;
+				isBetweenLevels = true;
+				StartNewLevel();
+			}
+		}
+		
 		distanceSinceLastPoint+= levelSpeed*delta;
 		
 		if(distanceSinceLastPoint >= distanceBetweenPoints)
@@ -218,7 +242,8 @@ public class Level {
 		while(rows[lowestRow].X <= -rowHeight)
 		{
 			float activePoint = (currentPoint + (ratio * (nextPoint - currentPoint)))*h;
-			rows[lowestRow].Renew(activePoint, tunnelWidth, rowHeight, currentSprite, (lowestRow%spacing == 0));
+			
+			rows[lowestRow].Renew(activePoint, tunnelWidth, rowHeight, currentSprite, !isBetweenLevels);
 			currentSprite++;
 			currentSprite %= sprites.length;
 			lowestRow--;
@@ -254,6 +279,7 @@ public class Level {
 			lightUntouchedEmitter.setPosition(rows[0].X + rowHeight / 2, rows[0].leftWidth + 20);
 			lightUntouchedEmitter.update(delta);
 		}
+		
 	}
 	
 	public void draw(SpriteBatch batch)

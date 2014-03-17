@@ -1,4 +1,5 @@
 *target*
+*.apk
 *.jar
 *.war
 *.ear

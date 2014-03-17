@@ -42,8 +42,6 @@ public class Level {
 	private float timeUntilLevelEnds;
 	private float timeBetweenLevels;
 	
-	private int spacing = 1;
-	
 	private int currentLevel = 0;
 	
 	public static boolean isRandom;
@@ -112,7 +110,7 @@ public class Level {
 //		sprites[2].setColor(0, 0, 1, 1);
 		
 		//punkterna som banan ska gå längs
-		points = new float[15];
+		points = new float[21];
 		points[0] = 0.5f;
 		points[1] = 0.4f;
 		points[2] = 0.7f;
@@ -128,6 +126,12 @@ public class Level {
 		points[12] = 0.3f;
 		points[13] = 0.6f;
 		points[14] = 0.65f;
+		points[15] = 0.4f;
+		points[16] = 0.5f;
+		points[17] = 0.45f;
+		points[18] = 0.3f;
+		points[19] = 0.6f;
+		points[20] = 0.65f;
 		
 		//de rader som ritas ut
 		rows = new Row[nrOfRows];

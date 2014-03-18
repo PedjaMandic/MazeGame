@@ -2,6 +2,7 @@ package com.skid.marks.tutorial;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,8 +17,7 @@ public class Player implements GameObject {
 	private Rectangle bounds;
 	private Vector2 position;
 	private Vector2 gasPosition;
-	private Sprite[] sprites;
-	private int spriteIndex;
+	private Sprite sprite;
 	
 	private final float MOVE_SPEED = 600;
 	public static float SIZE = 50;
@@ -51,11 +51,9 @@ public class Player implements GameObject {
 		
 //		position = new Vector2((screenWidth / 2) - (SIZE / 2), screenHeight * 3/4f);
 		
-		sprites = new Sprite[4];
-		sprites[0] = game.Textures.getSprite("data/gfx/player_green.png");
-		sprites[1] = game.Textures.getSprite("data/gfx/player_B.png");
-		sprites[2] = game.Textures.getSprite("data/gfx/player_C.png");
-		sprites[3] = game.Textures.getSprite("data/gfx/player_D.png");
+		sprite = game.Textures.getSprite("data/gfx/player_green.png");
+		sprite.setSize(SIZE, SIZE);
+		sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight());
 		
 		gasEffect = new ParticleEffect();
 		gasEffect.load(Gdx.files.internal("data/particle/gasParticle.p"),
@@ -80,23 +78,7 @@ public class Player implements GameObject {
 	}
 
 	@Override
-	public void update(float delta) {
-		if(Gdx.input.isKeyPressed(Keys.NUM_1)) {
-			spriteIndex = 0;
-		} else if(Gdx.input.isKeyPressed(Keys.NUM_2)) {
-			spriteIndex = 1;
-		} else if(Gdx.input.isKeyPressed(Keys.NUM_3)) {
-			spriteIndex = 2;
-		} else if(Gdx.input.isKeyPressed(Keys.NUM_4)) {
-			spriteIndex = 3;
-		}
-		
-//		if(Gdx.input.isKeyPressed(Keys.UP)) {
-//			position.y -= 100 * delta;
-//		} else if(Gdx.input.isKeyPressed(Keys.DOWN)) {
-//			position.y += 100 * delta;
-//		}
-		
+	public void update(float delta) {				
 		// isTouched fungerar både till Andriod och Desktop
 		isMouseToched = Gdx.input.isTouched();
 		if(isMouseToched) {
@@ -104,14 +86,6 @@ public class Player implements GameObject {
 		}
 		
 		float fm = MOVE_SPEED * delta;
-//		if(position.x < (mouseTochedY - fm) || position.x > (mouseTochedY + fm))
-//		{
-//			if(position.x < mouseTochedY) {
-//				position.x += fm;
-//			} else if(position.x > mouseTochedY) {
-//				position.x -= fm;
-//			}
-//		}
 		if(position.y < (mouseTochedY - fm) || position.y > (mouseTochedY + fm))
 		{
 			if(position.y < mouseTochedY) {
@@ -127,11 +101,6 @@ public class Player implements GameObject {
 		// Temp så länge
 		rotation = 0;
 		
-//		if(position.x < 0) {
-//			position.x = 0;
-//		} else if(position.x + SIZE > screenWidth) {
-//			position.x = screenWidth - SIZE;
-//		}
 		if(position.y < 0) {
 			position.y = 0;
 		} else if(position.y + SIZE > screenHeight) {
@@ -149,15 +118,9 @@ public class Player implements GameObject {
 	public void draw(SpriteBatch batch) {
 		gasEffect.draw(batch);
 		
-		sprites[spriteIndex].setOrigin(sprites[spriteIndex].getWidth() / 2,
-									   sprites[spriteIndex].getHeight());
-		sprites[spriteIndex].setRotation(rotation);
-		
-		sprites[spriteIndex].setSize(SIZE, SIZE);
-		sprites[spriteIndex].setPosition(position.x, position.y);
-		sprites[spriteIndex].draw(batch);
-//		sprites[2].setBounds(bounds.x, bounds.y, bounds.width, bounds.height);
-//		sprites[2].draw(batch);
+		sprite.setRotation(rotation);
+		sprite.setPosition(position.x, position.y);
+		sprite.draw(batch);
 	}
 	
 	@Override

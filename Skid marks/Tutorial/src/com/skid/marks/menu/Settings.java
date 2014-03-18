@@ -38,6 +38,8 @@ public class Settings {
 	private float background_width;
 	private float background_height;
 	
+	private Sprite menuSheet;
+	
 	public Settings(TutorialGame game){
 		this.game = game;
 		
@@ -52,7 +54,9 @@ public class Settings {
 		
 		button_size = background_width/3;
 		
-		texture = game.Textures.getTexture("data/gfx/settings_textures.png");	
+		texture = game.Textures.getTexture("data/gfx/settings_textures.png");
+		
+//		menuSheet = game.Textures.getSprite("data/gfx/menu/menu_sheet.png");
 		
 		SetPosition();
 		
@@ -64,19 +68,19 @@ public class Settings {
 		SetTextureRegion();
 		
 		if(music_rectangle.contains(Gdx.input.getX(), Gdx.input.getY())){
-			if(Gdx.input.isTouched()){
+			if(Gdx.input.justTouched()){
 				SETTINGS_MUSIC = !SETTINGS_MUSIC;
 			}
 		}
 		
 		if(sfx_rectangle.contains(Gdx.input.getX(), Gdx.input.getY())){
-			if(Gdx.input.isTouched()){
+			if(Gdx.input.justTouched()){
 				SETTINGS_SFX = !SETTINGS_SFX;
 			}
 		}
 		
 		if(auto_retry_rectangle.contains(Gdx.input.getX(), Gdx.input.getY())){
-			if(Gdx.input.isTouched()){
+			if(Gdx.input.justTouched()){
 				SETTINGS_AUTO_RETRY = !SETTINGS_AUTO_RETRY;
 			}
 		}
@@ -94,7 +98,7 @@ public class Settings {
 	 * Används för att sätta startposition på alla knappar 
 	 * TODO uträkning bör göras finare
 	 */
-	private void SetPosition(){
+	private void SetPosition(){		
 		//Bakgrunden
 		background_sprite = new Sprite(texture);
 		background_sprite.setRegion(0, 0, 512, 512);
@@ -122,7 +126,12 @@ public class Settings {
 		auto_retry_sprite.setSize(button_size, button_size);
 		auto_retry_sprite.flip(false, true);
 		auto_retry_sprite.setPosition(sw_center - background_width/2 + button_size/3, sh_center - background_height/2 + (button_size/3)*2 + button_size);
-			
+		
+		menuSheet = game.Textures.getSprite("data/gfx/menu/button_back.png");
+		menuSheet.setRegion(512, 0, 128, 128);
+		menuSheet.setSize(button_size, button_size);
+		menuSheet.setPosition(sw_center - background_width/2 + button_size/3, sh_center - background_height/2 + (button_size/3)*2 + button_size);
+		
 		//RECTANGLES
 		music_rectangle = new Rectangle(sw_center - background_width/2 + button_size/3, sh_center - background_height/2 + button_size/3, button_size, button_size);
 		sfx_rectangle = new Rectangle(sw_center - background_width/2 + (button_size/3)*2 + button_size, sh_center - background_height/2 + button_size/3,button_size, button_size );

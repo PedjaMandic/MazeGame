@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.skid.marks.manager.LocalizationManager;
+import com.skid.marks.manager.Localization;
 import com.skid.marks.manager.SoundManager;
 import com.skid.marks.manager.TextureManager;
 import com.skid.marks.manager.particle.ParticleManager;
@@ -39,7 +39,7 @@ public class TutorialGame extends Game {
 	public TextureManager Textures;
 	public SoundManager Sounds;
 	public ParticleManager Particles;
-	public LocalizationManager Localization;
+	public Localization Localization;
 	
 	private Level level;
 	
@@ -71,7 +71,7 @@ public class TutorialGame extends Game {
 		Textures = new TextureManager();
 		Sounds = new SoundManager();
 		Particles = new ParticleManager();
-		Localization = new LocalizationManager();
+		Localization = new Localization();
 		
 //		Localization = new LocalizationManager(LocalizationManager.SPANISH);
 //		sprite = Localization.getSprite("button_exit.png");
@@ -175,8 +175,8 @@ public class TutorialGame extends Game {
 			font.draw(batch, String.format("Score: %d", score), 20, 20);
 			player.draw(batch);
 			Particles.render(batch, time);
-			font.draw(batch, "Game Over", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-			font.draw(batch, "Press Space", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 + 20);
+//			font.draw(batch, "Game Over", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+//			font.draw(batch, "Press Space", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 + 20);
 			
 			gameover.draw(batch);
 			gameover.update(time);

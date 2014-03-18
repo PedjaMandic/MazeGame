@@ -127,7 +127,7 @@ public class Highscore {
 		ResetValues();
 		
 		if(local_button_rect.contains(Gdx.input.getX(), Gdx.input.getY())){
-			if(Gdx.input.isTouched()){
+			if(Gdx.input.justTouched()){
 				
 				Preferences prefs = Gdx.app.getPreferences(SCORES_FILE);
 //				prefs.putString(LOCAL_SCORES, "HEJSAN");
@@ -138,17 +138,17 @@ public class Highscore {
 			}
 		}
 		if(weekly_button_rect.contains(Gdx.input.getX(), Gdx.input.getY())){
-			if(Gdx.input.isTouched()){
+			if(Gdx.input.justTouched()){
 				
 			}
 		}
 		if(monthly_button_rect.contains(Gdx.input.getX(), Gdx.input.getY())){
-			if(Gdx.input.isTouched()){
+			if(Gdx.input.justTouched()){
 				
 			}
 		}
 		if(all_time_button_rect.contains(Gdx.input.getX(), Gdx.input.getY())){
-			if(Gdx.input.isTouched()){
+			if(Gdx.input.justTouched()){
 				
 			}
 		}

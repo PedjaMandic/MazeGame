@@ -48,7 +48,7 @@ public class GameMode {
 		ResetValues();
 		
 		if(standardModeRect.contains(Gdx.input.getX(), Gdx.input.getY())){
-			if(Gdx.input.isTouched()) {
+			if(Gdx.input.justTouched()) {
 				TutorialGame.state = TutorialGame.States.Play;
 				Level.isRandom = false;
 			}
@@ -57,7 +57,7 @@ public class GameMode {
 		}
 		
 		if(endlessModeRect.contains(Gdx.input.getX(), Gdx.input.getY())){
-			if(Gdx.input.isTouched()) {
+			if(Gdx.input.justTouched()) {
 				TutorialGame.state = TutorialGame.States.Play;
 				Level.isRandom = true;
 			}

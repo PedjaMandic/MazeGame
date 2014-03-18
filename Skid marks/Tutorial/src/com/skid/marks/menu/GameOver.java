@@ -49,14 +49,14 @@ public class GameOver {
 	public void update(float time){
 		
 		if(backRect.contains(Gdx.input.getX(), Gdx.input.getY())){
-			if(Gdx.input.isTouched()) {
+			if(Gdx.input.justTouched()) {
 				TutorialGame.state = TutorialGame.States.Menu;
 					game.reset();
 			}
 		}
 		
 		if(playRect.contains(Gdx.input.getX(), Gdx.input.getY())){
-			if(Gdx.input.isTouched()) {
+			if(Gdx.input.justTouched()) {
 				TutorialGame.state = TutorialGame.States.Play;
 					game.reset();
 			}

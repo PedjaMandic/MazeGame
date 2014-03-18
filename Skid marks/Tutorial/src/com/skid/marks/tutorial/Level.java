@@ -20,7 +20,6 @@ public class Level {
 	
 	private Random random;
 	private Sprite sprite;
-	private int currentSprite = 0;
 	private float distanceSinceLastPoint = 0.0f;
 	private float distanceBetweenPoints; //half screen
 	private int previousPoint = 0;
@@ -47,13 +46,18 @@ public class Level {
 	public static boolean isRandom;
 	
 	private Background background;
-	private Color barColors[];
-	private boolean isBetweenLevels;
 	
 	private ParticleEffect lightEffect;
 	private ParticleEmitter lightTouchedEmitter;
 	private ParticleEmitter lightUntouchedEmitter;
 	private boolean lightParticleCollision;
+	
+	
+	//för pausskärm
+	private boolean isBetweenLevels;
+	private Sprite pauseSprite;
+	
+	
 	
 	public Level(TutorialGame game)
 	{
@@ -86,14 +90,12 @@ public class Level {
 		timeUntilLevelEnds = timeBetweenLevels;
 		totalPauseTime = 3f;
 		timeUntilLevelStarts = totalPauseTime;
-		
-		currentSprite = 0;
 		distanceSinceLastPoint = 0.0f;
 		previousPoint = 0;
 		
 		sprite = game.Textures.getSprite("data/gfx/platform_white.png");
-		
-
+		pauseSprite = game.Textures.getSprite("data/gfx/newlevel.png");
+		pauseSprite.setColor(Color.YELLOW);
 		
 		//punkterna som banan ska gå längs
 		points = new float[31];
@@ -192,7 +194,7 @@ public class Level {
 		background.update(delta);
 		
 		if(isBetweenLevels)
-		{
+		{			
 			timeUntilLevelStarts -= delta;
 			if(timeUntilLevelStarts <= 0)
 			{
@@ -289,6 +291,12 @@ public class Level {
 			lightTouchedEmitter.draw(batch);
 		} else {
 			lightUntouchedEmitter.draw(batch);
+		}
+		
+		if(isBetweenLevels && currentLevel > 0)
+		{
+			pauseSprite.setBounds(-w/4 + w*1.5f * timeUntilLevelStarts/totalPauseTime, h/4, w/4, h/4);
+			pauseSprite.draw(batch);
 		}
 		
 		for(int i = 0; i < nrOfRows; i++)

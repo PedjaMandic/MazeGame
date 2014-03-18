@@ -19,6 +19,7 @@ import com.skid.marks.manager.particle.ParticleManager;
 import com.skid.marks.manager.particle.PedjaStars;
 import com.skid.marks.manager.particle.Star;
 import com.skid.marks.menu.GameMode;
+import com.skid.marks.menu.GameOver;
 import com.skid.marks.menu.Highscore;
 import com.skid.marks.menu.Menu;
 import com.skid.marks.menu.Settings;
@@ -42,10 +43,12 @@ public class TutorialGame extends Game {
 	
 	private Level level;
 	
+	//Menyer
 	private Menu menu;
-	private GameMode gameMode;
+	private GameMode gamemode;
 	private Highscore highscore;
 	private Settings settings;
+	private GameOver gameover;
 	
 //	private Sprite sprite;
 	
@@ -84,9 +87,10 @@ public class TutorialGame extends Game {
 
 		level = new Level(this);
 		menu = new Menu(this);
-		gameMode = new GameMode(this);
+		gamemode = new GameMode(this);
 		highscore = new Highscore(this);
 		settings = new Settings(this);
+		gameover = new GameOver(this);
 	}
 
 	@Override
@@ -173,11 +177,15 @@ public class TutorialGame extends Game {
 			Particles.render(batch, time);
 			font.draw(batch, "Game Over", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 			font.draw(batch, "Press Space", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 + 20);
-			if(gameOverTimer > 1.0f) {
-				if(Gdx.input.isKeyPressed(Keys.SPACE) || Gdx.input.isTouched()) {
-					reset();
-				}
-			}
+			
+			gameover.draw(batch);
+			gameover.update(time);
+			
+//			if(gameOverTimer > 1.0f) {
+//				if(Gdx.input.isKeyPressed(Keys.SPACE) || Gdx.input.isTouched()) {
+//					reset();
+//				}
+//			}
 			
 			Debug.render(batch);
 			batch.end();
@@ -194,13 +202,13 @@ public class TutorialGame extends Game {
 			highscore.Draw(batch);
 			break;
 		case Gamemode:
-			gameMode.update(time);
+			gamemode.update(time);
 			batch.setProjectionMatrix(camera.combined);
 			batch.begin();
 			level.draw(batch);
 			Particles.render(batch, time);
 			batch.end();
-			gameMode.draw(batch);
+			gamemode.draw(batch);
 			break;
 		default:
 			
@@ -222,9 +230,8 @@ public class TutorialGame extends Game {
 	public void resume() {
 	}
 	
-	void reset() {
+	public void reset() {
 		gameOverTimer = 0;
-		state = States.Play;
 		score = 0;
 		player.reset();
 		gameObjects.clear();

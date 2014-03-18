@@ -8,14 +8,12 @@ public class Row {
 	public float X;
 	public float leftWidth;
 	public float rightWidth;
-	public int sprite;
 	public boolean active;
 	
-	public Row(float center, float holeWidth, float Y, int sprite, boolean active)
+	public Row(float center, float holeWidth, float Y, boolean active)
 	{
 		this.active = active;
 		this.X = Y;
-		this.sprite = sprite;
 //		leftWidth = center - holeWidth/2;
 //		rightWidth = Gdx.graphics.getWidth() - (center + holeWidth/2);
 		
@@ -25,11 +23,10 @@ public class Row {
 		rightWidth = 0;
 	}
 	
-	public void Renew(float center, float holeWidth, float height, int sprite, boolean active)
+	public void Renew(float center, float holeWidth, float height, boolean active)
 	{
 		this.active = active;
 		X = X + Gdx.graphics.getWidth() + height;
-		this.sprite = sprite;
 //		leftWidth = center - holeWidth/2;
 //		rightWidth = Gdx.graphics.getWidth() - (center + holeWidth/2);
 		

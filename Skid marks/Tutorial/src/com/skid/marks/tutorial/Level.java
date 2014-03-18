@@ -19,7 +19,7 @@ public class Level {
 	private TutorialGame game;
 	
 	private Random random;
-	private Sprite[] sprites;
+	private Sprite sprite;
 	private int currentSprite = 0;
 	private float distanceSinceLastPoint = 0.0f;
 	private float distanceBetweenPoints; //half screen
@@ -80,50 +80,36 @@ public class Level {
 		currentPoint = 0.5f;
 		nextPoint = 0.5f;
 		isBetweenLevels = true;
-		//isRandom = true;	-> Görs i gamemode.java
 		
 		currentLevel = 0;
 		timeBetweenLevels = 20f;
 		timeUntilLevelEnds = timeBetweenLevels;
-		totalPauseTime = 4f;
+		totalPauseTime = 3f;
 		timeUntilLevelStarts = totalPauseTime;
-		barColors = new Color[7];
-		barColors[0] = Color.RED;
-		barColors[1] = Color.ORANGE;
-		barColors[2] = Color.YELLOW;
-		barColors[3] = Color.GREEN;
-		barColors[4] = Color.WHITE;
-		barColors[5] = Color.YELLOW;
-		barColors[6] = Color.RED;
 		
 		currentSprite = 0;
 		distanceSinceLastPoint = 0.0f;
 		previousPoint = 0;
 		
-		sprites = new Sprite[3];
-		sprites[0] = game.Textures.getSprite("data/gfx/platform_white.png");
-		sprites[1] = game.Textures.getSprite("data/gfx/platform_white.png");
-		sprites[2] = game.Textures.getSprite("data/gfx/platform_white.png");
+		sprite = game.Textures.getSprite("data/gfx/platform_white.png");
 		
-//		sprites[0].setColor(1, 0, 0, 1);
-//		sprites[1].setColor(0, 1, 0, 1);
-//		sprites[2].setColor(0, 0, 1, 1);
+
 		
 		//punkterna som banan ska gå längs
-		points = new float[21];
+		points = new float[31];
 		points[0] = 0.5f;
 		points[1] = 0.4f;
 		points[2] = 0.7f;
-		points[3] = 0.6f;
+		points[3] = 0.3f;
 		points[4] = 0.7f;
 		points[5] = 0.5f;
 		points[6] = 0.3f;
 		points[7] = 0.2f;
 		points[8] = 0.25f;
 		points[9] = 0.4f;
-		points[10] = 0.5f;
+		points[10] = 0.7f;
 		points[11] = 0.45f;
-		points[12] = 0.3f;
+		points[12] = 0.2f;
 		points[13] = 0.6f;
 		points[14] = 0.65f;
 		points[15] = 0.4f;
@@ -132,14 +118,24 @@ public class Level {
 		points[18] = 0.3f;
 		points[19] = 0.6f;
 		points[20] = 0.65f;
+		points[21] = 0.3f;
+		points[22] = 0.2f;
+		points[23] = 0.1f;
+		points[24] = 0.5f;
+		points[25] = 0.7f;
+		points[26] = 0.8f;
+		points[27] = 0.55f;
+		points[28] = 0.9f;
+		points[29] = 0.6f;
+		points[30] = 0.65f;
+
 		
 		//de rader som ritas ut
 		rows = new Row[nrOfRows];
 		for(int i = 0; i < rows.length; i++)
 		{
-			rows[i] = new Row(h/2, tunnelWidth, (rows.length - (i-1))*rowHeight, currentSprite, !isBetweenLevels);
-			currentSprite++;
-			currentSprite %= sprites.length;
+			rows[i] = new Row(h/2, tunnelWidth, (rows.length - (i-1))*rowHeight, !isBetweenLevels);
+
 		}
 		lowestRow = nrOfRows-1;
 		
@@ -182,6 +178,7 @@ public class Level {
 			currentLevel++;
 			tunnelWidth *= 0.85f;
 		}
+		background.setColorRandom();
 	}
 	
 	private void StartNewLevel()
@@ -247,9 +244,7 @@ public class Level {
 		{
 			float activePoint = (currentPoint + (ratio * (nextPoint - currentPoint)))*h;
 			
-			rows[lowestRow].Renew(activePoint, tunnelWidth, rowHeight, currentSprite, !isBetweenLevels);
-			currentSprite++;
-			currentSprite %= sprites.length;
+			rows[lowestRow].Renew(activePoint, tunnelWidth, rowHeight, !isBetweenLevels);
 			lowestRow--;
 			if(lowestRow < 0)
 			lowestRow = nrOfRows-1;
@@ -266,7 +261,7 @@ public class Level {
 			if(p.getBounds().overlaps(partRect)) {
 				lightParticleCollision = true;
 				lightTouchedEmitter.start();
-				background.setColorRandom();
+			//	background.setColorRandom();							<- Ändras just nu i StartPause()
 			}
 		}
 		if(lightParticleCollision) {
@@ -300,13 +295,12 @@ public class Level {
 		{
 			if(rows[i].active)
 			{
-				sprites[rows[i].sprite].setColor(barColors[currentLevel]);
-				sprites[rows[i].sprite].flip(false, true);
-				sprites[rows[i].sprite].setBounds(rows[i].X, 0, rowHeight, rows[i].leftWidth);
-				sprites[rows[i].sprite].draw(batch);
-				sprites[rows[i].sprite].flip(false, true);
-				sprites[rows[i].sprite].setBounds(rows[i].X, h - rows[i].rightWidth, rowHeight, rows[i].rightWidth);
-				sprites[rows[i].sprite].draw(batch);
+				sprite.flip(false, true);
+				sprite.setBounds(rows[i].X, -h + rows[i].leftWidth, rowHeight, h);
+				sprite.draw(batch);
+				sprite.flip(false, true);
+				sprite.setBounds(rows[i].X, h - rows[i].rightWidth, rowHeight, h);
+				sprite.draw(batch);
 			}
 		}
 	}

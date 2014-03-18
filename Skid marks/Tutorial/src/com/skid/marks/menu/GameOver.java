@@ -50,15 +50,16 @@ public class GameOver {
 		
 		if(backRect.contains(Gdx.input.getX(), Gdx.input.getY())){
 			if(Gdx.input.justTouched()) {
+				game.Sounds.play("menu", true);
 				TutorialGame.state = TutorialGame.States.Menu;
-					game.reset();
+				game.reset();
 			}
 		}
 		
 		if(playRect.contains(Gdx.input.getX(), Gdx.input.getY())){
 			if(Gdx.input.justTouched()) {
 				TutorialGame.state = TutorialGame.States.Play;
-					game.reset();
+				game.reset();
 			}
 		}
 	}

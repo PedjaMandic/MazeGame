@@ -12,6 +12,8 @@ public class SoundManager {
 	private Map<String, Sound> sounds = new HashMap<String, Sound>();
 	private Map<String, Music> music = new HashMap<String, Music>();
 	
+	private boolean soundOn = true;
+	
 	public SoundManager() {
 		// Sounds
 		sounds.put("explosion", Gdx.audio.newSound(Gdx.files.internal("data/sfx/explosion.wav")));
@@ -34,6 +36,8 @@ public class SoundManager {
 	 * Spela upp ett ljud eller musik
 	 **/
 	public void play(String name) {
+		if(!soundOn)
+			return;
 		if(sounds.containsKey(name)) {
 			Sound s = sounds.get(name);
 			s.stop();
@@ -69,6 +73,15 @@ public class SoundManager {
 		}
 		for(Music m : music.values()) {
 			m.stop();
+		}
+	}
+	
+	public void setSound(boolean on) {
+		if(on) {
+			soundOn = true;
+		} else {
+			soundOn = false;
+			stopAll();
 		}
 	}
 }

@@ -21,13 +21,13 @@ public class Localization {
 	private String filePath;
 	private Map<String, Texture> resource;
 	
+	public String language;
+	
 	public Localization() {
-		String lang = validate(Locale.getDefault().toString());
-		this.resource = new HashMap<String, Texture>();
-		this.filePath = "data/locale/" + lang + "/";
+		this(Locale.getDefault().toString());
 	}
 	
-	private Localization(String language) {
+	public Localization(String language) {
 		String lang = validate(language);
 		this.resource = new HashMap<String, Texture>();
 		this.filePath = "data/locale/" + lang+ "/";
@@ -35,10 +35,13 @@ public class Localization {
 	
 	private String validate(String language) {
 		if(language.equals(SWEDISH_CODE)) {
+			language = SWEDISH_CODE;
 			return SWEDISH_CODE;
 		} else if(language.equals(SPANISH_CODE)) {
+			language = SPANISH_CODE;
 			return SPANISH_CODE;
 		} else {
+			language = ENGLISH_CODE;
 			return ENGLISH_CODE;
 		}
 	}

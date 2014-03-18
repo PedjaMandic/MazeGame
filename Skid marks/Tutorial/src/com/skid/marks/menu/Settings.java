@@ -1,15 +1,23 @@
 package com.skid.marks.menu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.skid.marks.manager.Localization;
 import com.skid.marks.tutorial.TutorialGame;
+import com.skid.marks.tutorial.TutorialGame.States;
 
 public class Settings {
 	
 	private TutorialGame game;
+	
+	private final String SETTINGS_FILE = "settings";
+	
+	private BitmapFont font;
 	
 	private float sw;
 	private float sh;
@@ -17,28 +25,18 @@ public class Settings {
 	private float sw_center;
 	private float sh_center;
 	
-	private Texture texture;
-	
-	private float button_size;
+	private final int BUTTON_SIZE = 128;
 	
 	private Sprite background_sprite;
 	
+	private Sprite back_sprite;
 	private Sprite music_sprite;
-	private Sprite sfx_sprite;
-	private Sprite auto_retry_sprite;
-
-	private Rectangle music_rectangle;
-	private Rectangle sfx_rectangle;
-	private Rectangle auto_retry_rectangle;
+	private Sprite lang_en_sprite;
+	private Sprite lang_sv_sprite;
+	private Sprite lang_es_sprite;
 	
-	public static boolean SETTINGS_MUSIC 		= true;
-	public static boolean SETTINGS_SFX			= true;
-	public static boolean SETTINGS_AUTO_RETRY	= true;
-	
-	private float background_width;
-	private float background_height;
-	
-	private Sprite menuSheet;
+	public static boolean SETTINGS_MUSIC;
+	public static String SETTINGS_LANUAGE;
 	
 	public Settings(TutorialGame game){
 		this.game = game;
@@ -49,127 +47,131 @@ public class Settings {
 		sw_center = sw/2;
 		sh_center = sh/2;
 		
-		background_width = sw/2;
-		background_height = background_width;
+		font = new BitmapFont(true);
 		
-		button_size = background_width/3;
+		// Background
+		background_sprite = game.Textures.getSprite("data/gfx/menu/menu_sheet.png");
+		background_sprite.setRegion(0, 0, 512, 256);
+		background_sprite.setSize(sw, sh);
 		
-		texture = game.Textures.getTexture("data/gfx/settings_textures.png");
+		// Back
+		back_sprite = game.Textures.getSprite("data/gfx/menu/menu_sheet.png");
+		back_sprite.setRegion(0, 256, 128, 128);
+		back_sprite.setSize(BUTTON_SIZE, BUTTON_SIZE);
+		back_sprite.setPosition(sw - BUTTON_SIZE - 50, sh - BUTTON_SIZE - 50);
 		
-//		menuSheet = game.Textures.getSprite("data/gfx/menu/menu_sheet.png");
+		// Music
+		music_sprite = game.Textures.getSprite("data/gfx/menu/menu_sheet.png");
+		music_sprite.setRegion(128, 256, 128, 128);
+		music_sprite.setSize(BUTTON_SIZE, BUTTON_SIZE);
+		music_sprite.setPosition(50, 50);
 		
-		SetPosition();
+		// English
+		lang_en_sprite = game.Textures.getSprite("data/gfx/menu/menu_sheet.png");
+		lang_en_sprite.setRegion(0, 384, 128, 128);
+		lang_en_sprite.setSize(BUTTON_SIZE, BUTTON_SIZE);
+		lang_en_sprite.setPosition(40, sh - BUTTON_SIZE - 40);
 		
-		game.Sounds.play("menu", true);
+		// Swedish
+		lang_sv_sprite = game.Textures.getSprite("data/gfx/menu/menu_sheet.png");
+		lang_sv_sprite.setRegion(0, 384, 128, 128);
+		lang_sv_sprite.setSize(BUTTON_SIZE, BUTTON_SIZE);
+		lang_sv_sprite.setPosition(168, sh - BUTTON_SIZE - 40);
+		
+		// Spanish
+		lang_es_sprite = game.Textures.getSprite("data/gfx/menu/menu_sheet.png");
+		lang_es_sprite.setRegion(0, 384, 128, 128);
+		lang_es_sprite.setSize(BUTTON_SIZE, BUTTON_SIZE);
+		lang_es_sprite.setPosition(296, sh - BUTTON_SIZE - 40);
+		
+		loadSettings();
 	}
 	
-	public void update(float time){
-
-		SetTextureRegion();
-		
-		if(music_rectangle.contains(Gdx.input.getX(), Gdx.input.getY())){
-			if(Gdx.input.justTouched()){
+	public void dispose() {
+		font.dispose();
+	}
+	
+	public void update(float time) {
+		if(Gdx.input.justTouched()) {
+			
+			int mx = Gdx.input.getX();
+			int my = Gdx.input.getY();
+			
+			if(back_sprite.getBoundingRectangle().contains(mx, my)) {	
+				saveSettings();
+				TutorialGame.state = States.Menu;
+			} else if(music_sprite.getBoundingRectangle().contains(mx, my)){
 				SETTINGS_MUSIC = !SETTINGS_MUSIC;
-			}
-		}
-		
-		if(sfx_rectangle.contains(Gdx.input.getX(), Gdx.input.getY())){
-			if(Gdx.input.justTouched()){
-				SETTINGS_SFX = !SETTINGS_SFX;
-			}
-		}
-		
-		if(auto_retry_rectangle.contains(Gdx.input.getX(), Gdx.input.getY())){
-			if(Gdx.input.justTouched()){
-				SETTINGS_AUTO_RETRY = !SETTINGS_AUTO_RETRY;
+				if(SETTINGS_MUSIC) {
+					music_sprite.setRegion(128, 256, 128, 128);
+//					game.Sounds.setSound(true);
+				} else {
+					music_sprite.setRegion(256, 256, 128, 128);
+//					game.Sounds.setSound(false);
+				}
+			} else if(lang_en_sprite.getBoundingRectangle().contains(mx, my)) {
+				setLanguage("en_GB");
+			} else if(lang_sv_sprite.getBoundingRectangle().contains(mx, my)) {
+				setLanguage("sv_SE");
+			} else if(lang_es_sprite.getBoundingRectangle().contains(mx, my)) {
+				setLanguage("es_ES");
 			}
 		}
 	}
 	
 	public void draw(SpriteBatch batch){
-
 		background_sprite.draw(batch);
+		back_sprite.draw(batch);
 		music_sprite.draw(batch);
-		sfx_sprite.draw(batch);
-		auto_retry_sprite.draw(batch);
+		lang_en_sprite.draw(batch);
+		lang_sv_sprite.draw(batch);
+		lang_es_sprite.draw(batch);
 		
-	}
-	/*
-	 * Används för att sätta startposition på alla knappar 
-	 * TODO uträkning bör göras finare
-	 */
-	private void SetPosition(){		
-		//Bakgrunden
-		background_sprite = new Sprite(texture);
-		background_sprite.setRegion(0, 0, 512, 512);
-		background_sprite.setSize(background_width, background_height);
-		background_sprite.flip(false, true);
-		background_sprite.setPosition(sw_center - background_width/2, sh_center - background_height/2);
-		
-		//MUSIC CHECKBOX
-		music_sprite = new Sprite(texture);
-		music_sprite.setRegion(512, 0, 128, 128);
-		music_sprite.setSize(button_size, button_size);
-		music_sprite.flip(false, true);
-		music_sprite.setPosition(sw_center - background_width/2 + button_size/3, sh_center - background_height/2 + button_size/3);
-
-		//SFX CHECKBOX
-		sfx_sprite = new Sprite(texture);
-		sfx_sprite.setRegion(512, 0, 128, 128);
-		sfx_sprite.setSize(button_size, button_size);
-		sfx_sprite.flip(false, true);
-		sfx_sprite.setPosition(sw_center - background_width/2 + (button_size/3)*2 + button_size, sh_center - background_height/2 + button_size/3);
-			
-		//AUTO_RETRY CHECKBOX
-		auto_retry_sprite = new Sprite(texture);
-		auto_retry_sprite.setRegion(512, 0, 128, 128);
-		auto_retry_sprite.setSize(button_size, button_size);
-		auto_retry_sprite.flip(false, true);
-		auto_retry_sprite.setPosition(sw_center - background_width/2 + button_size/3, sh_center - background_height/2 + (button_size/3)*2 + button_size);
-		
-		menuSheet = game.Textures.getSprite("data/gfx/menu/button_back.png");
-		menuSheet.setRegion(512, 0, 128, 128);
-		menuSheet.setSize(button_size, button_size);
-		menuSheet.setPosition(sw_center - background_width/2 + button_size/3, sh_center - background_height/2 + (button_size/3)*2 + button_size);
-		
-		//RECTANGLES
-		music_rectangle = new Rectangle(sw_center - background_width/2 + button_size/3, sh_center - background_height/2 + button_size/3, button_size, button_size);
-		sfx_rectangle = new Rectangle(sw_center - background_width/2 + (button_size/3)*2 + button_size, sh_center - background_height/2 + button_size/3,button_size, button_size );
-		auto_retry_rectangle = new Rectangle(sw_center - background_width/2 + button_size/3, sh_center - background_height/2 + (button_size/3)*2 + button_size, button_size, button_size);
+		font.draw(batch, "English", 60, 220);
+		font.draw(batch, "Swedish", 60 + (BUTTON_SIZE), 220);
+		font.draw(batch, "Spanish", 60 + (BUTTON_SIZE * 2), 220);
 	}
 	
-	/*
-	 * Återställer värdena på texture region så att texturerna inte fastnar
-	 * Andvänds i början av varje update
-	 */
-	private void SetTextureRegion(){
-		if(SETTINGS_MUSIC){
-			music_sprite.setRegion(512, 0, 128, 128);
-			music_sprite.flip(false, true);
-		} else {
-			music_sprite.setRegion(512, 128, 128, 128);
-			music_sprite.flip(false, true);
-			
+	void setLanguage(String lang) {
+		SETTINGS_LANUAGE = lang;
+		if(lang.equals("en_GB")) {
+			lang_en_sprite.setRegion(128, 384, 128, 128);
+			lang_sv_sprite.setRegion(0, 384, 128, 128);
+			lang_es_sprite.setRegion(0, 384, 128, 128);
+		} else if(lang.equals("sv_SE")) {
+			lang_en_sprite.setRegion(0, 384, 128, 128);
+			lang_sv_sprite.setRegion(128, 384, 128, 128);
+			lang_es_sprite.setRegion(0, 384, 128, 128);
+		} else if(lang.equals("es_ES")) {
+			lang_en_sprite.setRegion(0, 384, 128, 128);
+			lang_sv_sprite.setRegion(0, 384, 128, 128);
+			lang_es_sprite.setRegion(128, 384, 128, 128);
 		}
+	}
+	
+	void saveSettings() {
+		Preferences prefs = Gdx.app.getPreferences(SETTINGS_FILE);
+		prefs.putString("language", SETTINGS_LANUAGE);
+		prefs.putBoolean("music", SETTINGS_MUSIC);
+		prefs.flush();
+	}
+	
+	void loadSettings() {
+		Preferences prefs = Gdx.app.getPreferences(SETTINGS_FILE);
+		SETTINGS_LANUAGE = prefs.getString("language");
+		SETTINGS_MUSIC = prefs.getBoolean("music");
 		
-		if(SETTINGS_SFX){
-			sfx_sprite.setRegion(512, 0, 128, 128);
-			sfx_sprite.flip(false, true);
-		} else {
-			sfx_sprite.setRegion(512, 128, 128, 128);
-			sfx_sprite.flip(false, true);
-			
-		}
+		setLanguage(SETTINGS_LANUAGE);
+		game.Localization.dispose();
+		game.Localization = new Localization(SETTINGS_LANUAGE);
 		
-		if(SETTINGS_AUTO_RETRY){
-			auto_retry_sprite.setRegion(512, 0, 128, 128);
-			auto_retry_sprite.flip(false, true);
+		if(SETTINGS_MUSIC) {
+			music_sprite.setRegion(128, 256, 128, 128);
+//			game.Sounds.setSound(true);
 		} else {
-			auto_retry_sprite.setRegion(512, 128, 128, 128);
-			auto_retry_sprite.flip(false, true);
-			
+			music_sprite.setRegion(256, 256, 128, 128);
+//			game.Sounds.setSound(false);
 		}
-			
 	}
 
 }

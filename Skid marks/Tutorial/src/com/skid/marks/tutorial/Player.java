@@ -19,7 +19,7 @@ public class Player implements GameObject {
 	private Vector2 gasPosition;
 	private Sprite sprite;
 	
-	private final float MOVE_SPEED = 600;
+	private float MOVE_SPEED;
 	public static float SIZE = 50;
 	
 	// Screen dimensions
@@ -42,7 +42,7 @@ public class Player implements GameObject {
 	@Override
 	public void init() {
 		SIZE = Gdx.graphics.getHeight() / 16;
-		
+		MOVE_SPEED = Gdx.graphics.getHeight();
 		bounds = new Rectangle();
 		bounds.setSize(SIZE, SIZE);
 		
@@ -71,7 +71,7 @@ public class Player implements GameObject {
 	@Override
 	public void reset() {
 //		position = new Vector2((screenWidth / 2) - (SIZE / 2), screenHeight * 3/4f);
-		position = new Vector2(100 * 3/4f, (screenHeight / 2) - (SIZE / 2));
+		position = new Vector2(screenWidth * 1/6f, (screenHeight / 2) - (SIZE / 2));
 		gasPosition = new Vector2(position);
 		isMouseToched = false;
 		mouseTochedY = (screenHeight / 2) - (SIZE / 2);

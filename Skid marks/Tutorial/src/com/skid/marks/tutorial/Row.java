@@ -55,8 +55,8 @@ public class Row {
 				rightWidth = rightTot;
 			}
 		} else if(Gdx.graphics.getWidth()*3f/8 > X) {
-			leftWidth -= (300 * delta);
-			rightWidth -= (300 * delta);
+			leftWidth -= (Gdx.graphics.getHeight()*1f * delta);
+			rightWidth -= (Gdx.graphics.getHeight()*1f * delta);
 		}
 		
 		//leftWidth = leftTot;

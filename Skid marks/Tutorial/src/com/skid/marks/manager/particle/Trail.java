@@ -4,8 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.skid.marks.manager.TextureManager;
 import com.skid.marks.tutorial.Background;
 import com.skid.marks.tutorial.TutorialGame;
 
@@ -13,6 +11,7 @@ public class Trail implements BaseParticle{
 	
 	private float positionX;
 	private float positionY;
+	private float rotation;
 
 	private int HEIGHT;
 	private int WIDTH;
@@ -24,8 +23,9 @@ public class Trail implements BaseParticle{
 	
 	private TutorialGame game;
 	
-	public Trail(TutorialGame game, float pos){
+	public Trail(TutorialGame game, float pos, float rot){
 		this.positionY = pos;
+		this.rotation = rot;
 		this.game = game;
 		Init();
 	}
@@ -33,6 +33,8 @@ public class Trail implements BaseParticle{
 	private void Init(){
 		
 		sprite = game.Textures.getSprite("data/gfx/particle.png");
+		sprite.setOrigin(0, sprite.getHeight() / 2);
+//		sprite.rotate(rotation);
 		
 		positionX = Gdx.graphics.getWidth()/6f;
 		HEIGHT = Gdx.graphics.getHeight()/16;

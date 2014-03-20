@@ -66,6 +66,7 @@ public class Menu implements InputProcessor {
 		if(highscore_rect.contains(Gdx.input.getX(), Gdx.input.getY())){
 			if(Gdx.input.justTouched()){
 				TutorialGame.state = TutorialGame.States.Highscore;
+				Highscore.InitHighscore();
 			}
 			highscore_texture.setRegion(380, 80, 80, 80);
 			highscore_texture.flip(false,true);

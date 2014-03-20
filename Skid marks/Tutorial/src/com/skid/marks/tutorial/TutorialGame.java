@@ -175,6 +175,8 @@ public class TutorialGame extends Game {
 			batch.end();
 			break;
 		case GameOver:
+			
+			highscore.CheckScore(score);
 			gameOverTimer += time;
 			camera.update();
 			batch.setProjectionMatrix(camera.combined);
@@ -205,9 +207,10 @@ public class TutorialGame extends Game {
 			batch.end();
 			break;
 		case Highscore:
-			highscore.update(time);
+			batch.begin();
 			batch.setProjectionMatrix(camera.combined);
 			highscore.Draw(batch);
+			batch.end();
 			break;
 		case Gamemode:
 			gamemode.update(time);
@@ -255,10 +258,5 @@ public class TutorialGame extends Game {
 				state = States.GameOver;
 			}
 		}
-	}
-	private void SaveScore(){
-		
-		Preferences prefs = Gdx.app.getPreferences(highscore.SCORES_FILE);
-		prefs.putString(highscore.LOCAL_SCORES, ""+score);
 	}
 }

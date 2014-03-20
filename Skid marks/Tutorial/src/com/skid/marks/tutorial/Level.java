@@ -173,7 +173,7 @@ public class Level {
 	}
 	
 	
-	private void StartPause()
+	private void endPauseTrigger()
 	{
 		if(currentLevel < 7)
 		{
@@ -181,12 +181,14 @@ public class Level {
 			tunnelWidth *= 0.85f;
 		}
 		background.setColorRandom();
+		timeUntilLevelStarts+= totalPauseTime;
+		isBetweenLevels = false;
 	}
 	
-	private void StartNewLevel()
+	private void startPauseTrigger()
 	{
-		
-		
+		timeUntilLevelEnds += timeBetweenLevels;
+		isBetweenLevels = true;
 	}
 	
 	public void update(Player p, float delta)
@@ -198,18 +200,14 @@ public class Level {
 			timeUntilLevelStarts -= delta;
 			if(timeUntilLevelStarts <= 0)
 			{
-				timeUntilLevelStarts+= totalPauseTime;
-				isBetweenLevels = false;
-				StartPause();
+				endPauseTrigger();
 			}
 		}
 		else {
 			timeUntilLevelEnds -= delta;
 			if(timeUntilLevelEnds <= 0)
 			{
-				timeUntilLevelEnds += timeBetweenLevels;
-				isBetweenLevels = true;
-				StartNewLevel();
+				startPauseTrigger();
 			}
 		}
 		

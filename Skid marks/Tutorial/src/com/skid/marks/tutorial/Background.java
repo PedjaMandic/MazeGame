@@ -20,7 +20,7 @@ public class Background {
 	
 //	private int colorIndex = 0;
 	
-	private Color currentColor;
+	public static Color currentColor;
 	private Color targetColor;
 	
 	private boolean doLerp;

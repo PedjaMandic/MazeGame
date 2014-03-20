@@ -1,5 +1,7 @@
 package com.skid.marks.tutorial;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -9,6 +11,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.skid.marks.manager.particle.BaseParticle;
+import com.skid.marks.manager.particle.Trail;
 
 public class Player implements GameObject {
 
@@ -35,6 +39,8 @@ public class Player implements GameObject {
 	
 	private ParticleEffect gasEffect;
 	
+	private ArrayList<BaseParticle> trail;
+	
 	public Player(TutorialGame game) {
 		this.game = game;
 	}
@@ -58,6 +64,8 @@ public class Player implements GameObject {
 		gasEffect = new ParticleEffect();
 		gasEffect.load(Gdx.files.internal("data/particle/gasParticle.p"),
 					   Gdx.files.internal("data/particle/"));
+		
+		trail = new ArrayList<BaseParticle>();
 		
 		this.reset();
 	}
@@ -107,8 +115,7 @@ public class Player implements GameObject {
 			position.y = screenHeight - SIZE;
 		}
 		
-		gasEffect.setPosition(position.x, position.y + SIZE / 2);
-		gasEffect.update(delta);
+		UpdateTrail(delta);
 		
 		// Uppdatera boundingbox
 		bounds.setPosition(position);
@@ -116,11 +123,13 @@ public class Player implements GameObject {
 
 	@Override
 	public void draw(SpriteBatch batch) {
-		gasEffect.draw(batch);
+		
+		DrawTrail(batch);
 		
 		sprite.setRotation(rotation);
 		sprite.setPosition(position.x, position.y);
 		sprite.draw(batch);
+
 	}
 	
 	@Override
@@ -131,6 +140,26 @@ public class Player implements GameObject {
 	@Override
 	public Vector2 getPosition() {
 		return this.position;
+	}
+	
+	private void UpdateTrail(float time){
+		Trail t = new Trail(game, getPosition().y);
+		trail.add(t);
+		
+		for(int i = 0; i < trail.size(); i++){
+			t = (Trail) trail.get(i);
+			t.update(time);
+			if(!t.isAlive())
+				trail.remove(i);
+		}	
+	}
+	
+	private void DrawTrail(SpriteBatch batch){
+		
+		for(int i = 0; i < trail.size(); i++){
+			Trail t = (Trail) trail.get(i);
+			t.draw(batch);
+		}
 	}
 	
 }

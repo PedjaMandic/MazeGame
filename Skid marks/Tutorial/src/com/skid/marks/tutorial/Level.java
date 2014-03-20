@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -94,8 +95,8 @@ public class Level {
 		previousPoint = 0;
 		
 		sprite = game.Textures.getSprite("data/gfx/platform_white.png");
-		pauseSprite = game.Textures.getSprite("data/gfx/newlevel.png");
-		pauseSprite.setColor(Color.YELLOW);
+		pauseSprite = game.Textures.getSprite("data/gfx/newlevel2.png");
+		pauseSprite.setColor(Color.WHITE);
 		
 		//punkterna som banan ska gå längs
 		points = new float[31];
@@ -291,9 +292,9 @@ public class Level {
 			lightUntouchedEmitter.draw(batch);
 		}
 		
-		if(isBetweenLevels && currentLevel > 0)
+		if(isBetweenLevels && currentLevel >= 1)
 		{
-			pauseSprite.setBounds(-w/4 + w*1.5f * timeUntilLevelStarts/totalPauseTime, h/4, w/4, h/4);
+			pauseSprite.setBounds(-w/4 + (w*1.25f)*(timeUntilLevelStarts/totalPauseTime), h/4, w/4, h/8);
 			pauseSprite.draw(batch);
 		}
 		

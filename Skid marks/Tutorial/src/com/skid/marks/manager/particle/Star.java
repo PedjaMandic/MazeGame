@@ -3,10 +3,8 @@ package com.skid.marks.manager.particle;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.skid.marks.tutorial.TutorialGame;
@@ -18,15 +16,10 @@ public class Star implements BaseParticle{
 	private Rectangle bounds;
 	private Vector2 position;
 	private Vector2 direction;
-	private Texture texture;
 	private Sprite sprite;
-	private TextureRegion currentFrame;
 	
-	private final float SIZE = 10;
-	private final float SPEED = 10;
-	
-	//Is alive
-	
+//	private final float SIZE = 10;
+	private float speed = 10;
 	
 	// Screen dimensions
 	private float sw;
@@ -37,39 +30,40 @@ public class Star implements BaseParticle{
 		init();
 	}
 	
-	private void init() {
-		bounds = new Rectangle();
-		bounds.setSize(SIZE);
-		
+	private void init() {		
 		sw = Gdx.graphics.getWidth();
 		sh = Gdx.graphics.getHeight();
 		
 		//Random start position;
 		Random rand = new Random();
-		float x = rand.nextFloat() * sw;
-		float y = 0;
+		float x = sw;
+		float y = rand.nextFloat() * sh;
+		float scale = 3 + rand.nextInt(4);
+		float alpha = rand.nextFloat();
+		speed = 10 * rand.nextFloat();
 		
 		//Random riktning på vart den åker
-		direction = new Vector2(rand.nextFloat() - 0.5f, rand.nextFloat() + 0.25f);
+		direction = new Vector2(-rand.nextFloat(), 0);
 		
 		position = new Vector2(x, y);
 		
-		texture = game.Textures.getTexture("data/starSheet.png");
+		sprite = game.Textures.getSprite("data/gfx/star_particle.png");
+		sprite.setSize(scale, scale);
+		sprite.setColor(
+				sprite.getColor().r,
+				sprite.getColor().g,
+				sprite.getColor().b,
+				alpha
+		);
 		
-		int t = rand.nextInt(4);
-		
-		currentFrame = new TextureRegion(texture, t*5, 0, 5, 5);
-		
-		sprite = new Sprite(currentFrame);
-		sprite.flip(false, true); // OBS!
-		sprite.setSize(SIZE, SIZE);
-
+		bounds = new Rectangle();
+		bounds.setSize(scale);
 	}
 
 	@Override
 	public void update(float delta) {
-		position.x += direction.x * SPEED;
-		position.y += direction.y * SPEED;
+		position.x += direction.x * speed;
+		position.y += direction.y * speed;
 		
 		bounds.setPosition(position);
 	}

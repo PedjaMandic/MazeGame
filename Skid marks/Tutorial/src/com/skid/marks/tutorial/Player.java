@@ -3,9 +3,6 @@ package com.skid.marks.tutorial;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -37,7 +34,7 @@ public class Player implements GameObject {
 	
 	private float rotation;
 	
-	private ParticleEffect gasEffect;
+//	private ParticleEffect gasEffect;
 	
 	private ArrayList<BaseParticle> trail;
 	
@@ -57,13 +54,14 @@ public class Player implements GameObject {
 		
 //		position = new Vector2((screenWidth / 2) - (SIZE / 2), screenHeight * 3/4f);
 		
-		sprite = game.Textures.getSprite("data/gfx/player_green.png");
+		sprite = game.Textures.getSprite("data/gfx/player_green_2.0.png");
 		sprite.setSize(SIZE, SIZE);
-		sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight());
+//		sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight());
+		sprite.setOrigin(0, sprite.getHeight() / 2);
 		
-		gasEffect = new ParticleEffect();
-		gasEffect.load(Gdx.files.internal("data/particle/gasParticle.p"),
-					   Gdx.files.internal("data/particle/"));
+//		gasEffect = new ParticleEffect();
+//		gasEffect.load(Gdx.files.internal("data/particle/gasParticle.p"),
+//					   Gdx.files.internal("data/particle/"));
 		
 		trail = new ArrayList<BaseParticle>();
 		
@@ -73,7 +71,7 @@ public class Player implements GameObject {
 	
 	@Override
 	public void dispose() {
-		gasEffect.dispose();
+//		gasEffect.dispose();
 	}
 	
 	@Override
@@ -107,7 +105,7 @@ public class Player implements GameObject {
 		float tempRot = ((mouseTochedY - position.y) / (screenHeight / 4)) * 45;
 		rotation = MathUtils.clamp(tempRot, -45, 45);
 		// Temp så länge
-		rotation = 0;
+//		rotation = 0;
 		
 		if(position.y < 0) {
 			position.y = 0;
@@ -143,7 +141,7 @@ public class Player implements GameObject {
 	}
 	
 	private void UpdateTrail(float time){
-		Trail t = new Trail(game, getPosition().y);
+		Trail t = new Trail(game, getPosition().y, rotation);
 		trail.add(t);
 		
 		for(int i = 0; i < trail.size(); i++){

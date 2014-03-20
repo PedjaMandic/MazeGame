@@ -1,19 +1,12 @@
 package com.skid.marks.tutorial;
 
-import java.sql.Time;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.math.collision.BoundingBox;
 
 public class Level {
 	
@@ -48,10 +41,10 @@ public class Level {
 	
 	private Background background;
 	
-	private ParticleEffect lightEffect;
-	private ParticleEmitter lightTouchedEmitter;
-	private ParticleEmitter lightUntouchedEmitter;
-	private boolean lightParticleCollision;
+//	private ParticleEffect lightEffect;
+//	private ParticleEmitter lightTouchedEmitter;
+//	private ParticleEmitter lightUntouchedEmitter;
+//	private boolean lightParticleCollision;
 	
 	
 	//för pausskärm
@@ -69,11 +62,11 @@ public class Level {
 	}
 	
 	public void reset() {
-		lightEffect = new ParticleEffect();
-		lightEffect.load(Gdx.files.internal("data/particle/lightParticle.p"),
-					   Gdx.files.internal("data/particle/"));
-		lightTouchedEmitter = lightEffect.findEmitter("touched");
-		lightUntouchedEmitter = lightEffect.findEmitter("untouched");
+//		lightEffect = new ParticleEffect();
+//		lightEffect.load(Gdx.files.internal("data/particle/lightParticle.p"),
+//					   Gdx.files.internal("data/particle/"));
+//		lightTouchedEmitter = lightEffect.findEmitter("touched");
+//		lightUntouchedEmitter = lightEffect.findEmitter("untouched");
 		
 		w = Gdx.graphics.getWidth();
 		h = Gdx.graphics.getHeight();
@@ -251,34 +244,34 @@ public class Level {
 			lowestRow = nrOfRows-1;
 		}
 		
-		// Check particle collision
-		if(lightParticleCollision == false) {
-			Rectangle partRect = new Rectangle();
-			partRect.x = lightUntouchedEmitter.getX();
-			partRect.y = lightUntouchedEmitter.getY();
-			partRect.width = lightUntouchedEmitter.getScale().getHighMax();
-			partRect.height = lightUntouchedEmitter.getScale().getHighMax();
-			
-			if(p.getBounds().overlaps(partRect)) {
-				lightParticleCollision = true;
-				lightTouchedEmitter.start();
-			//	background.setColorRandom();							<- Ändras just nu i StartPause()
-			}
-		}
-		if(lightParticleCollision) {
-			lightTouchedEmitter.setPosition(p.getPosition().x, p.getPosition().y);
-			lightTouchedEmitter.update(delta);
-			
-			lightUntouchedEmitter.setPosition(rows[0].X + rowHeight / 2, rows[0].leftWidth + 20);
-			lightUntouchedEmitter.update(delta);
-			
-			if(lightTouchedEmitter.isComplete()) {
-				lightParticleCollision = false;
-			}
-		} else {
-			lightUntouchedEmitter.setPosition(rows[0].X + rowHeight / 2, rows[0].leftWidth + 20);
-			lightUntouchedEmitter.update(delta);
-		}
+//		// Check particle collision
+//		if(lightParticleCollision == false) {
+//			Rectangle partRect = new Rectangle();
+//			partRect.x = lightUntouchedEmitter.getX();
+//			partRect.y = lightUntouchedEmitter.getY();
+//			partRect.width = lightUntouchedEmitter.getScale().getHighMax();
+//			partRect.height = lightUntouchedEmitter.getScale().getHighMax();
+//			
+//			if(p.getBounds().overlaps(partRect)) {
+//				lightParticleCollision = true;
+//				lightTouchedEmitter.start();
+//			//	background.setColorRandom();							<- Ändras just nu i StartPause()
+//			}
+//		}
+//		if(lightParticleCollision) {
+//			lightTouchedEmitter.setPosition(p.getPosition().x, p.getPosition().y);
+//			lightTouchedEmitter.update(delta);
+//			
+//			lightUntouchedEmitter.setPosition(rows[0].X + rowHeight / 2, rows[0].leftWidth + 20);
+//			lightUntouchedEmitter.update(delta);
+//			
+//			if(lightTouchedEmitter.isComplete()) {
+//				lightParticleCollision = false;
+//			}
+//		} else {
+//			lightUntouchedEmitter.setPosition(rows[0].X + rowHeight / 2, rows[0].leftWidth + 20);
+//			lightUntouchedEmitter.update(delta);
+//		}
 		
 	}
 	
@@ -286,11 +279,13 @@ public class Level {
 	{
 		background.draw(batch);
 		
-		if(lightParticleCollision) {
-			lightTouchedEmitter.draw(batch);
-		} else {
-			lightUntouchedEmitter.draw(batch);
-		}
+		game.Particles.render(batch, Gdx.graphics.getDeltaTime());
+		
+//		if(lightParticleCollision) {
+//			lightTouchedEmitter.draw(batch);
+//		} else {
+//			lightUntouchedEmitter.draw(batch);
+//		}
 		
 		if(isBetweenLevels && currentLevel >= 1)
 		{

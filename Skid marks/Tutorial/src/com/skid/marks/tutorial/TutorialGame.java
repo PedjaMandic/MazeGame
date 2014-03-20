@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
@@ -16,6 +17,7 @@ import com.skid.marks.manager.SoundManager;
 import com.skid.marks.manager.TextureManager;
 import com.skid.marks.manager.particle.ParticleManager;
 import com.skid.marks.manager.particle.PedjaStars;
+import com.skid.marks.manager.particle.Star;
 import com.skid.marks.menu.GameMode;
 import com.skid.marks.menu.GameOver;
 import com.skid.marks.menu.Highscore;
@@ -49,6 +51,8 @@ public class TutorialGame extends Game {
 	private GameOver gameover;
 	
 //	private Sprite sprite;
+	
+	private InputMultiplexer inputMultiplexer;
 	
 	public enum States{
 		Play,
@@ -89,6 +93,11 @@ public class TutorialGame extends Game {
 		highscore = new Highscore(this);
 		settings = new Settings(this);
 		gameover = new GameOver(this);
+		
+		inputMultiplexer = new InputMultiplexer();
+		inputMultiplexer.addProcessor(menu);
+		inputMultiplexer.addProcessor(gameover);
+		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 
 	@Override
@@ -126,12 +135,13 @@ public class TutorialGame extends Game {
 			batch.setProjectionMatrix(camera.combined);
 			batch.begin();
 			level.draw(batch);
-			Particles.render(batch, time);
+//			Particles.render(batch, time);
 			batch.end();
 			menu.draw(batch);
 			break;
 		case Play:
 			// UPDATE
+			Particles.add(new Star(this));
 			for (int i = 0; i < gameObjects.size(); i++) {
 				GameObject go = gameObjects.get(i);
 				go.update(time);
@@ -159,7 +169,7 @@ public class TutorialGame extends Game {
 //			font.draw(batch, String.format("FPS: %s", Gdx.graphics.getFramesPerSecond()), 20, 20);
 			font.draw(batch, String.format("Score: %d", score), 20, 20);
 			player.draw(batch);
-			Particles.render(batch, time);
+//			Particles.render(batch, time);
 			
 			Debug.render(batch);
 			batch.end();
@@ -172,7 +182,7 @@ public class TutorialGame extends Game {
 			level.draw(batch);
 			font.draw(batch, String.format("Score: %d", score), 20, 20);
 			player.draw(batch);
-			Particles.render(batch, time);
+//			Particles.render(batch, time);
 //			font.draw(batch, "Game Over", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 //			font.draw(batch, "Press Space", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 + 20);
 			
@@ -204,7 +214,7 @@ public class TutorialGame extends Game {
 			batch.setProjectionMatrix(camera.combined);
 			batch.begin();
 			level.draw(batch);
-			Particles.render(batch, time);
+//			Particles.render(batch, time);
 			batch.end();
 			gamemode.draw(batch);
 			break;
@@ -234,6 +244,7 @@ public class TutorialGame extends Game {
 		player.reset();
 		gameObjects.clear();
 		level.reset();
+		Particles.clear();
 	}
 	
 	

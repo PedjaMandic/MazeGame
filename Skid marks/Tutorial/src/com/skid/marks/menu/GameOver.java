@@ -1,96 +1,110 @@
 package com.skid.marks.menu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
-import com.skid.marks.tutorial.Level;
 import com.skid.marks.tutorial.TutorialGame;
 
-public class GameOver {
+public class GameOver implements InputProcessor {
 	
-	TutorialGame game;
+	private final TutorialGame game;
+		
+	private Sprite backSprite;
+	private Sprite playSprite;
 	
-	public Sprite backgroundSprite;
-	public Sprite backSprite;
-	public Sprite playSprite;
+	private float buttonSize;
 	
-	public Rectangle backRect;
-	public Rectangle playRect;
+	private float sw;
+	private float sh;
 	
-	private float BUTTON_SIZE;
-	
-//	private float BACKGROUND_WIDTH;
-//	private float BACKGROUND_HEIGHT;
-	
-	private float sw, sh, swcenter, shcenter;
-	
-	public GameOver(TutorialGame game){
+	public GameOver(final TutorialGame game){
 		this.game = game;
-		
-		backgroundSprite = game.Textures.getSprite("data/gfx/background_A.png");
-		
-		backSprite = game.Textures.getSprite("data/gfx/button_back.png");
-		playSprite = game.Textures.getSprite("data/gfx/button_play.png");
 		
 		sw = Gdx.graphics.getWidth();
 		sh = Gdx.graphics.getHeight();
 		
-		swcenter = sw/2;
-		shcenter = sh/2;
+		buttonSize = sh * 0.15f;
 		
-		BUTTON_SIZE = sh * 0.15f;
-				
-		SetPosition();
+		backSprite = game.Textures.getSprite("data/gfx/background_sheet.png");
+		backSprite.setSize(buttonSize, buttonSize);
+		backSprite.setPosition(sw - buttonSize * 1.2f, sh - buttonSize * 1.2f);
+		backSprite.setRegion(256, 128, 64, 64);
+		backSprite.flip(false, true);
 		
+		playSprite = game.Textures.getSprite("data/gfx/background_sheet.png");
+		playSprite.setSize(buttonSize, buttonSize);
+		playSprite.setPosition(buttonSize * 0.2f, sh - buttonSize * 1.2f);
+		playSprite.setRegion(256, 192, 64, 64);
+		playSprite.flip(false, true);
 	}
 	
 	public void update(float time){
-		
-		if(backRect.contains(Gdx.input.getX(), Gdx.input.getY())){
-			if(Gdx.input.justTouched()) {
-				game.Sounds.play("menu", true);
-				TutorialGame.state = TutorialGame.States.Menu;
-				game.reset();
-			}
-		}
-		
-		if(playRect.contains(Gdx.input.getX(), Gdx.input.getY())){
-			if(Gdx.input.justTouched()) {
-				TutorialGame.state = TutorialGame.States.Play;
-				game.reset();
-			}
-		}
 	}
 	
 	public void draw(SpriteBatch batch){
-		
-//		backgroundSprite.draw(batch);
 		playSprite.draw(batch);
-		backSprite.draw(batch);
-		
+		backSprite.draw(batch);	
 	}
-	
-	private void SetPosition(){
-		
-//		backgroundSprite.setRegion(0, 0, 300, 267);
-//		backgroundSprite.setSize(300, 267);
-//		backgroundSprite.flip(false, true);
-//		backgroundSprite.setPosition(swcenter - 150, shcenter - 133);
-		
-		backSprite.setSize(BUTTON_SIZE, BUTTON_SIZE);
-		backSprite.setPosition(swcenter - BUTTON_SIZE*1.5f, shcenter - BUTTON_SIZE/2);
+
+	@Override
+	public boolean keyDown(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		if(backSprite.getBoundingRectangle().contains(screenX, screenY)) {
+			backSprite.setRegion(320, 128, 64, 64);
+			backSprite.flip(false, true);
+		} else if(playSprite.getBoundingRectangle().contains(screenX, screenY)) {
+			playSprite.setRegion(320, 192, 64, 64);
+			playSprite.flip(false, true);
+		}
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		backSprite.setRegion(256, 128, 64, 64);
 		backSprite.flip(false, true);
 		
-		backRect = new Rectangle(swcenter - BUTTON_SIZE*1.5f, shcenter - BUTTON_SIZE/2, BUTTON_SIZE, BUTTON_SIZE);
-		
-		playSprite.setSize(BUTTON_SIZE, BUTTON_SIZE);
-		playSprite.setPosition(swcenter + BUTTON_SIZE*0.5f, shcenter - BUTTON_SIZE/2);
+		playSprite.setRegion(256, 192, 64, 64);
 		playSprite.flip(false, true);
 		
-		playRect = new Rectangle(swcenter + BUTTON_SIZE*0.5f, shcenter - BUTTON_SIZE/2, BUTTON_SIZE, BUTTON_SIZE);
-		
-		
+		if(backSprite.getBoundingRectangle().contains(screenX, screenY)) {
+			game.Sounds.play("menu", true);
+			TutorialGame.state = TutorialGame.States.Menu;
+			game.reset();
+		} else if(playSprite.getBoundingRectangle().contains(screenX, screenY)) {
+			TutorialGame.state = TutorialGame.States.Play;
+			game.reset();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		return false;
 	}
 }

@@ -2,12 +2,7 @@ package com.skid.marks.manager.particle;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
-import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 
 public class ParticleManager {
 	
@@ -18,6 +13,10 @@ public class ParticleManager {
 	}
 	
 	public void dispose() {
+	}
+	
+	public void clear() {
+		particles.clear();
 	}
 	
 	public void add(BaseParticle particle) {

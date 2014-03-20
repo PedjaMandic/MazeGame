@@ -2,12 +2,9 @@ package com.skid.marks.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
-import com.skid.marks.manager.Localization;
 import com.skid.marks.tutorial.TutorialGame;
 import com.skid.marks.tutorial.TutorialGame.States;
 
@@ -162,8 +159,8 @@ public class Settings {
 		SETTINGS_MUSIC = prefs.getBoolean("music");
 		
 		setLanguage(SETTINGS_LANUAGE);
-		game.Localization.dispose();
-		game.Localization = new Localization(SETTINGS_LANUAGE);
+//		game.Localization.dispose();
+//		game.Localization = new Localization(SETTINGS_LANUAGE);
 		
 		if(SETTINGS_MUSIC) {
 			music_sprite.setRegion(128, 256, 128, 128);

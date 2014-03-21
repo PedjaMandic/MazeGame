@@ -159,6 +159,8 @@ public class TutorialGame extends Game {
 				state = States.GameOver;
 				Sounds.play("explosion");
 				Particles.add(new PedjaStars(this, player.getPosition()));
+				Highscore.InitHighscore();
+				IsHighscore(score);
 			}
 			
 			// DRAW
@@ -176,7 +178,6 @@ public class TutorialGame extends Game {
 			break;
 		case GameOver:
 			
-			highscore.CheckScore(score);
 			gameOverTimer += time;
 			camera.update();
 			batch.setProjectionMatrix(camera.combined);
@@ -258,5 +259,21 @@ public class TutorialGame extends Game {
 				state = States.GameOver;
 			}
 		}
+	}
+	
+	private void IsHighscore(int newscore){
+		
+		int checker = highscore.CheckScore(newscore);
+		
+		if(checker == 1){
+			highscore.SaveScore(1, newscore);
+		}
+		else if(checker == 2){
+			highscore.SaveScore(2, newscore);
+		}
+		else if(checker==3){
+			highscore.SaveScore(3, newscore);
+		}
+		
 	}
 }

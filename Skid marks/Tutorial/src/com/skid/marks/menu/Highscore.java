@@ -39,9 +39,6 @@ public class Highscore {
 	
 	private Sprite background_texture;
 	private Sprite local_button_texture;
-	private Sprite weekly_button_texture;
-	private Sprite monthly_button_texture;
-	private Sprite all_time_button_texture;
 	
 	private BitmapFont font;
 	
@@ -104,8 +101,8 @@ public class Highscore {
 		
 		background_texture.draw(batch);
 		font.draw(batch, "1st : " + scores_first, 50, 100);
-		font.draw(batch, "2nd : " + scores_second, 100, 100);
-		font.draw(batch, "3rd : " + scores_third, 150, 100);
+		font.draw(batch, "2nd : " + scores_second, 50, 200);
+		font.draw(batch, "3rd : " + scores_third, 50, 300);
 	}
 	
 	private static int GetScore(String file_key){
@@ -119,14 +116,25 @@ public class Highscore {
 	public void SaveScore(int place, int score){
 		
 		if(place == 1){
+			
+			scores_third = scores_second;
+			scores_second = scores_first;
+			
 			prefs.putInteger(KEY_FIRST, score);
+			prefs.putInteger(KEY_SECOND, scores_second);
+			prefs.putInteger(KEY_THIRD, scores_third);
 		}
-		if(place == 2){
+		else if(place == 2){
+			
+			scores_third = scores_second;
+			
 			prefs.putInteger(KEY_SECOND, score);
+			prefs.putInteger(KEY_THIRD, scores_third);
 		}
-		if(place == 3){
+		else if(place == 3){
 			prefs.putInteger(KEY_THIRD, score);
 		}
+		prefs.flush();
 	}
 	
 	public int CheckScore(int score){
@@ -134,13 +142,13 @@ public class Highscore {
 		if(score>scores_first){
 			return 1;
 		}
-		if(score>scores_second){
+		else if(score>scores_second){
 			return 2;
 		}
-		if(score>scores_third){
+		else if(score>scores_third){
 			return 3;
 		}
-		return 0;
+		else return 0;
 	}
 	
 	public static void InitHighscore(){

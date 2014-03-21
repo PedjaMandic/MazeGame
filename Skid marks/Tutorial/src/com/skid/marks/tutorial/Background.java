@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Background {
-	private TutorialGame game;
+	private final TutorialGame game;
 	
 	private Color[] colors = {
 			new Color(255/256.0f, 42/256.0f, 127/256.0f, 1.0f), // Rosa
@@ -16,8 +16,6 @@ public class Background {
 			new Color(144/256.0f, 130/256.0f, 255/256.0f, 1.0f), // Blå
 			new Color(255/256.0f, 242/256.0f, 107/256.0f, 1.0f), // Gul
 	};
-	
-//	private int colorIndex = 0;
 	
 	public static Color currentColor;
 	private Color targetColor;
@@ -39,7 +37,7 @@ public class Background {
 	private float speed;
 	private final float BASE_SPEED = 50.0f;
 	
-	public Background(TutorialGame game) {
+	public Background(final TutorialGame game) {
 		this.game = game;
 		
 		background = game.Textures.getSprite("data/gfx/background.png");

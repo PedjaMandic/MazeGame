@@ -1,21 +1,18 @@
-package com.skid.marks.menu;
-
-import java.util.ArrayList;
-import java.util.Map;
+package com.skid.marks.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g3d.utils.FirstPersonCameraController;
-import com.badlogic.gdx.math.Rectangle;
 import com.skid.marks.tutorial.TutorialGame;
 
-public class Highscore {
+public class Highscore implements Screen, InputProcessor {
 	
-	private TutorialGame game;
+	private final TutorialGame game;
 	
 	private static Preferences prefs;
 	
@@ -39,6 +36,9 @@ public class Highscore {
 	
 	private Sprite background_texture;
 	private Sprite local_button_texture;
+	private Sprite weekly_button_texture;
+	private Sprite monthly_button_texture;
+	private Sprite all_time_button_texture;
 	
 	private BitmapFont font;
 	
@@ -48,9 +48,9 @@ public class Highscore {
 	private float BUTTON_WIDTH;
 	private float BUTTON_HEIGHT;
 	
-	public Highscore(TutorialGame game){
-		
+	public Highscore(final TutorialGame game){
 		this.game = game;
+		Gdx.input.setInputProcessor(this);
 		
 		sw = Gdx.graphics.getWidth();
 		sh = Gdx.graphics.getHeight();
@@ -70,10 +70,10 @@ public class Highscore {
 		
 		SetPosition();
 		
-		game.Sounds.play("menu", true);
+//		game.Sounds.play("menu", true);
 	}
 	
-	private void SetPosition(){
+	private void SetPosition() {
 		//BACKGROUND RUTA
 		background_texture = new Sprite(texture);
 		background_texture.setRegion(0, 0, 300, 400);
@@ -90,19 +90,10 @@ public class Highscore {
 		
 	}
 	
-	private void ResetValues(){
+	private void ResetValues() {
 		
 		local_button_texture.setRegion(0, 0, 256, 128);
 		local_button_texture.flip(false, true);
-	}
-	
-	
-	public void Draw(SpriteBatch batch){
-		
-		background_texture.draw(batch);
-		font.draw(batch, "1st : " + scores_first, 50, 100);
-		font.draw(batch, "2nd : " + scores_second, 50, 200);
-		font.draw(batch, "3rd : " + scores_third, 50, 300);
 	}
 	
 	private static int GetScore(String file_key){
@@ -113,42 +104,34 @@ public class Highscore {
 		return value;
 	}
 	
-	public void SaveScore(int place, int score){
+	public static void SaveScore(int place, int score){
 		
 		if(place == 1){
-			
-			scores_third = scores_second;
-			scores_second = scores_first;
-			
+			scores_first = score;
 			prefs.putInteger(KEY_FIRST, score);
-			prefs.putInteger(KEY_SECOND, scores_second);
-			prefs.putInteger(KEY_THIRD, scores_third);
 		}
-		else if(place == 2){
-			
-			scores_third = scores_second;
-			
+		if(place == 2){
+			scores_second = score;
 			prefs.putInteger(KEY_SECOND, score);
-			prefs.putInteger(KEY_THIRD, scores_third);
 		}
-		else if(place == 3){
+		if(place == 3){
+			scores_third = score;
 			prefs.putInteger(KEY_THIRD, score);
 		}
-		prefs.flush();
 	}
 	
-	public int CheckScore(int score){
+	public static int CheckScore(int score){
 		
 		if(score>scores_first){
 			return 1;
 		}
-		else if(score>scores_second){
+		if(score>scores_second){
 			return 2;
 		}
-		else if(score>scores_third){
+		if(score>scores_third){
 			return 3;
 		}
-		else return 0;
+		return 0;
 	}
 	
 	public static void InitHighscore(){
@@ -158,5 +141,75 @@ public class Highscore {
 		scores_third = GetScore(KEY_THIRD);
 	}
 	
+	@Override
+	public void render(float delta) {
+		Gdx.gl.glClearColor(100/255f, 100/255f, 1.0f, 1.0f);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		game.Batch.begin();
+		background_texture.draw(game.Batch);
+		font.draw(game.Batch, "1st : " + scores_first, 50, 100);
+		font.draw(game.Batch, "2nd : " + scores_second, 50, 130);
+		font.draw(game.Batch, "3rd : " + scores_third, 50, 160);
+		game.Batch.end();
+	}
+
+	@Override
+	public void resize(int width, int height) {}
+
+	@Override
+	public void show() {}
+
+	@Override
+	public void hide() {}
+
+	@Override
+	public void pause() {}
+
+	@Override
+	public void resume() {}
+
+	@Override
+	public void dispose() {}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		return false;
+	}	
 
 }

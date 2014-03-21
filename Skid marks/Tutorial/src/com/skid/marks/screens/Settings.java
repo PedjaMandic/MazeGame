@@ -1,21 +1,19 @@
-package com.skid.marks.menu;
+package com.skid.marks.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.skid.marks.tutorial.TutorialGame;
-import com.skid.marks.tutorial.TutorialGame.States;
 
-public class Settings {
+public class Settings implements Screen, InputProcessor {
 	
-	private TutorialGame game;
+	private final TutorialGame game;
 	
 	private final String SETTINGS_FILE = "settings";
-	
-	private BitmapFont font;
-	
+
 	private float sw;
 	private float sh;
 	
@@ -35,17 +33,16 @@ public class Settings {
 	public static boolean SETTINGS_MUSIC;
 	public static String SETTINGS_LANUAGE;
 	
-	public Settings(TutorialGame game){
+	public Settings(final TutorialGame game){
 		this.game = game;
+		Gdx.input.setInputProcessor(this);
 		
 		sw = Gdx.graphics.getWidth();
 		sh = Gdx.graphics.getHeight();
 		
 		sw_center = sw/2;
 		sh_center = sh/2;
-		
-		font = new BitmapFont(true);
-		
+
 		// Background
 		background_sprite = game.Textures.getSprite("data/gfx/menu/menu_sheet.png");
 		background_sprite.setRegion(0, 0, 512, 256);
@@ -82,51 +79,6 @@ public class Settings {
 		lang_es_sprite.setPosition(296, sh - BUTTON_SIZE - 40);
 		
 		loadSettings();
-	}
-	
-	public void dispose() {
-		font.dispose();
-	}
-	
-	public void update(float time) {
-		if(Gdx.input.justTouched()) {
-			
-			int mx = Gdx.input.getX();
-			int my = Gdx.input.getY();
-			
-			if(back_sprite.getBoundingRectangle().contains(mx, my)) {	
-				saveSettings();
-				TutorialGame.state = States.Menu;
-			} else if(music_sprite.getBoundingRectangle().contains(mx, my)){
-				SETTINGS_MUSIC = !SETTINGS_MUSIC;
-				if(SETTINGS_MUSIC) {
-					music_sprite.setRegion(128, 256, 128, 128);
-//					game.Sounds.setSound(true);
-				} else {
-					music_sprite.setRegion(256, 256, 128, 128);
-//					game.Sounds.setSound(false);
-				}
-			} else if(lang_en_sprite.getBoundingRectangle().contains(mx, my)) {
-				setLanguage("en_GB");
-			} else if(lang_sv_sprite.getBoundingRectangle().contains(mx, my)) {
-				setLanguage("sv_SE");
-			} else if(lang_es_sprite.getBoundingRectangle().contains(mx, my)) {
-				setLanguage("es_ES");
-			}
-		}
-	}
-	
-	public void draw(SpriteBatch batch){
-		background_sprite.draw(batch);
-		back_sprite.draw(batch);
-		music_sprite.draw(batch);
-		lang_en_sprite.draw(batch);
-		lang_sv_sprite.draw(batch);
-		lang_es_sprite.draw(batch);
-		
-		font.draw(batch, "English", 60, 220);
-		font.draw(batch, "Swedish", 60 + (BUTTON_SIZE), 220);
-		font.draw(batch, "Spanish", 60 + (BUTTON_SIZE * 2), 220);
 	}
 	
 	void setLanguage(String lang) {
@@ -169,6 +121,111 @@ public class Settings {
 			music_sprite.setRegion(256, 256, 128, 128);
 //			game.Sounds.setSound(false);
 		}
+	}
+	
+	@Override
+	public void render(float delta) {
+		Gdx.gl.glClearColor(100/255f, 100/255f, 1.0f, 1.0f);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		// Ska till touchUp och touchDown!
+		if(Gdx.input.justTouched()) {
+			
+			int mx = Gdx.input.getX();
+			int my = Gdx.input.getY();
+			
+			if(back_sprite.getBoundingRectangle().contains(mx, my)) {	
+				saveSettings();
+				game.setScreen(new MainMenu(game));
+//				TutorialGame.state = States.Menu;
+			} else if(music_sprite.getBoundingRectangle().contains(mx, my)){
+				SETTINGS_MUSIC = !SETTINGS_MUSIC;
+				if(SETTINGS_MUSIC) {
+					music_sprite.setRegion(128, 256, 128, 128);
+//					game.Sounds.setSound(true);
+				} else {
+					music_sprite.setRegion(256, 256, 128, 128);
+//					game.Sounds.setSound(false);
+				}
+			} else if(lang_en_sprite.getBoundingRectangle().contains(mx, my)) {
+				setLanguage("en_GB");
+			} else if(lang_sv_sprite.getBoundingRectangle().contains(mx, my)) {
+				setLanguage("sv_SE");
+			} else if(lang_es_sprite.getBoundingRectangle().contains(mx, my)) {
+				setLanguage("es_ES");
+			}
+		}
+		
+		game.Batch.begin();
+		background_sprite.draw(game.Batch);
+		back_sprite.draw(game.Batch);
+		music_sprite.draw(game.Batch);
+		lang_en_sprite.draw(game.Batch);
+		lang_sv_sprite.draw(game.Batch);
+		lang_es_sprite.draw(game.Batch);
+		
+		game.Font.draw(game.Batch, "English", 60, 220);
+		game.Font.draw(game.Batch, "Swedish", 60 + (BUTTON_SIZE), 220);
+		game.Font.draw(game.Batch, "Spanish", 60 + (BUTTON_SIZE * 2), 220);
+		game.Batch.end();
+	}
+
+	@Override
+	public void resize(int width, int height) {}
+
+	@Override
+	public void show() {}
+
+	@Override
+	public void hide() {}
+
+	@Override
+	public void pause() {}
+
+	@Override
+	public void resume() {}
+	
+	@Override
+	public void dispose() {}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		return false;
 	}
 
 }

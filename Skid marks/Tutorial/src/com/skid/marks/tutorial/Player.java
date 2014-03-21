@@ -11,13 +11,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.skid.marks.manager.particle.BaseParticle;
 import com.skid.marks.manager.particle.Trail;
 
-public class Player implements GameObject {
+public class Player {
 
 	private TutorialGame game;
 	
 	private Rectangle bounds;
 	private Vector2 position;
-	private Vector2 gasPosition;
 	private Sprite sprite;
 	
 	private float MOVE_SPEED;
@@ -34,15 +33,12 @@ public class Player implements GameObject {
 	
 	private float rotation;
 	
-//	private ParticleEffect gasEffect;
-	
 	private ArrayList<BaseParticle> trail;
 	
 	public Player(TutorialGame game) {
 		this.game = game;
 	}
 
-	@Override
 	public void init() {
 		SIZE = Gdx.graphics.getHeight() / 16;
 		MOVE_SPEED = Gdx.graphics.getHeight();
@@ -52,38 +48,21 @@ public class Player implements GameObject {
 		screenWidth = Gdx.graphics.getWidth();
 		screenHeight = Gdx.graphics.getHeight();
 		
-//		position = new Vector2((screenWidth / 2) - (SIZE / 2), screenHeight * 3/4f);
-		
 		sprite = game.Textures.getSprite("data/gfx/player_green_2.0.png");
 		sprite.setSize(SIZE, SIZE);
-//		sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight());
 		sprite.setOrigin(0, sprite.getHeight() / 2);
-		
-//		gasEffect = new ParticleEffect();
-//		gasEffect.load(Gdx.files.internal("data/particle/gasParticle.p"),
-//					   Gdx.files.internal("data/particle/"));
 		
 		trail = new ArrayList<BaseParticle>();
 		
 		this.reset();
 	}
 	
-	
-	@Override
-	public void dispose() {
-//		gasEffect.dispose();
-	}
-	
-	@Override
 	public void reset() {
-//		position = new Vector2((screenWidth / 2) - (SIZE / 2), screenHeight * 3/4f);
 		position = new Vector2(screenWidth * 1/6f, (screenHeight / 2) - (SIZE / 2));
-		gasPosition = new Vector2(position);
 		isMouseToched = false;
 		mouseTochedY = (screenHeight / 2) - (SIZE / 2);
 	}
 
-	@Override
 	public void update(float delta) {				
 		// isTouched fungerar både till Andriod och Desktop
 		isMouseToched = Gdx.input.isTouched();
@@ -119,7 +98,6 @@ public class Player implements GameObject {
 		bounds.setPosition(position);
 	}
 
-	@Override
 	public void draw(SpriteBatch batch) {
 		
 		DrawTrail(batch);
@@ -130,12 +108,10 @@ public class Player implements GameObject {
 
 	}
 	
-	@Override
 	public Rectangle getBounds() {
 		return this.bounds;
 	}
 
-	@Override
 	public Vector2 getPosition() {
 		return this.position;
 	}

@@ -41,18 +41,10 @@ public class Level {
 	
 	private Background background;
 	
-//	private ParticleEffect lightEffect;
-//	private ParticleEmitter lightTouchedEmitter;
-//	private ParticleEmitter lightUntouchedEmitter;
-//	private boolean lightParticleCollision;
-	
-	
 	//för pausskärm
 	private boolean isBetweenLevels;
 	private Sprite pauseSprite;
-	
-	
-	
+
 	public Level(TutorialGame game)
 	{
 		this.game = game;
@@ -62,12 +54,6 @@ public class Level {
 	}
 	
 	public void reset() {
-//		lightEffect = new ParticleEffect();
-//		lightEffect.load(Gdx.files.internal("data/particle/lightParticle.p"),
-//					   Gdx.files.internal("data/particle/"));
-//		lightTouchedEmitter = lightEffect.findEmitter("touched");
-//		lightUntouchedEmitter = lightEffect.findEmitter("untouched");
-		
 		w = Gdx.graphics.getWidth();
 		h = Gdx.graphics.getHeight();
 		tunnelWidth = h*0.5f;
@@ -243,36 +229,6 @@ public class Level {
 			if(lowestRow < 0)
 			lowestRow = nrOfRows-1;
 		}
-		
-//		// Check particle collision
-//		if(lightParticleCollision == false) {
-//			Rectangle partRect = new Rectangle();
-//			partRect.x = lightUntouchedEmitter.getX();
-//			partRect.y = lightUntouchedEmitter.getY();
-//			partRect.width = lightUntouchedEmitter.getScale().getHighMax();
-//			partRect.height = lightUntouchedEmitter.getScale().getHighMax();
-//			
-//			if(p.getBounds().overlaps(partRect)) {
-//				lightParticleCollision = true;
-//				lightTouchedEmitter.start();
-//			//	background.setColorRandom();							<- Ändras just nu i StartPause()
-//			}
-//		}
-//		if(lightParticleCollision) {
-//			lightTouchedEmitter.setPosition(p.getPosition().x, p.getPosition().y);
-//			lightTouchedEmitter.update(delta);
-//			
-//			lightUntouchedEmitter.setPosition(rows[0].X + rowHeight / 2, rows[0].leftWidth + 20);
-//			lightUntouchedEmitter.update(delta);
-//			
-//			if(lightTouchedEmitter.isComplete()) {
-//				lightParticleCollision = false;
-//			}
-//		} else {
-//			lightUntouchedEmitter.setPosition(rows[0].X + rowHeight / 2, rows[0].leftWidth + 20);
-//			lightUntouchedEmitter.update(delta);
-//		}
-		
 	}
 	
 	public void draw(SpriteBatch batch)
@@ -280,12 +236,6 @@ public class Level {
 		background.draw(batch);
 		
 		game.Particles.render(batch, Gdx.graphics.getDeltaTime());
-		
-//		if(lightParticleCollision) {
-//			lightTouchedEmitter.draw(batch);
-//		} else {
-//			lightUntouchedEmitter.draw(batch);
-//		}
 		
 		if(isBetweenLevels && currentLevel >= 1)
 		{

@@ -1,6 +1,9 @@
-package com.skid.marks.menu;
+package com.skid.marks.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -8,9 +11,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.skid.marks.tutorial.Level;
 import com.skid.marks.tutorial.TutorialGame;
 
-public class GameMode {
+public class GameMode implements Screen, InputProcessor {
 	
-	TutorialGame game;
+	private final TutorialGame game;
 	
 	public Texture texture;
 	
@@ -28,8 +31,9 @@ public class GameMode {
 	
 	private float sw, sh, swcenter, shcenter;
 	
-	public GameMode(TutorialGame game){
+	public GameMode(final TutorialGame game){
 		this.game = game;
+		Gdx.input.setInputProcessor(this);
 		
 		texture = game.Textures.getTexture("data/gfx/gamemode_textures.png");
 		
@@ -50,7 +54,7 @@ public class GameMode {
 		if(standardModeRect.contains(Gdx.input.getX(), Gdx.input.getY())){
 			if(Gdx.input.justTouched()) {
 				game.Sounds.play("background", true);
-				TutorialGame.state = TutorialGame.States.Play;
+//				TutorialGame.state = TutorialGame.States.Play;
 				Level.isRandom = false;
 			}
 			standardModeSprite.setRegion(380, 0, 80, 80);
@@ -60,7 +64,7 @@ public class GameMode {
 		if(endlessModeRect.contains(Gdx.input.getX(), Gdx.input.getY())){
 			if(Gdx.input.justTouched()) {
 				game.Sounds.play("background", true);
-				TutorialGame.state = TutorialGame.States.Play;
+//				TutorialGame.state = TutorialGame.States.Play;
 				Level.isRandom = true;
 			}
 			endlessModeSprite.setRegion(380, 80, 80, 80);
@@ -111,6 +115,70 @@ public class GameMode {
 		
 		endlessModeSprite.setRegion(300, 80, 80, 80);
 		endlessModeSprite.flip(false, true);
+	}
+
+	@Override
+	public void render(float delta) {
+		Gdx.gl.glClearColor(100/255f, 100/255f, 1.0f, 1.0f);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	}
+
+	@Override
+	public void resize(int width, int height) {}
+
+	@Override
+	public void show() {}
+
+	@Override
+	public void hide() {}
+
+	@Override
+	public void pause() {}
+
+	@Override
+	public void resume() {}
+
+	@Override
+	public void dispose() {}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		return false;
 	}
 
 }

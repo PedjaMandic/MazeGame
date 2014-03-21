@@ -1,15 +1,25 @@
-package com.skid.marks.menu;
+package com.skid.marks.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.skid.marks.tutorial.Debug;
+import com.skid.marks.screens.MainMenu;
+import com.skid.marks.screens.Game;
+import com.skid.marks.tutorial.Level;
+import com.skid.marks.tutorial.Player;
 import com.skid.marks.tutorial.TutorialGame;
 
-public class GameOver implements InputProcessor {
+public class GameOver implements Screen, InputProcessor {
 	
 	private final TutorialGame game;
-		
+	
+	private Level level;
+	private Player player;
+	private int score;
+	
 	private Sprite backSprite;
 	private Sprite playSprite;
 	
@@ -18,8 +28,13 @@ public class GameOver implements InputProcessor {
 	private float sw;
 	private float sh;
 	
-	public GameOver(final TutorialGame game){
+	public GameOver(final TutorialGame game, Level level, Player player, int score) {
 		this.game = game;
+		Gdx.input.setInputProcessor(this);
+		
+		this.level = level;
+		this.player = player;
+		this.score = score;
 		
 		sw = Gdx.graphics.getWidth();
 		sh = Gdx.graphics.getHeight();
@@ -39,29 +54,25 @@ public class GameOver implements InputProcessor {
 		playSprite.flip(false, true);
 	}
 	
-	public void update(float time){
+	@Override
+	public void render(float delta) {
+		Gdx.gl.glClearColor(100/255f, 100/255f, 1.0f, 1.0f);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		game.Camera.update();
+		game.Batch.setProjectionMatrix(game.Camera.combined);
+		game.Batch.begin();
+		level.draw(game.Batch);
+		game.Font.draw(game.Batch, String.format("Score: %d", score), 20, 20);
+		player.draw(game.Batch);
+		
+		playSprite.draw(game.Batch);
+		backSprite.draw(game.Batch);	
+		
+		Debug.render(game.Batch);
+		game.Batch.end();
 	}
 	
-	public void draw(SpriteBatch batch){
-		playSprite.draw(batch);
-		backSprite.draw(batch);	
-	}
-
-	@Override
-	public boolean keyDown(int keycode) {
-		return false;
-	}
-
-	@Override
-	public boolean keyUp(int keycode) {
-		return false;
-	}
-
-	@Override
-	public boolean keyTyped(char character) {
-		return false;
-	}
-
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		if(backSprite.getBoundingRectangle().contains(screenX, screenY)) {
@@ -84,12 +95,43 @@ public class GameOver implements InputProcessor {
 		
 		if(backSprite.getBoundingRectangle().contains(screenX, screenY)) {
 			game.Sounds.play("menu", true);
-			TutorialGame.state = TutorialGame.States.Menu;
-			game.reset();
+			game.setScreen(new MainMenu(game));
 		} else if(playSprite.getBoundingRectangle().contains(screenX, screenY)) {
-			TutorialGame.state = TutorialGame.States.Play;
-			game.reset();
+			game.setScreen(new Game(game));
 		}
+		return false;
+	}
+
+	@Override
+	public void resize(int width, int height) {}
+
+	@Override
+	public void show() {}
+
+	@Override
+	public void hide() {}
+
+	@Override
+	public void pause() {}
+
+	@Override
+	public void resume() {}
+
+	@Override
+	public void dispose() {}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
 		return false;
 	}
 

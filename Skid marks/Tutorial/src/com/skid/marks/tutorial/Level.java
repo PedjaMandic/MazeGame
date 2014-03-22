@@ -34,6 +34,7 @@ public class Level {
 	private float totalPauseTime;
 	private float timeUntilLevelEnds;
 	private float timeBetweenLevels;
+	private float maximumPointDifference;
 	
 	private int currentLevel = 0;
 	
@@ -64,7 +65,7 @@ public class Level {
 		currentPoint = 0.5f;
 		nextPoint = 0.5f;
 		isBetweenLevels = true;
-		
+		isRandom = true;
 		currentLevel = 0;
 		timeBetweenLevels = 20f;
 		timeUntilLevelEnds = timeBetweenLevels;
@@ -72,6 +73,7 @@ public class Level {
 		timeUntilLevelStarts = totalPauseTime;
 		distanceSinceLastPoint = 0.0f;
 		previousPoint = 0;
+		maximumPointDifference = 0.4f;
 		
 		sprite = game.Textures.getSprite("data/gfx/platform_white.png");
 		pauseSprite = game.Textures.getSprite("data/gfx/newlevel2.png");
@@ -135,13 +137,21 @@ public class Level {
 			nrOfExtraRowsToCheck++;
 		}
 		
-		for(int i = start; i >= start-nrOfExtraRowsToCheck; i--)
+		if(rows[start].active)
+		{
+			if(rect.y < rows[start].leftWidth)
+				return true;
+			if(rect.y+rect.height > (h - rows[start].rightWidth))
+				return true;
+		}
+		
+		for(int i = start-1; i >= start-nrOfExtraRowsToCheck; i--)
 		{
 			if(rows[(nrOfRows+i)%nrOfRows].active)
 			{
-				if(rect.y < rows[(nrOfRows+i)%nrOfRows].leftWidth)
+				if(rect.y + rect.height/2f < rows[(nrOfRows+i)%nrOfRows].leftWidth)
 					return true;
-				if((rect.y+rect.height) > (h - rows[(nrOfRows+i)%nrOfRows].rightWidth))
+				if((rect.y+rect.height/2f) > (h - rows[(nrOfRows+i)%nrOfRows].rightWidth))
 					return true;
 			}
 		}
@@ -155,12 +165,19 @@ public class Level {
 	
 	private void endPauseTrigger()
 	{
-		if(currentLevel < 7)
-		{
-			currentLevel++;
-			tunnelWidth *= 0.85f;
-		}
+		currentLevel++;
+		tunnelWidth *= 0.95f;
+		if(tunnelWidth < 0.2f)
+			tunnelWidth = 0.2f;
+		levelSpeed *= 1.05f;
+		timeBetweenLevels *= 1.05f;
 		background.setColorRandom();
+		
+		if(currentLevel == 8)
+			background.setColor(Color.BLACK);
+		else
+			background.setColorRandom();
+		
 		timeUntilLevelStarts+= totalPauseTime;
 		isBetweenLevels = false;
 	}
@@ -171,7 +188,8 @@ public class Level {
 		isBetweenLevels = true;
 	}
 	
-	public void update(Player p, float delta)
+	
+	public void update(float delta)
 	{		
 		background.update(delta);
 		
@@ -202,12 +220,19 @@ public class Level {
 				currentPoint = points[previousPoint];
 				nextPoint = points[(previousPoint+1)%points.length];
 			}else {
+				float convertedHalfTW = (tunnelWidth/h)/2;
 				currentPoint = nextPoint;
-				nextPoint = currentPoint-0.25f+0.5f*random.nextFloat();
-				if(nextPoint < 0.05f+tunnelWidth/h/2)
-					nextPoint = 0.05f+tunnelWidth/h/2;
-				else if(nextPoint > 0.95f- tunnelWidth/h/2)
-					nextPoint = 0.95f-tunnelWidth/h/2;
+				float deltaValue = -maximumPointDifference + random.nextFloat()*(maximumPointDifference*2);
+				nextPoint = currentPoint +deltaValue;
+				
+				if(nextPoint < convertedHalfTW+0.05f || nextPoint > (0.95f - convertedHalfTW))
+					nextPoint = currentPoint - deltaValue;
+				
+				
+				if(nextPoint < convertedHalfTW+0.05f)
+					nextPoint = convertedHalfTW+0.05f;
+				if(nextPoint > (0.95f - convertedHalfTW))
+					nextPoint = 0.95f - convertedHalfTW;
 			}
 		}
 		
@@ -218,7 +243,7 @@ public class Level {
 			rows[i].X -= levelSpeed*delta;
 			
 			// Anim
-			rows[i].update(p, delta);
+			rows[i].update(delta);
 		}
 		while(rows[lowestRow].X <= -rowHeight)
 		{

@@ -38,13 +38,13 @@ public class Row {
 	public float leftTot;
 	public float rightTot;
 	
-	public void update(Player p, float delta) {
-		float py = p.getPosition().x;
+	public void update(float delta) {
+		//float py = p.getPosition().x;
 		
 		float dist = Gdx.graphics.getWidth() * 1f/8f;
 		float ratio = 0.5f *  ((Gdx.graphics.getWidth() - X) / dist) + 0.5f;
 		
-		if(py < X) {
+		if(Gdx.graphics.getWidth()*7f/8 < X) {
 			leftWidth = ratio * leftTot;
 			rightWidth = ratio * rightTot;
 			if(leftWidth > leftTot) {
@@ -53,7 +53,7 @@ public class Row {
 			if(rightWidth > rightTot) {
 				rightWidth = rightTot;
 			}
-		} else if(Gdx.graphics.getWidth()*3f/8 > X) {
+		} else if(Gdx.graphics.getWidth()*1f/8 > X) {
 			leftWidth -= (Gdx.graphics.getHeight()*1f * delta);
 			rightWidth -= (Gdx.graphics.getHeight()*1f * delta);
 		}

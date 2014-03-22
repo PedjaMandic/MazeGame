@@ -53,7 +53,7 @@ public class Game implements Screen, InputProcessor {
 		
 		player.update(time);
 		
-		level.update(player, time);
+		level.update(time);
 		
 		if(level.HasCollided(player.getBounds()))
 		{

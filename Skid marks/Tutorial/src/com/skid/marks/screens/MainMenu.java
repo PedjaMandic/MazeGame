@@ -101,9 +101,9 @@ public class MainMenu implements Screen, InputProcessor {
 		quitSprite.setPosition(sw * 0.95f - BUTTON_SIZE, sh * 0.1f);
 		quitSprite.flip(false, true);
 		
-		Preferences prefs = Gdx.app.getPreferences(Settings.SETTINGS_FILE);
-		hasSound = prefs.getBoolean(Settings.SOUND);
-		game.Sounds.setSound(hasSound);
+//		Preferences prefs = Gdx.app.getPreferences(Settings.SETTINGS_FILE);
+//		hasSound = prefs.getBoolean(Settings.SOUND);
+//		game.Sounds.setSound(hasSound);
 		
 		reset();
 	}

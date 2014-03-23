@@ -58,7 +58,6 @@ public class Game implements Screen, InputProcessor {
 		if(level.HasCollided(player.getBounds()))
 		{
 			game.Sounds.play("explosion");
-			game.Particles.add(new PedjaStars(game, player.getPosition()));
 			game.setScreen(new GameOver(game, level, player, score));
 			
 			Highscore.InitHighscore();

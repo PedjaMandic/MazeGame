@@ -61,7 +61,7 @@ public class Highscore implements Screen, InputProcessor {
 		BUTTON_WIDTH = sw/4;
 		BUTTON_HEIGHT = BUTTON_WIDTH*0.5f;
 		
-		buttons = game.Textures.getTexture("data/gfx/highscore_buttons.png");
+		//buttons = game.Textures.getTexture("data/gfx/highscore_buttons.png");
 		texture = game.Textures.getTexture("data/gfx/menu_textures.png");
 		
 		font = new BitmapFont(true);
@@ -81,13 +81,13 @@ public class Highscore implements Screen, InputProcessor {
 		background_texture.flip(false, true);
 		background_texture.setPosition(sw_center - BACKGROUND_WIDTH/2, sh_center - BACKGROUND_HEIGHT/2);
 		
-		//KNAPP LOCAL
-		local_button_texture = new Sprite(buttons);
-		local_button_texture.setRegion(0, 0, 256, 128);
-		local_button_texture.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-		local_button_texture.flip(false, true);
-		local_button_texture.setPosition(0,0);
-		
+//		//KNAPP LOCAL
+//		local_button_texture = new Sprite(buttons);
+//		local_button_texture.setRegion(0, 0, 256, 128);
+//		local_button_texture.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+//		local_button_texture.flip(false, true);
+//		local_button_texture.setPosition(0,0);
+//		
 	}
 	
 	private void ResetValues() {

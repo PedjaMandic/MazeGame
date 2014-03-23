@@ -12,7 +12,9 @@ public class Settings implements Screen, InputProcessor {
 	
 	private final TutorialGame game;
 	
-	private final String SETTINGS_FILE = "settings";
+	public static final String SETTINGS_FILE = "settings";
+	public static final String LANUAGE = "language";
+	public static final String SOUND = "sound";
 
 	private float sw;
 	private float sh;
@@ -29,9 +31,9 @@ public class Settings implements Screen, InputProcessor {
 	private Sprite lang_en_sprite;
 	private Sprite lang_sv_sprite;
 	private Sprite lang_es_sprite;
-	
-	public static boolean SETTINGS_MUSIC;
-	public static String SETTINGS_LANUAGE;
+
+	private String language;
+	private boolean hasSound;
 	
 	public Settings(final TutorialGame game){
 		this.game = game;
@@ -82,16 +84,16 @@ public class Settings implements Screen, InputProcessor {
 	}
 	
 	void setLanguage(String lang) {
-		SETTINGS_LANUAGE = lang;
-		if(lang.equals("en_GB")) {
+		this.language = lang;
+		if(lang.equals("en_gb")) {
 			lang_en_sprite.setRegion(128, 384, 128, 128);
 			lang_sv_sprite.setRegion(0, 384, 128, 128);
 			lang_es_sprite.setRegion(0, 384, 128, 128);
-		} else if(lang.equals("sv_SE")) {
+		} else if(lang.equals("sv_se")) {
 			lang_en_sprite.setRegion(0, 384, 128, 128);
 			lang_sv_sprite.setRegion(128, 384, 128, 128);
 			lang_es_sprite.setRegion(0, 384, 128, 128);
-		} else if(lang.equals("es_ES")) {
+		} else if(lang.equals("es_es")) {
 			lang_en_sprite.setRegion(0, 384, 128, 128);
 			lang_sv_sprite.setRegion(0, 384, 128, 128);
 			lang_es_sprite.setRegion(128, 384, 128, 128);
@@ -100,21 +102,22 @@ public class Settings implements Screen, InputProcessor {
 	
 	void saveSettings() {
 		Preferences prefs = Gdx.app.getPreferences(SETTINGS_FILE);
-		prefs.putString("language", SETTINGS_LANUAGE);
-		prefs.putBoolean("music", SETTINGS_MUSIC);
+		prefs.putString(LANUAGE, language);
+		prefs.putBoolean(SOUND, hasSound);
 		prefs.flush();
+		
+		game.Localization.setLanguage(language);
 	}
 	
 	void loadSettings() {
 		Preferences prefs = Gdx.app.getPreferences(SETTINGS_FILE);
-		SETTINGS_LANUAGE = prefs.getString("language");
-		SETTINGS_MUSIC = prefs.getBoolean("music");
+		language = prefs.getString(LANUAGE);
+		hasSound = prefs.getBoolean(SOUND);
 		
-		setLanguage(SETTINGS_LANUAGE);
-//		game.Localization.dispose();
-//		game.Localization = new Localization(SETTINGS_LANUAGE);
+		setLanguage(language);
+		game.Localization.setLanguage(language);
 		
-		if(SETTINGS_MUSIC) {
+		if(hasSound) {
 			music_sprite.setRegion(128, 256, 128, 128);
 //			game.Sounds.setSound(true);
 		} else {
@@ -139,8 +142,8 @@ public class Settings implements Screen, InputProcessor {
 				game.setScreen(new MainMenu(game));
 //				TutorialGame.state = States.Menu;
 			} else if(music_sprite.getBoundingRectangle().contains(mx, my)){
-				SETTINGS_MUSIC = !SETTINGS_MUSIC;
-				if(SETTINGS_MUSIC) {
+				hasSound = !hasSound;
+				if(hasSound) {
 					music_sprite.setRegion(128, 256, 128, 128);
 //					game.Sounds.setSound(true);
 				} else {
@@ -148,11 +151,11 @@ public class Settings implements Screen, InputProcessor {
 //					game.Sounds.setSound(false);
 				}
 			} else if(lang_en_sprite.getBoundingRectangle().contains(mx, my)) {
-				setLanguage("en_GB");
+				setLanguage("en_gb");
 			} else if(lang_sv_sprite.getBoundingRectangle().contains(mx, my)) {
-				setLanguage("sv_SE");
+				setLanguage("sv_se");
 			} else if(lang_es_sprite.getBoundingRectangle().contains(mx, my)) {
-				setLanguage("es_ES");
+				setLanguage("es_es");
 			}
 		}
 		

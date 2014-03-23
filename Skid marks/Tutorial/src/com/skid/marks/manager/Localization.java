@@ -10,13 +10,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Localization {
 	
-	private final String ENGLISH_CODE = "en_GB";
-	private final String SWEDISH_CODE = "sv_SE";
-	private final String SPANISH_CODE = "es_ES";
-	
-	public static Localization ENGLISH = new Localization("en_GB");
-	public static Localization SWEDISH = new Localization("sv_SE");
-	public static Localization SPANISH = new Localization("es_ES");
+	private final String ENGLISH = "en_gb";
+	private final String SWEDISH = "sv_se";
+	private final String SPANISH = "es_es";
 	
 	private String filePath;
 	private Map<String, Texture> resource;
@@ -33,26 +29,32 @@ public class Localization {
 		this.filePath = "data/locale/" + lang+ "/";
 	}
 	
-	private String validate(String language) {
-		if(language.equals(SWEDISH_CODE)) {
-			language = SWEDISH_CODE;
-			return SWEDISH_CODE;
-		} else if(language.equals(SPANISH_CODE)) {
-			language = SPANISH_CODE;
-			return SPANISH_CODE;
-		} else {
-			language = ENGLISH_CODE;
-			return ENGLISH_CODE;
-		}
-	}
-	
 	public void dispose() {
 		if(resource != null) {
 			for(Texture tex : resource.values()) {
 				tex.dispose();
 			}
 			resource.clear();
+			resource = null;
 		}
+	}
+	
+	private String validate(String lang) {
+		if(lang.equals(SWEDISH)) {
+			this.language = SWEDISH;
+		} else if(lang.equals(SPANISH)) {
+			this.language = SPANISH;
+		} else {
+			this.language = ENGLISH;
+		}
+		return this.language;
+	}
+	
+	public void setLanguage(String language) {
+		this.dispose();
+		String lang = validate(language);
+		this.resource = new HashMap<String, Texture>();
+		this.filePath = "data/locale/" + lang+ "/";
 	}
 	
 	// OBS! inte hela filvägen, bara namnet på filen

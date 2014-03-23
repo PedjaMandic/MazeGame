@@ -18,6 +18,8 @@ public class Highscore implements Screen, InputProcessor {
 	
 	private float sw;
 	private float sh;
+	private float cx;
+	private float cy;
 	
 	public static final String SCORES_FILE = "score_file";
 	public static final String KEY_FIRST = "first";
@@ -28,25 +30,25 @@ public class Highscore implements Screen, InputProcessor {
 	private static int scores_second;
 	private static int scores_third;
 	
-	private float sw_center;
-	private float sh_center;
-	
+	//SKA ÄNDRAS-------------------
 	private Texture texture;
-	private Texture buttons;
-	
 	private Sprite background_texture;
-	private Sprite local_button_texture;
-	private Sprite weekly_button_texture;
-	private Sprite monthly_button_texture;
-	private Sprite all_time_button_texture;
+	//----------------------
+	
+	private Texture main_menu_button_texture;
+	private Texture main_menu_button_textureHL;
+	private Texture highscore_background;
+	
+	private Sprite background;
+	private Sprite highscore_list;
+	private Sprite main_menu_button;
+	
+	private float buttonSize;
 	
 	private BitmapFont font;
 	
 	private final float BACKGROUND_WIDTH = 300f;
 	private final float BACKGROUND_HEIGHT = 400f;
-	
-	private float BUTTON_WIDTH;
-	private float BUTTON_HEIGHT;
 	
 	public Highscore(final TutorialGame game){
 		this.game = game;
@@ -54,12 +56,16 @@ public class Highscore implements Screen, InputProcessor {
 		
 		sw = Gdx.graphics.getWidth();
 		sh = Gdx.graphics.getHeight();
+		cx = sw/2;
+		cy = sh/2;
 		
-		sw_center = sw/2;
-		sh_center = sh/2;
+		buttonSize = sh * 0.15f;
 		
-		BUTTON_WIDTH = sw/4;
-		BUTTON_HEIGHT = BUTTON_WIDTH*0.5f;
+		main_menu_button = game.Textures.getSprite("data/gfx/background_sheet.png");
+		main_menu_button.setSize(buttonSize, buttonSize);
+		main_menu_button.setPosition(sw - buttonSize * 1.2f, sh - buttonSize * 1.2f);
+		main_menu_button.setRegion(256, 128, 64, 64);
+		main_menu_button.flip(false, true);
 		
 		//buttons = game.Textures.getTexture("data/gfx/highscore_buttons.png");
 		texture = game.Textures.getTexture("data/gfx/menu_textures.png");
@@ -70,16 +76,17 @@ public class Highscore implements Screen, InputProcessor {
 		
 		SetPosition();
 		
+		InitHighscore();
 //		game.Sounds.play("menu", true);
 	}
 	
 	private void SetPosition() {
 		//BACKGROUND RUTA
-		background_texture = new Sprite(texture);
-		background_texture.setRegion(0, 0, 300, 400);
-		background_texture.setSize(BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
-		background_texture.flip(false, true);
-		background_texture.setPosition(sw_center - BACKGROUND_WIDTH/2, sh_center - BACKGROUND_HEIGHT/2);
+//		background_texture = new Sprite(texture);
+//		background_texture.setRegion(0, 0, 300, 400);
+//		background_texture.setSize(BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
+//		background_texture.flip(false, true);
+//		background_texture.setPosition(sw_center - BACKGROUND_WIDTH/2, sh_center - BACKGROUND_HEIGHT/2);
 		
 //		//KNAPP LOCAL
 //		local_button_texture = new Sprite(buttons);
@@ -88,12 +95,6 @@ public class Highscore implements Screen, InputProcessor {
 //		local_button_texture.flip(false, true);
 //		local_button_texture.setPosition(0,0);
 //		
-	}
-	
-	private void ResetValues() {
-		
-		local_button_texture.setRegion(0, 0, 256, 128);
-		local_button_texture.flip(false, true);
 	}
 	
 	private static int GetScore(String file_key){
@@ -107,17 +108,24 @@ public class Highscore implements Screen, InputProcessor {
 	public static void SaveScore(int place, int score){
 		
 		if(place == 1){
+			scores_third = scores_second;
+			scores_second = scores_first;
 			scores_first = score;
 			prefs.putInteger(KEY_FIRST, score);
+			prefs.putInteger(KEY_SECOND, scores_second);
+			prefs.putInteger(KEY_THIRD, scores_third);
 		}
 		if(place == 2){
+			scores_third = scores_second;
 			scores_second = score;
 			prefs.putInteger(KEY_SECOND, score);
+			prefs.putInteger(KEY_THIRD, scores_third);
 		}
 		if(place == 3){
 			scores_third = score;
 			prefs.putInteger(KEY_THIRD, score);
 		}
+		prefs.flush();
 	}
 	
 	public static int CheckScore(int score){
@@ -147,7 +155,7 @@ public class Highscore implements Screen, InputProcessor {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		game.Batch.begin();
-		background_texture.draw(game.Batch);
+		main_menu_button.draw(game.Batch);
 		font.draw(game.Batch, "1st : " + scores_first, 50, 100);
 		font.draw(game.Batch, "2nd : " + scores_second, 50, 130);
 		font.draw(game.Batch, "3rd : " + scores_third, 50, 160);
@@ -189,11 +197,23 @@ public class Highscore implements Screen, InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		
+		if(main_menu_button.getBoundingRectangle().contains(screenX, screenY)){
+			main_menu_button.setRegion(320, 128, 64, 64);
+			main_menu_button.flip(false, true);
+		}
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		
+		main_menu_button.setRegion(256, 128, 64, 64);
+		main_menu_button.flip(false, true);
+		
+		if(main_menu_button.getBoundingRectangle().contains(screenX, screenY)){
+			game.setScreen(new MainMenu(game));
+		}
 		return false;
 	}
 

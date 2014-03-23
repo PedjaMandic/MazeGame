@@ -75,7 +75,7 @@ public class Level {
 		previousPoint = 0;
 		maximumPointDifference = 0.4f;
 		
-		sprite = game.Textures.getSprite("data/gfx/platform_white.png");
+		sprite = game.Textures.getSprite("data/gfx/rows_2.1.png");
 		pauseSprite = game.Textures.getSprite("data/gfx/newlevel2.png");
 		pauseSprite.setColor(Color.WHITE);
 		

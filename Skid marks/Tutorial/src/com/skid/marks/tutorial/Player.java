@@ -48,7 +48,7 @@ public class Player {
 		screenWidth = Gdx.graphics.getWidth();
 		screenHeight = Gdx.graphics.getHeight();
 		
-		sprite = game.Textures.getSprite("data/gfx/player_green_2.0.png");
+		sprite = game.Textures.getSprite("data/gfx/player_transparent.png");
 		sprite.setSize(SIZE, SIZE);
 		sprite.setOrigin(0, sprite.getHeight() / 2);
 		

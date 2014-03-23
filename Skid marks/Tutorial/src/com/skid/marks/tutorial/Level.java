@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Level {
@@ -264,7 +265,14 @@ public class Level {
 		
 		if(isBetweenLevels && currentLevel >= 1)
 		{
-			pauseSprite.setBounds(-w/4 + (w*1.25f)*(timeUntilLevelStarts/totalPauseTime), h/4, w/4, h/8);
+			float xPos = (float)Math.pow(totalPauseTime/2 - timeUntilLevelStarts, 4f)*w/2;
+			
+			if(timeUntilLevelStarts > totalPauseTime/2)
+				xPos = w/2 + xPos;
+			else
+				xPos = w/2 - xPos;
+//			pauseSprite.setBounds(-w/4 + (w*1.25f)*(timeUntilLevelStarts/totalPauseTime), h/4, w/4, h/8);
+			pauseSprite.setBounds(xPos, h/4, w/4, h/8);
 			pauseSprite.draw(batch);
 		}
 		

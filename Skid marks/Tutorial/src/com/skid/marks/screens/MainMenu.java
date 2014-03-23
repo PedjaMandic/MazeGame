@@ -16,18 +16,23 @@ public class MainMenu implements Screen, InputProcessor {
 	private float sw;
 	private float sh;
 	
-	private float sw_center;
-	private float sh_center;
+	private float cx;
+	private float cy;
 	
-	private Texture texture;
+	private Texture texPlay;
+	private Texture texPlayHL;
+	private Texture texHighscores;
+	private Texture texHighscoresHL;
+	private Texture texSettings;
+	private Texture texSettingsHL;
 	
-	private Sprite menu_texture;
-	private Sprite play_texture;
-	private Sprite highscore_texture;
-	private Sprite settings_texture;
-	
-	private final float BACKGROUND_WIDTH = 300f;
-	private final float BACKGROUND_HEIGHT = 400f;
+	private Sprite backgroundSprite;
+	private Sprite menuSprite;
+	private Sprite playSprite;
+	private Sprite highscoreSprite;
+	private Sprite settingsSprite;
+	private Sprite soundSprite;
+	private Sprite quitSprite;
 	
 	private final float BUTTON_SIZE = 80f;
 	
@@ -38,51 +43,69 @@ public class MainMenu implements Screen, InputProcessor {
 		sw = Gdx.graphics.getWidth();
 		sh = Gdx.graphics.getHeight();
 		
-		sw_center = sw/2;
-		sh_center = sh/2;
+		cx = sw/2;
+		cy = sh/2;
 		
-		texture = game.Textures.getTexture("data/gfx/menu_textures.png");
 		game.Sounds.play("menu", true);
 		
-		//Bakgrunden
-		menu_texture = new Sprite(texture);
-		menu_texture.setRegion(0, 0, 300, 400);
-		menu_texture.setSize(BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
-		menu_texture.flip(false, true);
-		menu_texture.setPosition(sw_center - BACKGROUND_WIDTH/2, sh_center - BACKGROUND_HEIGHT/2);
+		texPlay = game.Localization.getTexture("play.png");
+		texPlayHL = game.Localization.getTexture("play_HL.png");
+		texHighscores = game.Localization.getTexture("highscores.png");
+		texHighscoresHL = game.Localization.getTexture("highscores_HL.png");
+		texSettings = game.Localization.getTexture("settings.png");
+		texSettingsHL = game.Localization.getTexture("settings_HL.png");
 		
-		//PLAY BUTTON
-		play_texture = new Sprite(texture);
-		play_texture.setRegion(300, 0, 80, 80);
-		play_texture.setSize(BUTTON_SIZE, BUTTON_SIZE);
-		play_texture.flip(false, true);
-		play_texture.setPosition(sw_center - BUTTON_SIZE/2, sh_center - (BACKGROUND_HEIGHT/2) + 67 - (BUTTON_SIZE/2));
+		backgroundSprite = game.Textures.getSprite("data/gfx/background_A.png");
+		backgroundSprite.setSize(sw, sh);
+		backgroundSprite.setPosition(0, 0);
+		
+		menuSprite = game.Textures.getSprite("data/gfx/background_sheet.png");
+		menuSprite.setRegion(0, 0, 256, 512);
+		menuSprite.setSize(sw * 0.6f, sh * 0.8f);
+		menuSprite.setPosition(cx - (menuSprite.getWidth() / 2) , cy - (menuSprite.getHeight() / 2));
+		
+		// Button size och position
+		float bsx = menuSprite.getWidth();
+		float bsy = menuSprite.getHeight() / 3;
+		float box = menuSprite.getX();
+		float boy = menuSprite.getY();
+		
+		playSprite = new Sprite(texPlay);
+		playSprite.setSize(bsx, bsy);
+		playSprite.setPosition(box, boy);
+		playSprite.flip(false, true);
+		
+		highscoreSprite = new Sprite(texHighscores);
+		highscoreSprite.setSize(bsx, bsy);
+		highscoreSprite.setPosition(box, boy + bsy);
+		highscoreSprite.flip(false, true);
+		
+		settingsSprite = new Sprite(texSettings);
+		settingsSprite.setSize(bsx, bsy);
+		settingsSprite.setPosition(box, boy + bsy * 2);
+		settingsSprite.flip(false, true);
 
-		//HISCHORE BUTTON
-		highscore_texture = new Sprite(texture);
-		highscore_texture.setRegion(300, 80, 80, 80);
-		highscore_texture.setSize(BUTTON_SIZE, BUTTON_SIZE);
-		highscore_texture.flip(false, true);
-		highscore_texture.setPosition(sw_center - BUTTON_SIZE/2, sh_center - (BACKGROUND_HEIGHT/2) + 200 - (BUTTON_SIZE/2));
+		soundSprite = game.Textures.getSprite("data/gfx/background_sheet.png");
+		soundSprite.setRegion(256, 0, 64, 64);
+		soundSprite.setSize(0, 0);
+		soundSprite.setPosition(0, 0);
 		
-		//SETTINGS BUTTON
-		settings_texture = new Sprite(texture);
-		settings_texture.setRegion(300, 160, 80, 80);
-		settings_texture.setSize(BUTTON_SIZE, BUTTON_SIZE);
-		settings_texture.flip(false, true);
-		settings_texture.setPosition(sw_center - BUTTON_SIZE/2, sh_center - (BACKGROUND_HEIGHT/2) + 333 - (BUTTON_SIZE/2));
+		quitSprite = game.Textures.getSprite("data/gfx/background_sheet.png");
+		quitSprite.setRegion(256, 64, 64, 64);
+		quitSprite.setSize(0, 0);
+		quitSprite.setPosition(0, 0);
 	}
 	
 	
 	void reset() {
-		play_texture.setRegion(300, 0, 80, 80);
-		play_texture.flip(false, true);
+		playSprite.setRegion(300, 0, 80, 80);
+		playSprite.flip(false, true);
 		
-		highscore_texture.setRegion(300, 80, 80, 80);
-		highscore_texture.flip(false, true);
+		highscoreSprite.setRegion(300, 80, 80, 80);
+		highscoreSprite.flip(false, true);
 		
-		settings_texture.setRegion(300, 160, 80, 80);
-		settings_texture.flip(false, true);	
+		settingsSprite.setRegion(300, 160, 80, 80);
+		settingsSprite.flip(false, true);	
 	}
 
 	@Override
@@ -92,36 +115,41 @@ public class MainMenu implements Screen, InputProcessor {
 		
 		game.Batch.setProjectionMatrix(game.Camera.combined);
 		game.Batch.begin();
-		menu_texture.draw(game.Batch);
-		play_texture.draw(game.Batch);
-		highscore_texture.draw(game.Batch);
-		settings_texture.draw(game.Batch);
+
+		backgroundSprite.draw(game.Batch);
+		menuSprite.draw(game.Batch);
+		playSprite.draw(game.Batch);
+		highscoreSprite.draw(game.Batch);
+		settingsSprite.draw(game.Batch);
+		soundSprite.draw(game.Batch);
+		quitSprite.draw(game.Batch);
+		
 		game.Batch.end();
 	}
 	
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		if(play_texture.getBoundingRectangle().contains(screenX, screenY)) {
-			play_texture.setRegion(380, 0, 80, 80);
-			play_texture.flip(false, true);
-		} else if(highscore_texture.getBoundingRectangle().contains(screenX, screenY)) {
-			highscore_texture.setRegion(380, 80, 80, 80);
-			highscore_texture.flip(false, true);
-		} else if(settings_texture.getBoundingRectangle().contains(screenX, screenY)) {
-			settings_texture.setRegion(380, 160, 80, 80);
-			settings_texture.flip(false, true);
+		if(playSprite.getBoundingRectangle().contains(screenX, screenY)) {
+//			playSprite.setRegion(380, 0, 80, 80);
+//			playSprite.flip(false, true);
+		} else if(highscoreSprite.getBoundingRectangle().contains(screenX, screenY)) {
+//			highscoreSprite.setRegion(380, 80, 80, 80);
+//			highscoreSprite.flip(false, true);
+		} else if(settingsSprite.getBoundingRectangle().contains(screenX, screenY)) {
+//			settingsSprite.setRegion(380, 160, 80, 80);
+//			settingsSprite.flip(false, true);
 		}
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		reset();
-		if(play_texture.getBoundingRectangle().contains(screenX, screenY)) {
+//		reset();
+		if(playSprite.getBoundingRectangle().contains(screenX, screenY)) {
 			game.setScreen(new Game(game));
-		} else if(highscore_texture.getBoundingRectangle().contains(screenX, screenY)) {
+		} else if(highscoreSprite.getBoundingRectangle().contains(screenX, screenY)) {
 			game.setScreen(new Highscore(game));
-		} else if(settings_texture.getBoundingRectangle().contains(screenX, screenY)) {
+		} else if(settingsSprite.getBoundingRectangle().contains(screenX, screenY)) {
 			game.setScreen(new Settings(game));
 		}
 		return false;

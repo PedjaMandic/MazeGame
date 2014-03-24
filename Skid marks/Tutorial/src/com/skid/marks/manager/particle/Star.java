@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.skid.marks.tutorial.Level;
 import com.skid.marks.tutorial.TutorialGame;
 
 public class Star implements BaseParticle{
@@ -55,6 +56,9 @@ public class Star implements BaseParticle{
 				sprite.getColor().b,
 				alpha
 		);
+		
+		if(Level.currentLevel == 8)
+			sprite.setColor(0, 0, 0, alpha);
 		
 		bounds = new Rectangle();
 		bounds.setSize(scale);

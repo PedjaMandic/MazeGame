@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.skid.marks.tutorial.Background;
+import com.skid.marks.tutorial.Level;
 import com.skid.marks.tutorial.TutorialGame;
 
 public class Trail implements BaseParticle{
@@ -66,6 +67,11 @@ public class Trail implements BaseParticle{
 		
 		//Gets the current color off the background and sets it to the color of the trail
 		Color t = Background.currentColor;
+		
+		if(Level.currentLevel == 8)
+			t = Color.GRAY;
+		if(Level.currentLevel == 9)
+			t = Color.WHITE;
 		color = new Color(t.r, t.g, t.b, alpha/255f);
 	}
 

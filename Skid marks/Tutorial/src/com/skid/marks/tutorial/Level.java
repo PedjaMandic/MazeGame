@@ -37,7 +37,7 @@ public class Level {
 	private float timeBetweenLevels;
 	private float maximumPointDifference;
 	
-	private int currentLevel = 0;
+	public static int currentLevel = 0;
 	
 	public static boolean isRandom;
 	
@@ -166,15 +166,17 @@ public class Level {
 	
 	private void endPauseTrigger()
 	{
-		currentLevel++;
-		tunnelWidth *= 0.95f;
-		if(tunnelWidth < 0.2f)
-			tunnelWidth = 0.2f;
-		levelSpeed *= 1.05f;
-		timeBetweenLevels *= 1.05f;
-		background.setColorRandom();
+		if(currentLevel < 9){
+			currentLevel++;
+			tunnelWidth *= 0.95f;
+			levelSpeed *= 1.05f;
+			timeBetweenLevels *= 1.05f;
+			Player.MOVE_SPEED *= 1.05f;
+		}
 		
 		if(currentLevel == 8)
+			background.setColor(Color.WHITE);
+		else if (currentLevel == 9)
 			background.setColor(Color.BLACK);
 		else
 			background.setColorRandom();

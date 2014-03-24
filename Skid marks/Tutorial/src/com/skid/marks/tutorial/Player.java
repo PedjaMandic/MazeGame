@@ -19,7 +19,7 @@ public class Player {
 	private Vector2 position;
 	private Sprite sprite;
 	
-	private float MOVE_SPEED;
+	public static float MOVE_SPEED;
 	public static float SIZE = 50;
 	
 	// Screen dimensions

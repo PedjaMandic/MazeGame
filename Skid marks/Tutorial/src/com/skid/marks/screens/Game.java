@@ -70,6 +70,7 @@ public class Game implements Screen, InputProcessor {
 		game.Batch.begin();
 		level.draw(game.Batch);
 		game.Font.draw(game.Batch, String.format("Score: %d", score), 20, 20);
+		game.Font.draw(game.Batch, String.format("Level: %d", Level.currentLevel), 20, 40);
 		player.draw(game.Batch);
 
 		Debug.render(game.Batch);

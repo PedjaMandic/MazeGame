@@ -10,11 +10,12 @@ public class PedjaStars implements BaseParticle {
 	private TutorialGame game;
 	
 	private Vector2 position;
+	private float veloY;
 	private Sprite sprite;
 	
 	private int index = 0;
 	private float currentTimer = 0.0f;
-	private final float ANIM_TIMER = 0.3f; // 0.2 sec
+	private final float ANIM_TIMER = 0.5f; // 0.2 sec
 	private final int COLS = 5; // Antal bilder i sheeten
 	private final int SIZE = 64;
 	
@@ -33,6 +34,9 @@ public class PedjaStars implements BaseParticle {
 			index++;
 			currentTimer = 0;
 		}
+		
+		veloY += 10 * delta;
+		position.y -= veloY;
 	}
 
 	@Override

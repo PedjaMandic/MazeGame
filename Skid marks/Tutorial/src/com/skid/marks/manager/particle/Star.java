@@ -44,7 +44,7 @@ public class Star implements BaseParticle{
 		speed = 10 * rand.nextFloat();
 		
 		//Random riktning på vart den åker
-		direction = new Vector2(-rand.nextFloat(), 0);
+		direction = new Vector2(-rand.nextFloat() - 0.2f, 0);
 		
 		position = new Vector2(x, y);
 		

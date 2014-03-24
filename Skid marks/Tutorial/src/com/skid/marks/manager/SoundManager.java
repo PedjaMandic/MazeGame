@@ -24,11 +24,19 @@ public class SoundManager {
 	}
 	
 	public void dispose() {
-		for(Sound s : sounds.values()) {
-			s.dispose();
+		if(sounds != null) {
+			for(Sound s : sounds.values()) {
+				s.dispose();
+			}
+			sounds.clear();
+			sounds = null;
 		}
-		for(Music m : music.values()) {
-			m.dispose();
+		if(music != null) {
+			for(Music m : music.values()) {
+				m.dispose();
+			}
+			music.clear();
+			music = null;
 		}
 	}
 	

@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.skid.marks.tutorial.Debug;
+import com.skid.marks.manager.particle.PedjaStars;
 import com.skid.marks.screens.MainMenu;
 import com.skid.marks.screens.Game;
 import com.skid.marks.tutorial.Level;
@@ -52,6 +53,8 @@ public class GameOver implements Screen, InputProcessor {
 		playSprite.setPosition(buttonSize * 0.2f, sh - buttonSize * 1.2f);
 		playSprite.setRegion(256, 192, 64, 64);
 		playSprite.flip(false, true);
+		
+		game.Particles.add(new PedjaStars(game, player.getPosition()));
 	}
 	
 	@Override
@@ -64,7 +67,7 @@ public class GameOver implements Screen, InputProcessor {
 		game.Batch.begin();
 		level.draw(game.Batch);
 		game.Font.draw(game.Batch, String.format("Score: %d", score), 20, 20);
-		player.draw(game.Batch);
+//		player.draw(game.Batch);
 		
 		playSprite.draw(game.Batch);
 		backSprite.draw(game.Batch);	

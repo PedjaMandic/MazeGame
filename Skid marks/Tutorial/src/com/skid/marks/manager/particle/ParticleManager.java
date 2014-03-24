@@ -3,8 +3,11 @@ package com.skid.marks.manager.particle;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.skid.marks.tutorial.Debug;
 
 public class ParticleManager {
+	
+	private final int LIMIT = 500;
 	
 	private ArrayList<BaseParticle> particles;
 	
@@ -20,7 +23,13 @@ public class ParticleManager {
 	}
 	
 	public void add(BaseParticle particle) {
-		particles.add(particle);
+		if(particle instanceof PedjaStars) {
+			particles.add(particle);
+		} else {
+			if(particles.size() < LIMIT) {
+				particles.add(particle);
+			}
+		}
 	}
 	
 	public void render(SpriteBatch batch, float time) {

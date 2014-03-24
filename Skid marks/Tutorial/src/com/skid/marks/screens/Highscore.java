@@ -4,10 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.esotericsoftware.tablelayout.BaseTableLayout.Debug;
 import com.skid.marks.tutorial.TutorialGame;
 
 public class Highscore implements Screen, InputProcessor {
@@ -30,11 +32,6 @@ public class Highscore implements Screen, InputProcessor {
 	private static int scores_second;
 	private static int scores_third;
 	
-	//SKA ÄNDRAS-------------------
-	private Texture texture;
-	private Sprite background_texture;
-	//----------------------
-	
 	private Texture main_menu_button_texture;
 	private Texture main_menu_button_textureHL;
 	private Texture highscore_background;
@@ -47,9 +44,6 @@ public class Highscore implements Screen, InputProcessor {
 	
 	private BitmapFont font;
 	
-	private final float BACKGROUND_WIDTH = 300f;
-	private final float BACKGROUND_HEIGHT = 400f;
-	
 	public Highscore(final TutorialGame game){
 		this.game = game;
 		Gdx.input.setInputProcessor(this);
@@ -61,16 +55,23 @@ public class Highscore implements Screen, InputProcessor {
 		
 		buttonSize = sh * 0.15f;
 		
+		background = game.Textures.getSprite("data/gfx/background_A.png");
+		background.setSize(sw, sh);
+		background.setPosition(0, 0);
+		
+		highscore_list= game.Textures.getSprite("data/gfx/background_sheet.png");
+		highscore_list.setRegion(0, 0, 256, 512);
+		highscore_list.setSize(sw * 0.6f, sh * 0.8f);
+		highscore_list.setPosition(cx - (highscore_list.getWidth() / 2) , cy - (highscore_list.getHeight() / 2));
+		
 		main_menu_button = game.Textures.getSprite("data/gfx/background_sheet.png");
 		main_menu_button.setSize(buttonSize, buttonSize);
 		main_menu_button.setPosition(sw - buttonSize * 1.2f, sh - buttonSize * 1.2f);
 		main_menu_button.setRegion(256, 128, 64, 64);
 		main_menu_button.flip(false, true);
 		
-		//buttons = game.Textures.getTexture("data/gfx/highscore_buttons.png");
-		texture = game.Textures.getTexture("data/gfx/menu_textures.png");
-		
 		font = new BitmapFont(true);
+		font.setScale(2f);
 		
 		prefs = Gdx.app.getPreferences(SCORES_FILE);
 		
@@ -155,10 +156,12 @@ public class Highscore implements Screen, InputProcessor {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		game.Batch.begin();
+		background.draw(game.Batch);
+		highscore_list.draw(game.Batch);
 		main_menu_button.draw(game.Batch);
-		font.draw(game.Batch, "1st : " + scores_first, 50, 100);
-		font.draw(game.Batch, "2nd : " + scores_second, 50, 130);
-		font.draw(game.Batch, "3rd : " + scores_third, 50, 160);
+		font.draw(game.Batch, "1st : " + scores_first, highscore_list.getOriginX() + (highscore_list.getWidth()/4), sh/3);
+		font.draw(game.Batch, "2nd : " + scores_second, highscore_list.getOriginX() + (highscore_list.getWidth()/4), sh/2);
+		font.draw(game.Batch, "3rd : " + scores_third, highscore_list.getOriginX() + (highscore_list.getWidth()/4), sh/1.5f);
 		game.Batch.end();
 	}
 

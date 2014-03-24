@@ -59,7 +59,7 @@ public class GameOver implements Screen, InputProcessor {
 		
 //		game.Particles.add(new PedjaStars(game, player.getPosition()));
 		explosion = new ParticleEffect();
-		explosion.load(Gdx.files.internal("data/gfx/particle/explosion.p"),
+		explosion.load(Gdx.files.internal("data/gfx/particle/explosion2.p"),
 				Gdx.files.internal("data/gfx/particle/"));
 		explosion.setPosition(player.getPosition().x, player.getPosition().y);
 		explosion.reset();

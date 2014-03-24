@@ -263,6 +263,8 @@ public class Level {
 	{
 		background.draw(batch);
 		
+		game.Particles.render(batch, Gdx.graphics.getDeltaTime());
+		
 		if(isBetweenLevels && currentLevel >= 1)
 		{
 			float xPos = (float)Math.pow(totalPauseTime/2 - timeUntilLevelStarts, 4f)*w/2;
@@ -288,7 +290,5 @@ public class Level {
 				sprite.draw(batch);
 			}
 		}
-		
-		game.Particles.render(batch, Gdx.graphics.getDeltaTime());
 	}
 }

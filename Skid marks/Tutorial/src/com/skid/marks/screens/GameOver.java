@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.skid.marks.tutorial.Debug;
 import com.skid.marks.manager.particle.PedjaStars;
@@ -28,6 +29,8 @@ public class GameOver implements Screen, InputProcessor {
 	
 	private float sw;
 	private float sh;
+	
+	private ParticleEffect explosion;
 	
 	public GameOver(final TutorialGame game, Level level, Player player, int score) {
 		this.game = game;
@@ -54,7 +57,17 @@ public class GameOver implements Screen, InputProcessor {
 		playSprite.setRegion(256, 192, 64, 64);
 		playSprite.flip(false, true);
 		
-		game.Particles.add(new PedjaStars(game, player.getPosition()));
+//		game.Particles.add(new PedjaStars(game, player.getPosition()));
+		explosion = new ParticleEffect();
+		explosion.load(Gdx.files.internal("data/gfx/particle/explosion.p"),
+				Gdx.files.internal("data/gfx/particle/"));
+		explosion.setPosition(player.getPosition().x, player.getPosition().y);
+		explosion.reset();
+	}
+	
+	@Override
+	public void dispose() {
+		explosion.dispose();
 	}
 	
 	@Override
@@ -69,10 +82,11 @@ public class GameOver implements Screen, InputProcessor {
 		game.Font.draw(game.Batch, String.format("Score: %d", score), 20, 20);
 //		player.draw(game.Batch);
 		
-		playSprite.draw(game.Batch);
-		backSprite.draw(game.Batch);	
+		explosion.draw(game.Batch, delta);
 		
-		Debug.render(game.Batch);
+		playSprite.draw(game.Batch);
+		backSprite.draw(game.Batch);
+
 		game.Batch.end();
 	}
 	
@@ -99,8 +113,10 @@ public class GameOver implements Screen, InputProcessor {
 		if(backSprite.getBoundingRectangle().contains(screenX, screenY)) {
 			game.Sounds.play("menu", true);
 			game.setScreen(new MainMenu(game));
+			this.dispose();
 		} else if(playSprite.getBoundingRectangle().contains(screenX, screenY)) {
 			game.setScreen(new Game(game));
+			this.dispose();
 		}
 		return false;
 	}
@@ -119,9 +135,6 @@ public class GameOver implements Screen, InputProcessor {
 
 	@Override
 	public void resume() {}
-
-	@Override
-	public void dispose() {}
 
 	@Override
 	public boolean keyDown(int keycode) {

@@ -4,11 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.esotericsoftware.tablelayout.BaseTableLayout.Debug;
 import com.skid.marks.tutorial.TutorialGame;
 
@@ -70,8 +73,12 @@ public class Highscore implements Screen, InputProcessor {
 		main_menu_button.setRegion(256, 128, 64, 64);
 		main_menu_button.flip(false, true);
 		
-		font = new BitmapFont(true);
-		font.setScale(2f);
+		FileHandle fontFile = Gdx.app.getFiles().internal("data/gfx/fonts/Cooper Black.ttf");
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(fontFile);
+		font = generator.generateFont((int)(sw / 18), "1234567890stndr", true);
+		font.setColor(Color.valueOf("ff00ccff"));
+		font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		generator.dispose();
 		
 		prefs = Gdx.app.getPreferences(SCORES_FILE);
 		

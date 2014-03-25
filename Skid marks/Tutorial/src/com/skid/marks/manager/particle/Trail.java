@@ -19,6 +19,7 @@ public class Trail implements BaseParticle{
 	
 	private Color color;
 	private float alpha;
+	private final float alpha_reduction = 8;
 	
 	private Sprite sprite;
 	
@@ -63,7 +64,7 @@ public class Trail implements BaseParticle{
 		positionX -= WIDTH+2;
 		
 		//Reduces the alpha value
-		alpha -= 7 ;
+		alpha -= alpha_reduction ;
 		
 		//Gets the current color off the background and sets it to the color of the trail
 		Color t = Background.currentColor;

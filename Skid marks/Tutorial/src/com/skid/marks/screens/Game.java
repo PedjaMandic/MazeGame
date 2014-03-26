@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.skid.marks.manager.TextureManager;
 import com.skid.marks.manager.particle.PedjaStars;
 import com.skid.marks.manager.particle.Star;
 import com.skid.marks.tutorial.Debug;
@@ -19,6 +21,8 @@ public class Game implements Screen, InputProcessor {
 	private Player player;
 	private int score = 0;
 	
+	private Sprite score_background;
+	
 	private Highscore highScore;
 	
 	public Game(TutorialGame game) {
@@ -32,6 +36,9 @@ public class Game implements Screen, InputProcessor {
 		level = new Level(game);
 		
 		highScore = new Highscore(game);
+		
+		score_background = game.Textures.getSprite("data/gfx/score_background.png");
+		score_background.setBounds(0, 0, Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/6);
 		
 		game.Sounds.play("background", true);
 	}
@@ -69,8 +76,11 @@ public class Game implements Screen, InputProcessor {
 		game.Batch.setProjectionMatrix(game.Camera.combined);
 		game.Batch.begin();
 		level.draw(game.Batch);
-		game.Font.draw(game.Batch, String.format("Score: %d", score), 20, 20);
-		game.Font.draw(game.Batch, String.format("Level: %d", Level.currentLevel), 20, 40);
+		score_background.draw(game.Batch);
+		game.ingame_font.draw(game.Batch, String.format("Score: %d", score), 20, 20);
+		game.ingame_font.draw(game.Batch, String.format("Level: %d", Level.currentLevel), 20, 70);
+		//game.Font.draw(game.Batch, String.format("Score: %d", score), 20, 20);
+		//game.Font.draw(game.Batch, String.format("Level: %d", Level.currentLevel), 20, 40);
 		player.draw(game.Batch);
 
 		Debug.render(game.Batch);

@@ -45,8 +45,6 @@ public class Highscore implements Screen, InputProcessor {
 	
 	private float buttonSize;
 	
-	private BitmapFont font;
-	
 	public Highscore(final TutorialGame game){
 		this.game = game;
 		Gdx.input.setInputProcessor(this);
@@ -72,13 +70,6 @@ public class Highscore implements Screen, InputProcessor {
 		main_menu_button.setPosition(sw - buttonSize * 1.2f, sh - buttonSize * 1.2f);
 		main_menu_button.setRegion(256, 128, 64, 64);
 		main_menu_button.flip(false, true);
-		
-		FileHandle fontFile = Gdx.app.getFiles().internal("data/gfx/fonts/Cooper Black.ttf");
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(fontFile);
-		font = generator.generateFont((int)(sw / 18), "1234567890stndr", true);
-		font.setColor(Color.valueOf("ff00ccff"));
-		font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		generator.dispose();
 		
 		prefs = Gdx.app.getPreferences(SCORES_FILE);
 		
@@ -166,9 +157,9 @@ public class Highscore implements Screen, InputProcessor {
 		background.draw(game.Batch);
 		highscore_list.draw(game.Batch);
 		main_menu_button.draw(game.Batch);
-		font.draw(game.Batch, "1st : " + scores_first, highscore_list.getOriginX() + (highscore_list.getWidth()/4), sh/3);
-		font.draw(game.Batch, "2nd : " + scores_second, highscore_list.getOriginX() + (highscore_list.getWidth()/4), sh/2);
-		font.draw(game.Batch, "3rd : " + scores_third, highscore_list.getOriginX() + (highscore_list.getWidth()/4), sh/1.5f);
+		game.highscores_font.draw(game.Batch, "1st : " + scores_first, highscore_list.getOriginX() + (highscore_list.getWidth()/4), sh/3);
+		game.highscores_font.draw(game.Batch, "2nd : " + scores_second, highscore_list.getOriginX() + (highscore_list.getWidth()/4), sh/2);
+		game.highscores_font.draw(game.Batch, "3rd : " + scores_third, highscore_list.getOriginX() + (highscore_list.getWidth()/4), sh/1.5f);
 		game.Batch.end();
 	}
 

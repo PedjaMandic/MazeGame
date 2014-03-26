@@ -24,6 +24,7 @@ public class GameOver implements Screen, InputProcessor {
 	
 	private Sprite backSprite;
 	private Sprite playSprite;
+	private Sprite score_background;
 	
 	private float buttonSize;
 	
@@ -63,6 +64,9 @@ public class GameOver implements Screen, InputProcessor {
 				Gdx.files.internal("data/gfx/particle/"));
 		explosion.setPosition(player.getPosition().x, player.getPosition().y);
 		explosion.reset();
+		
+		score_background = game.Textures.getSprite("data/gfx/score_background.png");
+		score_background.setBounds(0, 0, Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/6);
 	}
 	
 	@Override
@@ -79,7 +83,10 @@ public class GameOver implements Screen, InputProcessor {
 		game.Batch.setProjectionMatrix(game.Camera.combined);
 		game.Batch.begin();
 		level.draw(game.Batch);
-		game.Font.draw(game.Batch, String.format("Score: %d", score), 20, 20);
+		score_background.draw(game.Batch);
+		game.ingame_font.draw(game.Batch, String.format("Score: %d", score), 20, 20);
+		game.ingame_font.draw(game.Batch, String.format("Level: %d", Level.currentLevel), 20, 70);
+		//game.Font.draw(game.Batch, String.format("Score: %d", score), 20, 20);
 //		player.draw(game.Batch);
 		
 		explosion.draw(game.Batch, delta);

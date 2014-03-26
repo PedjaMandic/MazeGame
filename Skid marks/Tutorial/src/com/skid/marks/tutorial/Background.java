@@ -69,6 +69,7 @@ public class Background {
 //			this.currentColor.set(colors[colorIndex]);
 //			this.targetColor.set(colors[(colorIndex + 1) % colors.length]);
 			this.currentColor.lerp(targetColor, lerpValue);
+			game.ingame_font.setColor(currentColor);
 
 			lerpTimer += time;
 			if(lerpTimer >= LERP_TIME) {

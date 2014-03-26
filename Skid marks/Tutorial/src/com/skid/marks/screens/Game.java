@@ -55,7 +55,7 @@ public class Game implements Screen, InputProcessor {
 		float time = Gdx.graphics.getDeltaTime();
 		
 		// UPDATE
-		score += 10;
+		score += 1;
 		game.Particles.add(new Star(game));
 		
 		player.update(time);

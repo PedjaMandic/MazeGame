@@ -44,7 +44,7 @@ public class Level {
 	private Background background;
 	
 	//för pausskärm
-	private boolean isBetweenLevels;
+	public static boolean isBetweenLevels;
 	private Sprite pauseSprite;
 
 	public Level(TutorialGame game)

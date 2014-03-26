@@ -11,20 +11,26 @@ public class Background {
 	private final TutorialGame game;
 	
 	private Color[] colors = {
-			new Color(255/256.0f, 42/256.0f, 127/256.0f, 1.0f), // Rosa
-			new Color(89/256.0f, 255/256.0f, 127/256.0f, 1.0f), // Grön
-			new Color(144/256.0f, 130/256.0f, 255/256.0f, 1.0f), // Blå
-			new Color(255/256.0f, 242/256.0f, 107/256.0f, 1.0f), // Gul
+			new Color(0/255.0f, 0/255.0f, 0/255.0f, 1.0f), 			// Svart	-	Testning
+			new Color(255/255.0f, 31/255.0f, 240/255.0f, 1.0f), 	// Rosa
+			new Color(42/255.0f, 31/255.0f, 255/255.0f, 1.0f), 		// Blå
+			new Color(255/255.0f, 31/255.0f, 68/255.0f, 1.0f),		// Röd
+			new Color(31/255.0f, 255/255.0f, 218/255.0f, 1.0f),		// Teal
+			new Color(31/255.0f, 255/255.0f, 46/255.0f, 1.0f), 		// Grön
+			new Color(255/255.0f, 124/255.0f, 31/255.0f, 1.0f),		// Orange
+			new Color(142/255.0f, 56/255.0f, 255/255.0f, 1.0f),		// Lila
+			new Color(244/255.0f, 255/255.0f, 31/255.0f, 1.0f), 	// Gul 		-	Gillar egentligen inte, ska leta annan
+
 	};
 	
 	public static Color currentColor;
 	private Color targetColor;
+	private int colorIndex = 0;
 	
 	private boolean doLerp;
 	private float lerpTimer;
 	
 	private final float LERP_TIME = 3.0f; // Hur länge vi ska lerpa (Färgövergång i en sek)
-//	private final float COLOR_TIME = 3.0f; // Hur länge en färg ska visas (Varje färg visa i tre sek)
 	
 	private boolean pause;
 	
@@ -41,7 +47,6 @@ public class Background {
 		this.game = game;
 		
 		background = game.Textures.getSprite("data/gfx/background.png");
-//		tint = game.Textures.getSprite("data/gfx/tint_white2.png");
 		tint = game.Textures.getSprite("data/gfx/background_tint2.png");
 
 		screenWidth = Gdx.graphics.getWidth();
@@ -51,8 +56,8 @@ public class Background {
 		tint.setSize(screenWidth, screenHeight);
 		this.speed = BASE_SPEED;
 		
-//		this.currentColor = new Color(colors[colorIndex]);
-		this.currentColor = new Color(255/256.0f, 42/256.0f, 127/256.0f, 1.0f);
+		this.currentColor = new Color(colors[colorIndex]);
+
 		this.targetColor = new Color();
 	}
 	
@@ -63,11 +68,7 @@ public class Background {
 		
 		if(doLerp) {
 			float lerpValue = lerpTimer / LERP_TIME;
-//			Debug.log("Lerp value: " + lerpValue);
-//			Debug.log("Lerp Timer: " + lerpTimer);
-			
-//			this.currentColor.set(colors[colorIndex]);
-//			this.targetColor.set(colors[(colorIndex + 1) % colors.length]);
+
 			this.currentColor.lerp(targetColor, lerpValue);
 			game.ingame_font.setColor(currentColor);
 
@@ -75,19 +76,10 @@ public class Background {
 			if(lerpTimer >= LERP_TIME) {
 				lerpTimer -= LERP_TIME;
 				doLerp = false;
-//				if(++colorIndex >= colors.length) {
-//					colorIndex = 0;
-//				}
+
 			}
 		}
-//		else {
-//			timer += time;
-//			if(timer >= COLOR_TIME) {
-//				timer -= COLOR_TIME;
-//				doLerp = true;
-//			}
-//		}
-		
+
 		positionX -= speed * time;
 		if(positionX < -background.getWidth()) {
 			positionX = 0;
@@ -111,8 +103,7 @@ public class Background {
 	public void setColorRandom() {
 		lerpTimer = 0;
 		doLerp = true;
-		int index = new Random().nextInt(colors.length);
-		targetColor.set(colors[index]);
+		targetColor.set(colors[++colorIndex]);
 	}
 	
 	public void pause() {

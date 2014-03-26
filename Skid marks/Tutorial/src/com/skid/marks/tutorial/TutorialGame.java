@@ -17,10 +17,10 @@ import com.skid.marks.screens.MainMenu;
 
 public class TutorialGame extends Game {
 	
-	public static BitmapFont main_menu_font;
-	public static BitmapFont highscores_font;
-	public static BitmapFont ingame_font;
-	public static BitmapFont info_font;
+	public BitmapFont main_menu_font;
+	public BitmapFont highscores_font;
+	public BitmapFont ingame_font;
+	public BitmapFont info_font;
 	
 	private float sw, sh;
 
@@ -79,6 +79,11 @@ public class TutorialGame extends Game {
 		Sounds.dispose();
 		Particles.dispose();
 		Localization.dispose();
+		
+		main_menu_font.dispose();
+		highscores_font.dispose();
+		ingame_font.dispose();
+		info_font.dispose();
 	}
 
 	@Override

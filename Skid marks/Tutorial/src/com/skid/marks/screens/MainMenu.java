@@ -38,7 +38,7 @@ public class MainMenu implements Screen, InputProcessor {
 	
 	private final float BUTTON_SIZE = 80f;
 	
-	private boolean hasSound = true;
+	public static boolean hasSound = true;
 	
 	public MainMenu(final TutorialGame game){
 		this.game = game;

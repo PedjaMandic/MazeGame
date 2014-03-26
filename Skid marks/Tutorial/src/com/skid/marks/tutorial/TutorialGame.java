@@ -20,6 +20,7 @@ public class TutorialGame extends Game {
 	public static BitmapFont main_menu_font;
 	public static BitmapFont highscores_font;
 	public static BitmapFont ingame_font;
+	public static BitmapFont info_font;
 	
 	private float sw, sh;
 
@@ -59,6 +60,9 @@ public class TutorialGame extends Game {
 		highscores_font.setColor(new Color(1,1,1,0.5f));
 		
 		ingame_font = generator.generateFont((int)(sw / 36), "1234567890Scor:Llev", true);
+		ingame_font.setColor(new Color(1,1,1,0.5f));
+		
+		info_font = generator.generateFont((int)sw / 36, "qwertyuioplkjhgfdsazxcvbnm.,QWERTYUIOPLKJHGFDSAZXCVBNM", true);
 		ingame_font.setColor(new Color(1,1,1,0.5f));
 		
 		generator.dispose();

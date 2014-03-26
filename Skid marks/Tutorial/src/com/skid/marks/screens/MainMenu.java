@@ -195,7 +195,7 @@ public class MainMenu implements Screen, InputProcessor {
 		} else if(highscoreSprite.getBoundingRectangle().contains(screenX, screenY)) {
 			game.setScreen(new Highscore(game));
 		} else if(settingsSprite.getBoundingRectangle().contains(screenX, screenY)) {
-			game.setScreen(new Settings(game));
+			game.setScreen(new HowToPlay(game));
 		}
 		reset();
 		return false;

@@ -23,7 +23,6 @@ public class TutorialGame extends Game {
 
 	public static float screen_width, screen_height;
 
-	public BitmapFont Font;
 	public SpriteBatch Batch;
 	public OrthographicCamera Camera;
 
@@ -44,7 +43,6 @@ public class TutorialGame extends Game {
 		Particles = new ParticleManager();
 //		Localization = new Localization();
 
-		Font = new BitmapFont(true);
 		Batch = new SpriteBatch();
 		Camera = new OrthographicCamera();
 		Camera.setToOrtho(true, screen_width, screen_height);
@@ -55,8 +53,7 @@ public class TutorialGame extends Game {
 				"data/gfx/fonts/Cooper Black.ttf");
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(fontFile);
 
-		main_menu_font = generator.generateFont((int) (screen_width / 18),
-				"1234567890stndr", true);
+		main_menu_font = generator.generateFont((int)(screen_width / 18), "PLAYHIGSCOREWT", true);
 		main_menu_font.setColor(Color.valueOf("ff00ccff"));
 
 		highscores_font = generator.generateFont((int) (screen_width / 18),
@@ -79,7 +76,6 @@ public class TutorialGame extends Game {
 
 	@Override
 	public void dispose() {
-		Font.dispose();
 		Batch.dispose();
 		Textures.dispose();
 		Sounds.dispose();

@@ -145,9 +145,9 @@ public class MainMenu implements Screen, InputProcessor {
 		float by = menuSprite.getY();
 		float bw = menuSprite.getWidth();
 		float bh = (menuSprite.getHeight()) / 3;
-		game.Font.draw(game.Batch, "PLAY", bx + (bw * 0.1f) + 100, by + (bh * 0.2f) + 50);
-		game.Font.draw(game.Batch, "HIGHSCORE", bx + (bw * 0.1f) + 100, by + bh + (bh * 0.2f) + 50);
-		game.Font.draw(game.Batch, "HOW TO PLAY", bx + (bw * 0.1f) + 100, by + bh * 2 + (bh * 0.2f) + 50);
+		game.main_menu_font.draw(game.Batch, "PLAY", bx + (bw * 0.1f) + 100, by + (bh * 0.2f) + 50);
+		game.main_menu_font.draw(game.Batch, "SCORE", bx + (bw * 0.1f) + 100, by + bh + (bh * 0.2f) + 50);
+		game.main_menu_font.draw(game.Batch, "HOW TO", bx + (bw * 0.1f) + 100, by + bh * 2 + (bh * 0.2f) + 50);
 
 		game.Batch.end();
 	}

@@ -6,7 +6,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Level {
@@ -17,19 +16,15 @@ public class Level {
 	private Sprite sprite;
 	private float distanceSinceLastPoint = 0.0f;
 	private float distanceBetweenPoints; //half screen
-	private int previousPoint = 0;
 	private float currentPoint;
 	private float nextPoint;
 	private float tunnelWidth;
 	
-	private float points[];
 	private Row rows[];
 	private int lowestRow;
 	private float levelSpeed;
 	private float rowHeight;
 	private int nrOfRows;
-	private int h;
-	private int w;
 	
 	private float timeUntilLevelStarts;
 	private float totalPauseTime;
@@ -38,8 +33,6 @@ public class Level {
 	private float maximumPointDifference;
 	
 	public static int currentLevel = 0;
-	
-	public static boolean isRandom;
 	
 	private Background background;
 	
@@ -56,70 +49,36 @@ public class Level {
 	}
 	
 	public void reset() {
-		w = Gdx.graphics.getWidth();
-		h = Gdx.graphics.getHeight();
-		tunnelWidth = h*0.5f;
-		nrOfRows = 1+w/40;
-		rowHeight = w / (nrOfRows-1);
-		distanceBetweenPoints = w/4;
-		levelSpeed = w * 0.8f;
+		TutorialGame.screen_width = Gdx.graphics.getWidth();
+		TutorialGame.screen_height = Gdx.graphics.getHeight();
+		tunnelWidth = TutorialGame.screen_height*0.5f;
+		nrOfRows = 1+(int)TutorialGame.screen_width/40;
+		rowHeight = TutorialGame.screen_width / (nrOfRows-1);
+		distanceBetweenPoints = TutorialGame.screen_width/4;
+		levelSpeed = TutorialGame.screen_width * 0.8f;
 		currentPoint = 0.5f;
 		nextPoint = 0.5f;
 		isBetweenLevels = true;
-		isRandom = true;
 		currentLevel = 0;
 		timeBetweenLevels = 20f;
 		timeUntilLevelEnds = timeBetweenLevels;
 		totalPauseTime = 3f;
 		timeUntilLevelStarts = totalPauseTime;
 		distanceSinceLastPoint = 0.0f;
-		previousPoint = 0;
 		maximumPointDifference = 0.4f;
 		
 		sprite = game.Textures.getSprite("data/gfx/rows_2.1.png");
 		pauseSprite = game.Textures.getSprite("data/gfx/newlevel2.png");
 		pauseSprite.setColor(Color.WHITE);
 		
-		//punkterna som banan ska gå längs
-		points = new float[31];
-		points[0] = 0.5f;
-		points[1] = 0.4f;
-		points[2] = 0.7f;
-		points[3] = 0.3f;
-		points[4] = 0.7f;
-		points[5] = 0.5f;
-		points[6] = 0.3f;
-		points[7] = 0.2f;
-		points[8] = 0.25f;
-		points[9] = 0.4f;
-		points[10] = 0.7f;
-		points[11] = 0.45f;
-		points[12] = 0.2f;
-		points[13] = 0.6f;
-		points[14] = 0.65f;
-		points[15] = 0.4f;
-		points[16] = 0.5f;
-		points[17] = 0.45f;
-		points[18] = 0.3f;
-		points[19] = 0.6f;
-		points[20] = 0.65f;
-		points[21] = 0.3f;
-		points[22] = 0.2f;
-		points[23] = 0.1f;
-		points[24] = 0.5f;
-		points[25] = 0.7f;
-		points[26] = 0.8f;
-		points[27] = 0.55f;
-		points[28] = 0.9f;
-		points[29] = 0.6f;
-		points[30] = 0.65f;
+
 
 		
 		//de rader som ritas ut
 		rows = new Row[nrOfRows];
 		for(int i = 0; i < rows.length; i++)
 		{
-			rows[i] = new Row(h/2, tunnelWidth, (rows.length - (i-1))*rowHeight, !isBetweenLevels);
+			rows[i] = new Row(TutorialGame.screen_height/2, tunnelWidth, (rows.length - (i-1))*rowHeight, !isBetweenLevels);
 
 		}
 		lowestRow = nrOfRows-1;
@@ -142,7 +101,7 @@ public class Level {
 		{
 			if(rect.y < rows[start].leftWidth)
 				return true;
-			if(rect.y+rect.height > (h - rows[start].rightWidth))
+			if(rect.y+rect.height > (TutorialGame.screen_height - rows[start].rightWidth))
 				return true;
 		}
 		
@@ -152,7 +111,7 @@ public class Level {
 			{
 				if(rect.y + rect.height/2f < rows[(nrOfRows+i)%nrOfRows].leftWidth)
 					return true;
-				if((rect.y+rect.height/2f) > (h - rows[(nrOfRows+i)%nrOfRows].rightWidth))
+				if((rect.y+rect.height/2f) > (TutorialGame.screen_height - rows[(nrOfRows+i)%nrOfRows].rightWidth))
 					return true;
 			}
 		}
@@ -206,7 +165,7 @@ public class Level {
 		}
 		else {
 			timeUntilLevelEnds -= delta;
-			if(timeUntilLevelEnds <= 0)
+			if(timeUntilLevelEnds <= 0 && currentLevel < 9)
 			{
 				startPauseTrigger();
 			}
@@ -217,28 +176,22 @@ public class Level {
 		if(distanceSinceLastPoint >= distanceBetweenPoints)
 		{
 			distanceSinceLastPoint -= distanceBetweenPoints;
-			if(!isRandom){
-				previousPoint ++;
-				previousPoint %= points.length;
-				currentPoint = points[previousPoint];
-				nextPoint = points[(previousPoint+1)%points.length];
-			}else {
-				float convertedHalfTW = (tunnelWidth/h)/2;
-				currentPoint = nextPoint;
-				float deltaValue = -maximumPointDifference + random.nextFloat()*(maximumPointDifference*2);
-				nextPoint = currentPoint +deltaValue;
-				
-				if(nextPoint < convertedHalfTW+0.05f || nextPoint > (0.95f - convertedHalfTW))
-					nextPoint = currentPoint - deltaValue;
-				
-				
-				if(nextPoint < convertedHalfTW+0.05f)
-					nextPoint = convertedHalfTW+0.05f;
-				if(nextPoint > (0.95f - convertedHalfTW))
-					nextPoint = 0.95f - convertedHalfTW;
-			}
+
+			float convertedHalfTW = (tunnelWidth/TutorialGame.screen_height)/2;
+			currentPoint = nextPoint;
+			float deltaValue = -maximumPointDifference + random.nextFloat()*(maximumPointDifference*2);
+			nextPoint = currentPoint +deltaValue;
+
+			if(nextPoint < convertedHalfTW+0.05f || nextPoint > (0.95f - convertedHalfTW))
+				nextPoint = currentPoint - deltaValue;
+
+
+			if(nextPoint < convertedHalfTW+0.05f)
+				nextPoint = convertedHalfTW+0.05f;
+			if(nextPoint > (0.95f - convertedHalfTW))
+				nextPoint = 0.95f - convertedHalfTW;
 		}
-		
+
 		float ratio = distanceSinceLastPoint / distanceBetweenPoints;
 		
 		for(int i = 0; i < rows.length;i++)
@@ -250,7 +203,7 @@ public class Level {
 		}
 		while(rows[lowestRow].X <= -rowHeight)
 		{
-			float activePoint = (currentPoint + (ratio * (nextPoint - currentPoint)))*h;
+			float activePoint = (currentPoint + (ratio * (nextPoint - currentPoint)))*TutorialGame.screen_height;
 			
 			rows[lowestRow].Renew(activePoint, tunnelWidth, rowHeight, !isBetweenLevels);
 			lowestRow--;
@@ -267,14 +220,13 @@ public class Level {
 		
 		if(isBetweenLevels && currentLevel >= 1)
 		{
-			float xPos = (float)Math.pow(totalPauseTime/2 - timeUntilLevelStarts, 4f)*w/2;
+			float xPos = (float)Math.pow(totalPauseTime/2 - timeUntilLevelStarts, 4f)*TutorialGame.screen_width/2;
 			
 			if(timeUntilLevelStarts > totalPauseTime/2)
-				xPos = w/2 + xPos;
+				xPos = TutorialGame.screen_width/2 + xPos;
 			else
-				xPos = w/2 - xPos;
-//			pauseSprite.setBounds(-w/4 + (w*1.25f)*(timeUntilLevelStarts/totalPauseTime), h/4, w/4, h/8);
-			pauseSprite.setBounds(xPos, h/4, w/4, h/8);
+				xPos = TutorialGame.screen_width/2 - xPos;
+			pauseSprite.setBounds(xPos, TutorialGame.screen_height/4, TutorialGame.screen_width/4, TutorialGame.screen_height/8);
 			pauseSprite.draw(batch);
 		}
 		
@@ -283,10 +235,10 @@ public class Level {
 			if(rows[i].active)
 			{
 				sprite.flip(false, true);
-				sprite.setBounds(rows[i].X, -h + rows[i].leftWidth, rowHeight, h);
+				sprite.setBounds(rows[i].X, -TutorialGame.screen_height + rows[i].leftWidth, rowHeight, TutorialGame.screen_height);
 				sprite.draw(batch);
 				sprite.flip(false, true);
-				sprite.setBounds(rows[i].X, h - rows[i].rightWidth, rowHeight, h);
+				sprite.setBounds(rows[i].X, TutorialGame.screen_height - rows[i].rightWidth, rowHeight, TutorialGame.screen_height);
 				sprite.draw(batch);
 			}
 		}

@@ -1,8 +1,5 @@
 package com.skid.marks.tutorial;
 
-import java.util.Random;
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -37,8 +34,7 @@ public class Background {
 	private Sprite background;
 	private Sprite tint;
 	private float positionX;
-	private float screenWidth;
-	private float screenHeight;
+
 	
 	private float speed;
 	private final float BASE_SPEED = 50.0f;
@@ -48,15 +44,12 @@ public class Background {
 		
 		background = game.Textures.getSprite("data/gfx/background.png");
 		tint = game.Textures.getSprite("data/gfx/background_tint2.png");
-
-		screenWidth = Gdx.graphics.getWidth();
-		screenHeight = Gdx.graphics.getHeight();
 		
-		background.setSize(screenWidth, screenHeight);
-		tint.setSize(screenWidth, screenHeight);
+		background.setSize(TutorialGame.screen_width, TutorialGame.screen_height);
+		tint.setSize(TutorialGame.screen_width, TutorialGame.screen_height);
 		this.speed = BASE_SPEED;
 		
-		this.currentColor = new Color(colors[colorIndex]);
+		Background.currentColor = new Color(colors[colorIndex]);
 
 		this.targetColor = new Color();
 	}
@@ -69,7 +62,7 @@ public class Background {
 		if(doLerp) {
 			float lerpValue = lerpTimer / LERP_TIME;
 
-			this.currentColor.lerp(targetColor, lerpValue);
+			Background.currentColor.lerp(targetColor, lerpValue);
 			game.ingame_font.setColor(currentColor);
 
 			lerpTimer += time;

@@ -19,9 +19,6 @@ public class Settings implements Screen, InputProcessor {
 	private float sw;
 	private float sh;
 	
-	private float sw_center;
-	private float sh_center;
-	
 	private final int BUTTON_SIZE = 128;
 	
 	private Sprite background_sprite;
@@ -41,9 +38,6 @@ public class Settings implements Screen, InputProcessor {
 		
 		sw = Gdx.graphics.getWidth();
 		sh = Gdx.graphics.getHeight();
-		
-		sw_center = sw/2;
-		sh_center = sh/2;
 
 		// Background
 		background_sprite = game.Textures.getSprite("data/gfx/menu/menu_sheet.png");

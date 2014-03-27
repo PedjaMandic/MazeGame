@@ -21,7 +21,6 @@ public class HowToPlay implements Screen, InputProcessor {
 	
 	private String howTo1;
 	private String howTo2;
-	private String howTo3;
 	
 	private final TutorialGame game;
 	
@@ -42,7 +41,6 @@ public class HowToPlay implements Screen, InputProcessor {
 		
 		howTo1 = "This is you";
 		howTo2 = "Avoid these";
-		howTo3 = "control yourself by touching the screenyou will follow your own finger";
 		
 	}
 

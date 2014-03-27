@@ -12,7 +12,6 @@ public class Trail implements BaseParticle{
 	
 	private float positionX;
 	private float positionY;
-	private float rotation;
 
 	private int HEIGHT;
 	private int WIDTH;
@@ -25,9 +24,8 @@ public class Trail implements BaseParticle{
 	
 	private TutorialGame game;
 	
-	public Trail(TutorialGame game, float pos, float rot){
+	public Trail(TutorialGame game, float pos){
 		this.positionY = pos;
-		this.rotation = rot;
 		this.game = game;
 		Init();
 	}
@@ -39,10 +37,6 @@ public class Trail implements BaseParticle{
 	private void Init(){		
 		//Load texture
 		sprite = game.Textures.getSprite("data/gfx/particle.png");
-		
-		//Set the rotation origin and the rotation angle.
-		sprite.setOrigin(0, sprite.getHeight() / 2);
-		//sprite.rotate(rotation);		TODO Decide on this
 		
 		//Sets x position, height and width.
 		positionX = Gdx.graphics.getWidth()/6f;

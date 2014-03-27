@@ -8,15 +8,11 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.skid.marks.screens.Game;
-import com.skid.marks.tutorial.Debug;
 import com.skid.marks.tutorial.TutorialGame;
 
 public class MainMenu implements Screen, InputProcessor {
 	
 	private final TutorialGame game;
-	
-	private float sw;
-	private float sh;
 	
 	private float cx;
 	private float cy;
@@ -44,11 +40,9 @@ public class MainMenu implements Screen, InputProcessor {
 		this.game = game;
 		Gdx.input.setInputProcessor(this);
 		
-		sw = Gdx.graphics.getWidth();
-		sh = Gdx.graphics.getHeight();
 		
-		cx = sw/2;
-		cy = sh/2;
+		cx = TutorialGame.screen_width/2;
+		cy = TutorialGame.screen_height/2;
 		
 		Preferences prefs = Gdx.app.getPreferences(Settings.SETTINGS_FILE);
 		
@@ -70,12 +64,12 @@ public class MainMenu implements Screen, InputProcessor {
 		texSettingsHL = game.Localization.getTexture("settings_HL.png");
 		
 		backgroundSprite = game.Textures.getSprite("data/gfx/background_A.png");
-		backgroundSprite.setSize(sw, sh);
+		backgroundSprite.setSize(TutorialGame.screen_width, TutorialGame.screen_height);
 		backgroundSprite.setPosition(0, 0);
 		
 		menuSprite = game.Textures.getSprite("data/gfx/background_sheet.png");
 		menuSprite.setRegion(0, 0, 256, 512);
-		menuSprite.setSize(sw * 0.6f, sh * 0.8f);
+		menuSprite.setSize(TutorialGame.screen_width * 0.6f, TutorialGame.screen_height * 0.8f);
 		menuSprite.setPosition(cx - (menuSprite.getWidth() / 2) , cy - (menuSprite.getHeight() / 2));
 		
 		// Button size och position
@@ -102,13 +96,13 @@ public class MainMenu implements Screen, InputProcessor {
 		soundSprite = game.Textures.getSprite("data/gfx/background_sheet.png");
 		soundSprite.setRegion(256, 320, 64, 64);
 		soundSprite.setSize(BUTTON_SIZE, BUTTON_SIZE);
-		soundSprite.setPosition(sw * 0.05f, sh * 0.1f);
+		soundSprite.setPosition(TutorialGame.screen_width * 0.05f, TutorialGame.screen_height * 0.1f);
 		soundSprite.flip(false, true);
 		
 		quitSprite = game.Textures.getSprite("data/gfx/background_sheet.png");
 		quitSprite.setRegion(256, 64, 64, 64);
 		quitSprite.setSize(BUTTON_SIZE, BUTTON_SIZE);
-		quitSprite.setPosition(sw * 0.95f - BUTTON_SIZE, sh * 0.1f);
+		quitSprite.setPosition(TutorialGame.screen_width * 0.95f - BUTTON_SIZE, TutorialGame.screen_height * 0.1f);
 		quitSprite.flip(false, true);
 		
 		reset();

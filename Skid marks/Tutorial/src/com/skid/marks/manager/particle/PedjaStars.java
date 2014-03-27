@@ -6,8 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.skid.marks.tutorial.TutorialGame;
 
 public class PedjaStars implements BaseParticle {
-
-	private TutorialGame game;
 	
 	private Vector2 position;
 	private float veloY;
@@ -20,7 +18,6 @@ public class PedjaStars implements BaseParticle {
 	private final int SIZE = 64;
 	
 	public PedjaStars(TutorialGame game, Vector2 position) {
-		this.game = game;
 		this.position = new Vector2(position); // För att kopiera...
 		
 		sprite  = game.Textures.getSprite("data/gfx/explosion_sheet.png");

@@ -20,11 +20,8 @@ public class Player {
 	private Sprite sprite;
 	
 	public static float MOVE_SPEED;
-	public static float SIZE = 50;
+	public static float SIZE;
 	
-	// Screen dimensions
-	private float screenWidth;
-	private float screenHeight;
 	
 	// Mouse click X
 	private float mouseTochedY;
@@ -40,13 +37,11 @@ public class Player {
 	}
 
 	public void init() {
-		SIZE = Gdx.graphics.getHeight() / 16;
-		MOVE_SPEED = Gdx.graphics.getHeight();
+		SIZE = TutorialGame.screen_height / 16;
+		MOVE_SPEED = TutorialGame.screen_height;
+		
 		bounds = new Rectangle();
 		bounds.setSize(SIZE, SIZE);
-		
-		screenWidth = Gdx.graphics.getWidth();
-		screenHeight = Gdx.graphics.getHeight();
 		
 		sprite = game.Textures.getSprite("data/gfx/player_transparent.png");
 		sprite.setSize(SIZE, SIZE);
@@ -58,9 +53,9 @@ public class Player {
 	}
 	
 	public void reset() {
-		position = new Vector2(screenWidth * 1/6f, (screenHeight / 2) - (SIZE / 2));
+		position = new Vector2(TutorialGame.screen_width * 1/6f, (TutorialGame.screen_height / 2) - (SIZE / 2));
 		isMouseToched = false;
-		mouseTochedY = (screenHeight / 2) - (SIZE / 2);
+		mouseTochedY = (TutorialGame.screen_height / 2) - (SIZE / 2);
 	}
 
 	public void update(float delta) {				
@@ -81,15 +76,15 @@ public class Player {
 		}
 		
 		// TODO: Fixa rotationen
-		float tempRot = ((mouseTochedY - position.y) / (screenHeight / 4)) * 45;
+		float tempRot = ((mouseTochedY - position.y) / (TutorialGame.screen_height / 4)) * 45;
 		rotation = MathUtils.clamp(tempRot, -45, 45);
 		// Temp så länge
 //		rotation = 0;
 		
 		if(position.y < 0) {
 			position.y = 0;
-		} else if(position.y + SIZE > screenHeight) {
-			position.y = screenHeight - SIZE;
+		} else if(position.y + SIZE > TutorialGame.screen_height) {
+			position.y = TutorialGame.screen_height - SIZE;
 		}
 		
 		UpdateTrail(delta);
@@ -117,7 +112,7 @@ public class Player {
 	}
 	
 	private void UpdateTrail(float time){
-		Trail t = new Trail(game, getPosition().y, rotation);
+		Trail t = new Trail(game, getPosition().y);
 		trail.add(t);
 		
 		for(int i = 0; i < trail.size(); i++){

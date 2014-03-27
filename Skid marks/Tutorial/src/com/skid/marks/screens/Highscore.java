@@ -5,7 +5,6 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.skid.marks.tutorial.TutorialGame;
 
@@ -15,8 +14,6 @@ public class Highscore implements Screen, InputProcessor {
 	
 	private static Preferences prefs;
 	
-	private float sw;
-	private float sh;
 	private float cx;
 	private float cy;
 	
@@ -28,11 +25,7 @@ public class Highscore implements Screen, InputProcessor {
 	private static int scores_first;
 	private static int scores_second;
 	private static int scores_third;
-	
-	private Texture main_menu_button_texture;
-	private Texture main_menu_button_textureHL;
-	private Texture highscore_background;
-	
+
 	private Sprite background;
 	private Sprite highscore_list;
 	private Sprite main_menu_button;
@@ -43,51 +36,29 @@ public class Highscore implements Screen, InputProcessor {
 		this.game = game;
 		Gdx.input.setInputProcessor(this);
 		
-		sw = Gdx.graphics.getWidth();
-		sh = Gdx.graphics.getHeight();
-		cx = sw/2;
-		cy = sh/2;
+		cx = TutorialGame.screen_width/2;
+		cy = TutorialGame.screen_height/2;
 		
-		buttonSize = sh * 0.15f;
+		buttonSize = TutorialGame.screen_height * 0.15f;
 		
 		background = game.Textures.getSprite("data/gfx/background_A.png");
-		background.setSize(sw, sh);
+		background.setSize(TutorialGame.screen_width, TutorialGame.screen_height);
 		background.setPosition(0, 0);
 		
 		highscore_list= game.Textures.getSprite("data/gfx/background_sheet.png");
 		highscore_list.setRegion(0, 0, 256, 512);
-		highscore_list.setSize(sw * 0.6f, sh * 0.8f);
+		highscore_list.setSize(TutorialGame.screen_width * 0.6f, TutorialGame.screen_height * 0.8f);
 		highscore_list.setPosition(cx - (highscore_list.getWidth() / 2) , cy - (highscore_list.getHeight() / 2));
 		
 		main_menu_button = game.Textures.getSprite("data/gfx/background_sheet.png");
 		main_menu_button.setSize(buttonSize, buttonSize);
-		main_menu_button.setPosition(sw - buttonSize * 1.2f, sh - buttonSize * 1.2f);
+		main_menu_button.setPosition(TutorialGame.screen_width - buttonSize * 1.2f, TutorialGame.screen_height - buttonSize * 1.2f);
 		main_menu_button.setRegion(256, 128, 64, 64);
 		main_menu_button.flip(false, true);
 		
-		prefs = Gdx.app.getPreferences(SCORES_FILE);
-		
-		SetPosition();
+		Highscore.LoadPrefs();
 		
 		InitHighscore();
-//		game.Sounds.play("menu", true);
-	}
-	
-	private void SetPosition() {
-		//BACKGROUND RUTA
-//		background_texture = new Sprite(texture);
-//		background_texture.setRegion(0, 0, 300, 400);
-//		background_texture.setSize(BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
-//		background_texture.flip(false, true);
-//		background_texture.setPosition(sw_center - BACKGROUND_WIDTH/2, sh_center - BACKGROUND_HEIGHT/2);
-		
-//		//KNAPP LOCAL
-//		local_button_texture = new Sprite(buttons);
-//		local_button_texture.setRegion(0, 0, 256, 128);
-//		local_button_texture.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-//		local_button_texture.flip(false, true);
-//		local_button_texture.setPosition(0,0);
-//		
 	}
 	
 	private static int GetScore(String file_key){
@@ -151,10 +122,14 @@ public class Highscore implements Screen, InputProcessor {
 		background.draw(game.Batch);
 		highscore_list.draw(game.Batch);
 		main_menu_button.draw(game.Batch);
-		game.highscores_font.draw(game.Batch, "1st : " + scores_first, highscore_list.getOriginX() + (highscore_list.getWidth()/4), sh/3);
-		game.highscores_font.draw(game.Batch, "2nd : " + scores_second, highscore_list.getOriginX() + (highscore_list.getWidth()/4), sh/2);
-		game.highscores_font.draw(game.Batch, "3rd : " + scores_third, highscore_list.getOriginX() + (highscore_list.getWidth()/4), sh/1.5f);
+		game.highscores_font.draw(game.Batch, "1st : " + scores_first, highscore_list.getOriginX() + (highscore_list.getWidth()/4), TutorialGame.screen_height/3);
+		game.highscores_font.draw(game.Batch, "2nd : " + scores_second, highscore_list.getOriginX() + (highscore_list.getWidth()/4), TutorialGame.screen_height/2);
+		game.highscores_font.draw(game.Batch, "3rd : " + scores_third, highscore_list.getOriginX() + (highscore_list.getWidth()/4), TutorialGame.screen_height/1.5f);
 		game.Batch.end();
+	}
+	
+	public static void LoadPrefs(){
+		prefs = Gdx.app.getPreferences(SCORES_FILE);
 	}
 
 	@Override

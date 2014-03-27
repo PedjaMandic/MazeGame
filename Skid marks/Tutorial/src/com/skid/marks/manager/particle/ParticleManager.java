@@ -3,7 +3,6 @@ package com.skid.marks.manager.particle;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.skid.marks.tutorial.Debug;
 
 public class ParticleManager {
 	

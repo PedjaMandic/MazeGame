@@ -6,8 +6,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.skid.marks.tutorial.Debug;
-import com.skid.marks.manager.particle.PedjaStars;
 import com.skid.marks.screens.MainMenu;
 import com.skid.marks.screens.Game;
 import com.skid.marks.tutorial.Level;
@@ -19,7 +17,7 @@ public class GameOver implements Screen, InputProcessor {
 	private final TutorialGame game;
 	
 	private Level level;
-	private Player player;
+
 	private int score;
 	
 	private Sprite backSprite;
@@ -38,7 +36,6 @@ public class GameOver implements Screen, InputProcessor {
 		Gdx.input.setInputProcessor(this);
 		
 		this.level = level;
-		this.player = player;
 		this.score = score;
 		
 		sw = Gdx.graphics.getWidth();
@@ -58,7 +55,6 @@ public class GameOver implements Screen, InputProcessor {
 		playSprite.setRegion(256, 192, 64, 64);
 		playSprite.flip(false, true);
 		
-//		game.Particles.add(new PedjaStars(game, player.getPosition()));
 		explosion = new ParticleEffect();
 		explosion.load(Gdx.files.internal("data/gfx/particle/explosion2.p"),
 				Gdx.files.internal("data/gfx/particle/"));
@@ -86,8 +82,6 @@ public class GameOver implements Screen, InputProcessor {
 		score_background.draw(game.Batch);
 		game.ingame_font.draw(game.Batch, String.format("Score: %d", score), 20, 20);
 		game.ingame_font.draw(game.Batch, String.format("Level: %d", Level.currentLevel), 20, 70);
-		//game.Font.draw(game.Batch, String.format("Score: %d", score), 20, 20);
-//		player.draw(game.Batch);
 		
 		explosion.draw(game.Batch, delta);
 		

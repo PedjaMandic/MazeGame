@@ -16,26 +16,30 @@ import com.skid.marks.manager.particle.ParticleManager;
 import com.skid.marks.screens.MainMenu;
 
 public class TutorialGame extends Game {
-	
+
 	public BitmapFont main_menu_font;
 	public BitmapFont highscores_font;
 	public BitmapFont ingame_font;
 	public BitmapFont info_font;
-	
-	private float sw, sh;
+
+	public static float screen_width, screen_height;
 
 	public BitmapFont Font;
 	public SpriteBatch Batch;
 	public OrthographicCamera Camera;
-	
+
 	// Managers
 	public TextureManager Textures;
 	public SoundManager Sounds;
 	public ParticleManager Particles;
 	public Localization Localization;
-	
+
 	@Override
 	public void create() {
+
+		screen_width = Gdx.graphics.getWidth();
+		screen_height = Gdx.graphics.getHeight();
+
 		Textures = new TextureManager();
 		Sounds = new SoundManager();
 		Particles = new ParticleManager();
@@ -44,30 +48,33 @@ public class TutorialGame extends Game {
 		Font = new BitmapFont(true);
 		Batch = new SpriteBatch();
 		Camera = new OrthographicCamera();
-		Camera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		
-		sw = Gdx.graphics.getWidth();
-		sh = Gdx.graphics.getHeight();
-		
-		//Skapar alla fonts -----------------------------------------------------------------------
-		FileHandle fontFile = Gdx.app.getFiles().internal("data/gfx/fonts/Cooper Black.ttf");
+		Camera.setToOrtho(true, screen_width, screen_height);
+
+		// Skapar alla fonts
+		// -----------------------------------------------------------------------
+		FileHandle fontFile = Gdx.app.getFiles().internal(
+				"data/gfx/fonts/Cooper Black.ttf");
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(fontFile);
-		
-		main_menu_font = generator.generateFont((int)(sw / 18), "1234567890stndr", true);
+
+		main_menu_font = generator.generateFont((int) (screen_width / 18),
+				"1234567890stndr", true);
 		main_menu_font.setColor(Color.valueOf("ff00ccff"));
-		
-		highscores_font = generator.generateFont((int)(sw / 18), "1234567890stndr", true);
-		highscores_font.setColor(new Color(1,1,1,0.5f));
-		
-		ingame_font = generator.generateFont((int)(sw / 36), "1234567890Scor:Llev", true);
-		ingame_font.setColor(new Color(1,1,1,0.5f));
-		
-		info_font = generator.generateFont((int)sw / 36, "qwertyuioplkjhgfdsazxcvbnm.,QWERTYUIOPLKJHGFDSAZXCVBNM", true);
-		ingame_font.setColor(new Color(1,1,1,0.5f));
-		
+
+		highscores_font = generator.generateFont((int) (screen_width / 18),
+				"1234567890stndr", true);
+		highscores_font.setColor(new Color(1, 1, 1, 0.5f));
+
+		ingame_font = generator.generateFont((int) (screen_width / 36),
+				"1234567890Scor:Llev", true);
+		ingame_font.setColor(new Color(1, 1, 1, 0.5f));
+
+		info_font = generator.generateFont((int) screen_width / 36,
+				"qwertyuioplkjhgfdsazxcvbnm.,QWERTYUIOPLKJHGFDSAZXCVBNM", true);
+		ingame_font.setColor(new Color(1, 1, 1, 0.5f));
+
 		generator.dispose();
-		//-----------------------------------------------------------------------
-		
+		// -----------------------------------------------------------------------
+
 		this.setScreen(new MainMenu(this));
 	}
 
@@ -79,7 +86,7 @@ public class TutorialGame extends Game {
 		Sounds.dispose();
 		Particles.dispose();
 		Localization.dispose();
-		
+
 		main_menu_font.dispose();
 		highscores_font.dispose();
 		ingame_font.dispose();
@@ -89,8 +96,8 @@ public class TutorialGame extends Game {
 	@Override
 	public void render() {
 		super.render();
-		
-		if(Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+
+		if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
 			Gdx.app.exit();
 		}
 	}

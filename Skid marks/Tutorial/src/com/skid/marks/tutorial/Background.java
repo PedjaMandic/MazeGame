@@ -9,7 +9,7 @@ public class Background {
 	
 	private Color[] colors = {
 			new Color(0/255.0f, 0/255.0f, 0/255.0f, 1.0f), 			// Svart	-	Testning
-			new Color(255/255.0f, 31/255.0f, 240/255.0f, 1.0f), 	// Rosa
+			new Color(255/255.0f, 0/255.0f, 204/255.0f, 1.0f), 	// Rosa
 			new Color(31/255.0f, 255/255.0f, 46/255.0f, 1.0f), 		// Grön
 			new Color(42/255.0f, 31/255.0f, 255/255.0f, 1.0f), 		// Blå
 			new Color(255/255.0f, 31/255.0f, 68/255.0f, 1.0f),		// Röd

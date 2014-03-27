@@ -22,12 +22,8 @@ public class ParticleManager {
 	}
 	
 	public void add(BaseParticle particle) {
-		if(particle instanceof PedjaStars) {
+		if(particles.size() < LIMIT) {
 			particles.add(particle);
-		} else {
-			if(particles.size() < LIMIT) {
-				particles.add(particle);
-			}
 		}
 	}
 	

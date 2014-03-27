@@ -3,6 +3,7 @@ package com.skid.marks.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -112,10 +113,12 @@ public class GameOver implements Screen, InputProcessor {
 		playSprite.flip(false, true);
 		
 		if(backSprite.getBoundingRectangle().contains(screenX, screenY)) {
+			game.ingame_font.setColor(Color.GRAY);
 			game.Sounds.play("menu", true);
 			game.setScreen(new MainMenu(game));
 			this.dispose();
 		} else if(playSprite.getBoundingRectangle().contains(screenX, screenY)) {
+			game.ingame_font.setColor(Color.GRAY);
 			game.setScreen(new Game(game));
 			this.dispose();
 		}

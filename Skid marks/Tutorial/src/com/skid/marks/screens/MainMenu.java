@@ -5,7 +5,9 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Rectangle;
 import com.skid.marks.screens.Game;
 import com.skid.marks.tutorial.TutorialGame;
 
@@ -26,6 +28,10 @@ public class MainMenu implements Screen, InputProcessor {
 	private Sprite howToPlaySprite;
 	private Sprite soundSprite;
 	private Sprite quitSprite;
+	
+	// Button size och position
+	float bw = TutorialGame.screen_width*0.3f;
+	float bh = TutorialGame.screen_height*0.16f;
 	
 	private final float BUTTON_SIZE = 80f;
 	
@@ -48,7 +54,7 @@ public class MainMenu implements Screen, InputProcessor {
 			game.Sounds.play("menu", true);
 		}
 		
-		backgroundSprite = game.Textures.getSprite("data/gfx/background_A.png");
+		backgroundSprite = game.Textures.getSprite("data/gfx/background.png");
 		backgroundSprite.setSize(TutorialGame.screen_width, TutorialGame.screen_height);
 		backgroundSprite.setPosition(0, 0);
 		
@@ -57,25 +63,21 @@ public class MainMenu implements Screen, InputProcessor {
 		menuSprite.setSize(TutorialGame.screen_width * 0.6f, TutorialGame.screen_height * 0.8f);
 		menuSprite.setPosition(cx - (menuSprite.getWidth() / 2) , cy - (menuSprite.getHeight() / 2));
 		
-		// Button size och position
-		float bx = menuSprite.getX();
-		float by = menuSprite.getY();
-		float bw = menuSprite.getWidth();
-		float bh = (menuSprite.getHeight()) / 3;
 
-		playSprite = game.Textures.getSprite("data/funkycube.png"); // TEMP så länge
-		playSprite.setSize(bw * 0.8f, bh * 0.6f);
-		playSprite.setPosition(bx + (bw * 0.1f), by + (bh * 0.2f));
+
+		playSprite = game.Textures.getSprite("data/gfx/score_background.png"); // TEMP så länge
+		playSprite.setSize(bw, bh);
+		playSprite.setPosition((TutorialGame.screen_width/2) - (bw/2), TutorialGame.screen_height*0.35f);
 		playSprite.flip(false, true);
 		
-		highscoreSprite = game.Textures.getSprite("data/funkycube.png"); // TEMP så länge
-		highscoreSprite.setSize(bw * 0.8f, bh * 0.6f);
-		highscoreSprite.setPosition(bx + (bw * 0.1f), by + bh + (bh * 0.2f));
+		highscoreSprite = game.Textures.getSprite("data/gfx/score_background.png"); // TEMP så länge
+		highscoreSprite.setSize(bw, bh);
+		highscoreSprite.setPosition((TutorialGame.screen_width/2) - (bw/2), TutorialGame.screen_height*0.55f);
 		highscoreSprite.flip(false, true);
 
-		howToPlaySprite = game.Textures.getSprite("data/funkycube.png"); // TEMP så länge
-		howToPlaySprite.setSize(bw * 0.8f, bh * 0.6f);
-		howToPlaySprite.setPosition(bx + (bw * 0.1f), by + bh * 2 + (bh * 0.2f));
+		howToPlaySprite = game.Textures.getSprite("data/gfx/score_background.png"); // TEMP så länge
+		howToPlaySprite.setSize(bw, bh);
+		howToPlaySprite.setPosition((TutorialGame.screen_width/2) - (bw/2), TutorialGame.screen_height*0.75f);
 		howToPlaySprite.flip(false, true);
 
 		soundSprite = game.Textures.getSprite("data/gfx/background_sheet.png");
@@ -133,21 +135,23 @@ public class MainMenu implements Screen, InputProcessor {
 		game.Batch.begin();
 
 		backgroundSprite.draw(game.Batch);
-		menuSprite.draw(game.Batch);
+		//menuSprite.draw(game.Batch);
 		playSprite.draw(game.Batch);
 		highscoreSprite.draw(game.Batch);
 		howToPlaySprite.draw(game.Batch);
 		soundSprite.draw(game.Batch);
 		quitSprite.draw(game.Batch);
-		
-		// TODO: temp så länge
-		float bx = menuSprite.getX();
-		float by = menuSprite.getY();
-		float bw = menuSprite.getWidth();
-		float bh = (menuSprite.getHeight()) / 3;
-		game.main_menu_font.draw(game.Batch, "PLAY", bx + (bw * 0.1f) + 100, by + (bh * 0.2f) + 50);
-		game.main_menu_font.draw(game.Batch, "SCORE", bx + (bw * 0.1f) + 100, by + bh + (bh * 0.2f) + 50);
-		game.main_menu_font.draw(game.Batch, "HOW TO", bx + (bw * 0.1f) + 100, by + bh * 2 + (bh * 0.2f) + 50);
+
+
+
+
+		BitmapFont.TextBounds t = game.main_menu_font.getBounds("PLAY");
+		game.main_menu_font.draw(game.Batch, "PLAY", (TutorialGame.screen_width/2) - t.width/2, TutorialGame.screen_height*0.35f + t.height/1.7f);
+		t = game.main_menu_font.getBounds("SCORE");
+		game.main_menu_font.draw(game.Batch, "SCORE", (TutorialGame.screen_width/2) - t.width/2, TutorialGame.screen_height*0.55f + t.height/1.7f);
+		t = game.main_menu_font.getBounds("HOW TO");
+		game.main_menu_font.draw(game.Batch, "HOW TO", (TutorialGame.screen_width/2) - t.width/2, TutorialGame.screen_height*0.75f + t.height/1.7f);
+
 
 		game.Batch.end();
 	}

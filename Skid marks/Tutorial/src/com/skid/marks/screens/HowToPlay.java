@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.skid.marks.tutorial.Background;
 import com.skid.marks.tutorial.TutorialGame;
 
 public class HowToPlay implements Screen, InputProcessor {
@@ -16,6 +17,8 @@ public class HowToPlay implements Screen, InputProcessor {
 		what2,
 		how0
 	}
+	
+	private Background background;
 	
 	private Sprite image;
 	
@@ -29,6 +32,9 @@ public class HowToPlay implements Screen, InputProcessor {
 	public HowToPlay(TutorialGame game){
 		
 		this.game = game;
+		
+		background = new Background(game);
+		background.setColorRandom();
 		
 		Gdx.input.setInputProcessor(this);
 		
@@ -119,7 +125,12 @@ public class HowToPlay implements Screen, InputProcessor {
 		Gdx.gl.glClearColor(100/255f, 100/255f, 1.0f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
+		background.update(delta);
+		
 		game.Batch.begin();
+		
+		background.draw(game.Batch);
+		
 		switch(currentPage){
 		
 		case what0:

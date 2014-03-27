@@ -8,12 +8,16 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
+import com.skid.marks.manager.particle.Star;
 import com.skid.marks.screens.Game;
+import com.skid.marks.tutorial.Background;
 import com.skid.marks.tutorial.TutorialGame;
 
 public class MainMenu implements Screen, InputProcessor {
 	
 	private final TutorialGame game;
+	
+	private Background background;
 	
 	public static final String SETTINGS_FILE = "settings";
 	public static final String SOUND = "sound";
@@ -41,6 +45,8 @@ public class MainMenu implements Screen, InputProcessor {
 		this.game = game;
 		Gdx.input.setInputProcessor(this);
 		
+		background = new Background(game);
+		background.setColorRandom();
 		
 		cx = TutorialGame.screen_width/2;
 		cy = TutorialGame.screen_height/2;
@@ -130,11 +136,14 @@ public class MainMenu implements Screen, InputProcessor {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(100/255f, 100/255f, 1.0f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		background.update(delta);
 
 		game.Batch.setProjectionMatrix(game.Camera.combined);
 		game.Batch.begin();
 
-		backgroundSprite.draw(game.Batch);
+		background.draw(game.Batch);
+		//backgroundSprite.draw(game.Batch);
 		//menuSprite.draw(game.Batch);
 		playSprite.draw(game.Batch);
 		highscoreSprite.draw(game.Batch);

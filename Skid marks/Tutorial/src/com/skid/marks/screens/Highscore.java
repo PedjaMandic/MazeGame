@@ -6,6 +6,7 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.skid.marks.tutorial.Background;
 import com.skid.marks.tutorial.TutorialGame;
 
 public class Highscore implements Screen, InputProcessor {
@@ -26,27 +27,26 @@ public class Highscore implements Screen, InputProcessor {
 	private static int scores_second;
 	private static int scores_third;
 
-	private Sprite background;
 	private Sprite highscore_list;
 	private Sprite main_menu_button;
 	
 	private float buttonSize;
 	
+	private Background background;
+	
 	public Highscore(final TutorialGame game){
 		this.game = game;
 		Gdx.input.setInputProcessor(this);
+		
+		background = new Background(game);
+		background.setColorRandom();
 		
 		cx = TutorialGame.screen_width/2;
 		cy = TutorialGame.screen_height/2;
 		
 		buttonSize = TutorialGame.screen_height * 0.15f;
 		
-		background = game.Textures.getSprite("data/gfx/background_A.png");
-		background.setSize(TutorialGame.screen_width, TutorialGame.screen_height);
-		background.setPosition(0, 0);
-		
-		highscore_list= game.Textures.getSprite("data/gfx/background_sheet.png");
-		highscore_list.setRegion(0, 0, 256, 512);
+		highscore_list= game.Textures.getSprite("data/gfx/score_background.png");
 		highscore_list.setSize(TutorialGame.screen_width * 0.6f, TutorialGame.screen_height * 0.8f);
 		highscore_list.setPosition(cx - (highscore_list.getWidth() / 2) , cy - (highscore_list.getHeight() / 2));
 		
@@ -113,11 +113,17 @@ public class Highscore implements Screen, InputProcessor {
 		scores_third = GetScore(KEY_THIRD);
 	}
 	
+	public static void ResetScores(){
+		
+		prefs.clear();
+		
+	}
+	
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(100/255f, 100/255f, 1.0f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+		background.update(delta);
 		game.Batch.begin();
 		background.draw(game.Batch);
 		highscore_list.draw(game.Batch);

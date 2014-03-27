@@ -10,14 +10,12 @@ public class Background {
 	private Color[] colors = {
 			new Color(0/255.0f, 0/255.0f, 0/255.0f, 1.0f), 			// Svart	-	Testning
 			new Color(255/255.0f, 31/255.0f, 240/255.0f, 1.0f), 	// Rosa
+			new Color(31/255.0f, 255/255.0f, 46/255.0f, 1.0f), 		// Grön
 			new Color(42/255.0f, 31/255.0f, 255/255.0f, 1.0f), 		// Blå
 			new Color(255/255.0f, 31/255.0f, 68/255.0f, 1.0f),		// Röd
 			new Color(31/255.0f, 255/255.0f, 218/255.0f, 1.0f),		// Teal
-			new Color(31/255.0f, 255/255.0f, 46/255.0f, 1.0f), 		// Grön
 			new Color(255/255.0f, 124/255.0f, 31/255.0f, 1.0f),		// Orange
 			new Color(142/255.0f, 56/255.0f, 255/255.0f, 1.0f),		// Lila
-			new Color(244/255.0f, 255/255.0f, 31/255.0f, 1.0f), 	// Gul 		-	Gillar egentligen inte, ska leta annan
-
 	};
 	
 	public static Color currentColor;

@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.skid.marks.tutorial.Level;
 import com.skid.marks.tutorial.TutorialGame;
 
-public class Star implements BaseParticle{
+public class Star implements BaseParticle {
 
 	private TutorialGame game;
 	
@@ -19,10 +19,8 @@ public class Star implements BaseParticle{
 	private Vector2 direction;
 	private Sprite sprite;
 	
-//	private final float SIZE = 10;
 	private float speed = 10;
 	
-	// Screen dimensions
 	private float sw;
 	private float sh;
 	

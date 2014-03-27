@@ -5,7 +5,6 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.skid.marks.screens.Game;
 import com.skid.marks.tutorial.TutorialGame;
@@ -14,21 +13,17 @@ public class MainMenu implements Screen, InputProcessor {
 	
 	private final TutorialGame game;
 	
+	public static final String SETTINGS_FILE = "settings";
+	public static final String SOUND = "sound";
+	
 	private float cx;
 	private float cy;
-	
-	private Texture texPlay;
-	private Texture texPlayHL;
-	private Texture texHighscores;
-	private Texture texHighscoresHL;
-	private Texture texSettings;
-	private Texture texSettingsHL;
 	
 	private Sprite backgroundSprite;
 	private Sprite menuSprite;
 	private Sprite playSprite;
 	private Sprite highscoreSprite;
-	private Sprite settingsSprite;
+	private Sprite howToPlaySprite;
 	private Sprite soundSprite;
 	private Sprite quitSprite;
 	
@@ -44,24 +39,14 @@ public class MainMenu implements Screen, InputProcessor {
 		cx = TutorialGame.screen_width/2;
 		cy = TutorialGame.screen_height/2;
 		
-		Preferences prefs = Gdx.app.getPreferences(Settings.SETTINGS_FILE);
+		Preferences prefs = Gdx.app.getPreferences(SETTINGS_FILE);
 		
-		hasSound = prefs.getBoolean(Settings.SOUND);
+		hasSound = prefs.getBoolean(SOUND);
 		game.Sounds.setSound(hasSound);
 		
 		if(hasSound) {
 			game.Sounds.play("menu", true);
 		}
-
-		String language = prefs.getString(Settings.LANUAGE);
-		game.Localization.setLanguage(language);
-		
-		texPlay = game.Localization.getTexture("play.png");
-		texPlayHL = game.Localization.getTexture("play_HL.png");
-		texHighscores = game.Localization.getTexture("highscores.png");
-		texHighscoresHL = game.Localization.getTexture("highscores_HL.png");
-		texSettings = game.Localization.getTexture("settings.png");
-		texSettingsHL = game.Localization.getTexture("settings_HL.png");
 		
 		backgroundSprite = game.Textures.getSprite("data/gfx/background_A.png");
 		backgroundSprite.setSize(TutorialGame.screen_width, TutorialGame.screen_height);
@@ -78,20 +63,20 @@ public class MainMenu implements Screen, InputProcessor {
 		float bw = menuSprite.getWidth();
 		float bh = (menuSprite.getHeight()) / 3;
 
-		playSprite = new Sprite(texPlay);
+		playSprite = game.Textures.getSprite("data/funkycube.png"); // TEMP så länge
 		playSprite.setSize(bw * 0.8f, bh * 0.6f);
 		playSprite.setPosition(bx + (bw * 0.1f), by + (bh * 0.2f));
 		playSprite.flip(false, true);
 		
-		highscoreSprite = new Sprite(texHighscores);
+		highscoreSprite = game.Textures.getSprite("data/funkycube.png"); // TEMP så länge
 		highscoreSprite.setSize(bw * 0.8f, bh * 0.6f);
 		highscoreSprite.setPosition(bx + (bw * 0.1f), by + bh + (bh * 0.2f));
 		highscoreSprite.flip(false, true);
-		
-		settingsSprite = new Sprite(texSettings);
-		settingsSprite.setSize(bw * 0.8f, bh * 0.6f);
-		settingsSprite.setPosition(bx + (bw * 0.1f), by + bh * 2 + (bh * 0.2f));
-		settingsSprite.flip(false, true);
+
+		howToPlaySprite = game.Textures.getSprite("data/funkycube.png"); // TEMP så länge
+		howToPlaySprite.setSize(bw * 0.8f, bh * 0.6f);
+		howToPlaySprite.setPosition(bx + (bw * 0.1f), by + bh * 2 + (bh * 0.2f));
+		howToPlaySprite.flip(false, true);
 
 		soundSprite = game.Textures.getSprite("data/gfx/background_sheet.png");
 		soundSprite.setRegion(256, 320, 64, 64);
@@ -106,8 +91,26 @@ public class MainMenu implements Screen, InputProcessor {
 		quitSprite.flip(false, true);
 		
 		reset();
+		loadSettings();
 	}
 	
+	void saveSettings() {
+		Preferences prefs = Gdx.app.getPreferences(SETTINGS_FILE);
+		prefs.putBoolean(SOUND, hasSound);
+		prefs.flush();
+	}
+	
+	void loadSettings() {
+		Preferences prefs = Gdx.app.getPreferences(SETTINGS_FILE);
+		hasSound = prefs.getBoolean(SOUND);
+		
+		if(hasSound) {
+			soundSprite.setRegion(256, 320, 64, 64);
+		} else {
+			soundSprite.setRegion(256, 256, 64, 64);
+		}
+		soundSprite.flip(false, true);
+	}
 	
 	void reset() {
 		quitSprite.setRegion(256, 64, 64, 64);
@@ -119,12 +122,6 @@ public class MainMenu implements Screen, InputProcessor {
 			soundSprite.setRegion(256, 256, 64, 64);
 		}
 		soundSprite.flip(false, true);
-		
-		playSprite.setTexture(texPlay);
-		
-		highscoreSprite.setTexture(texHighscores);
-		
-		settingsSprite.setTexture(texSettings);
 	}
 
 	@Override
@@ -139,9 +136,18 @@ public class MainMenu implements Screen, InputProcessor {
 		menuSprite.draw(game.Batch);
 		playSprite.draw(game.Batch);
 		highscoreSprite.draw(game.Batch);
-		settingsSprite.draw(game.Batch);
+		howToPlaySprite.draw(game.Batch);
 		soundSprite.draw(game.Batch);
 		quitSprite.draw(game.Batch);
+		
+		// TODO: temp så länge
+		float bx = menuSprite.getX();
+		float by = menuSprite.getY();
+		float bw = menuSprite.getWidth();
+		float bh = (menuSprite.getHeight()) / 3;
+		game.Font.draw(game.Batch, "PLAY", bx + (bw * 0.1f) + 100, by + (bh * 0.2f) + 50);
+		game.Font.draw(game.Batch, "HIGHSCORE", bx + (bw * 0.1f) + 100, by + bh + (bh * 0.2f) + 50);
+		game.Font.draw(game.Batch, "HOW TO PLAY", bx + (bw * 0.1f) + 100, by + bh * 2 + (bh * 0.2f) + 50);
 
 		game.Batch.end();
 	}
@@ -159,11 +165,11 @@ public class MainMenu implements Screen, InputProcessor {
 			}
 			soundSprite.flip(false, true);
 		} else if(playSprite.getBoundingRectangle().contains(screenX, screenY)) {
-			playSprite.setTexture(texPlayHL);
+			// TODO
 		} else if(highscoreSprite.getBoundingRectangle().contains(screenX, screenY)) {
-			highscoreSprite.setTexture(texHighscoresHL);
-		} else if(settingsSprite.getBoundingRectangle().contains(screenX, screenY)) {
-			settingsSprite.setTexture(texSettingsHL);
+			// TODO
+		} else if(howToPlaySprite.getBoundingRectangle().contains(screenX, screenY)) {
+			// TODO
 		}
 		return false;
 	}
@@ -180,15 +186,13 @@ public class MainMenu implements Screen, InputProcessor {
 				game.Sounds.play("menu", true);
 			}
 			
-			Preferences prefs = Gdx.app.getPreferences(Settings.SETTINGS_FILE);
-			prefs.putBoolean(Settings.SOUND, hasSound);
-			prefs.flush();
+			saveSettings();
 			
 		} else if(playSprite.getBoundingRectangle().contains(screenX, screenY)) {
 			game.setScreen(new Game(game));
 		} else if(highscoreSprite.getBoundingRectangle().contains(screenX, screenY)) {
 			game.setScreen(new Highscore(game));
-		} else if(settingsSprite.getBoundingRectangle().contains(screenX, screenY)) {
+		} else if(howToPlaySprite.getBoundingRectangle().contains(screenX, screenY)) {
 			game.setScreen(new HowToPlay(game));
 		}
 		reset();

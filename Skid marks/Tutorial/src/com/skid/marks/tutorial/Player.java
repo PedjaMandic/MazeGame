@@ -58,8 +58,7 @@ public class Player {
 		mouseTochedY = (TutorialGame.screen_height / 2) - (SIZE / 2);
 	}
 
-	public void update(float delta) {				
-		// isTouched fungerar både till Andriod och Desktop
+	public void update(float delta) {
 		isMouseToched = Gdx.input.isTouched();
 		if(isMouseToched) {
 			mouseTochedY = Gdx.input.getY() - (SIZE / 2);

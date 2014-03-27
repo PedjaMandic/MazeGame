@@ -2,6 +2,9 @@ package com.skid.marks.manager.particle;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+/*
+ * Interface for all the particles to implement
+ **/
 public interface BaseParticle {
 	
 	void update(float delta);

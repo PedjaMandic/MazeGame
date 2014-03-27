@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.skid.marks.manager.Localization;
 import com.skid.marks.manager.SoundManager;
 import com.skid.marks.manager.TextureManager;
 import com.skid.marks.manager.particle.ParticleManager;
@@ -32,7 +31,7 @@ public class TutorialGame extends Game {
 	public TextureManager Textures;
 	public SoundManager Sounds;
 	public ParticleManager Particles;
-	public Localization Localization;
+//	public Localization Localization;
 
 	@Override
 	public void create() {
@@ -43,7 +42,7 @@ public class TutorialGame extends Game {
 		Textures = new TextureManager();
 		Sounds = new SoundManager();
 		Particles = new ParticleManager();
-		Localization = new Localization();
+//		Localization = new Localization();
 
 		Font = new BitmapFont(true);
 		Batch = new SpriteBatch();
@@ -85,7 +84,7 @@ public class TutorialGame extends Game {
 		Textures.dispose();
 		Sounds.dispose();
 		Particles.dispose();
-		Localization.dispose();
+//		Localization.dispose();
 
 		main_menu_font.dispose();
 		highscores_font.dispose();

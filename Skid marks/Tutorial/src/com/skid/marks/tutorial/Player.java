@@ -75,11 +75,8 @@ public class Player {
 			}
 		}
 		
-		// TODO: Fixa rotationen
 		float tempRot = ((mouseTochedY - position.y) / (TutorialGame.screen_height / 4)) * 45;
 		rotation = MathUtils.clamp(tempRot, -45, 45);
-		// Temp så länge
-//		rotation = 0;
 		
 		if(position.y < 0) {
 			position.y = 0;
@@ -110,7 +107,11 @@ public class Player {
 	public Vector2 getPosition() {
 		return this.position;
 	}
-	
+	/*
+	 * Updates the trail behind the player.
+	 * Removes the trail if alive is false
+	 * Adds a new trail every update
+	 */
 	private void UpdateTrail(float time){
 		Trail t = new Trail(game, getPosition().y);
 		trail.add(t);
@@ -122,9 +123,10 @@ public class Player {
 				trail.remove(i);
 		}	
 	}
-	
+	/*
+	 * Draws the trail behind the player
+	 */
 	private void DrawTrail(SpriteBatch batch){
-		
 		for(int i = 0; i < trail.size(); i++){
 			Trail t = (Trail) trail.get(i);
 			t.draw(batch);

@@ -51,7 +51,7 @@ public class Trail implements BaseParticle{
 		alpha = 100;		
 			
 	}
-
+	
 	@Override
 	public void update(float delta) {
 		//Moves the trail backwards by it's width amount

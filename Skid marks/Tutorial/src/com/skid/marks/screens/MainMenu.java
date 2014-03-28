@@ -57,9 +57,9 @@ public class MainMenu implements Screen, InputProcessor {
 		hasSound = prefs.getBoolean(SOUND);
 		game.Sounds.setSound(hasSound);
 		
-		if(hasSound) {
-			game.Sounds.play("music", true);
-		}
+//		if(hasSound) {
+//			game.Sounds.play("music", true);
+//		}
 		
 		backgroundSprite = game.Textures.getSprite("data/gfx/menu/menu_backround2.png");
 		backgroundSprite.setRegion(0, 0, 1280, 720);
@@ -185,9 +185,9 @@ public class MainMenu implements Screen, InputProcessor {
 			hasSound = !hasSound;
 			game.Sounds.setSound(hasSound);
 			
-			if(hasSound) {
-				game.Sounds.play("music", true);
-			}
+//			if(hasSound) {
+//				game.Sounds.play("music", true);
+//			}
 			
 			saveSettings();
 			

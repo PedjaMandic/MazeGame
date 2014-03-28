@@ -99,6 +99,7 @@ public class GameOver implements Screen, InputProcessor {
 			game.ingame_font.setColor(Color.GRAY);
 //			game.Sounds.play("menu", true);
 			game.setScreen(new MainMenu(game));
+			game.Sounds.stopAll();
 			this.dispose();
 		} else if(playSprite.getBoundingRectangle().contains(screenX, screenY)) {
 			game.ingame_font.setColor(Color.GRAY);

@@ -35,7 +35,7 @@ public class MainMenu implements Screen, InputProcessor {
 	
 	// Button size och position
 	float bw = TutorialGame.screen_width*0.3f;
-	float bh = TutorialGame.screen_height*0.16f;
+	float bh = TutorialGame.screen_height*0.23f;
 	
 	private final float BUTTON_SIZE = 80f;
 	
@@ -60,28 +60,28 @@ public class MainMenu implements Screen, InputProcessor {
 			game.Sounds.play("menu", true);
 		}
 		
-		backgroundSprite = game.Textures.getSprite("data/gfx/background.png");
+		backgroundSprite = game.Textures.getSprite("data/gfx/menu/menu_backround2.png");
+		backgroundSprite.setRegion(0, 0, 1280, 720);
 		backgroundSprite.setSize(TutorialGame.screen_width, TutorialGame.screen_height);
 		backgroundSprite.setPosition(0, 0);
+		backgroundSprite.flip(false, true);
 		
 		menuSprite = game.Textures.getSprite("data/gfx/background_sheet.png");
 		menuSprite.setRegion(0, 0, 256, 512);
 		menuSprite.setSize(TutorialGame.screen_width * 0.6f, TutorialGame.screen_height * 0.8f);
 		menuSprite.setPosition(cx - (menuSprite.getWidth() / 2) , cy - (menuSprite.getHeight() / 2));
-		
 
-
-		playSprite = game.Textures.getSprite("data/gfx/score_background.png"); // TEMP så länge
+		playSprite = game.Textures.getSprite("data/gfx/menu/button.png"); // TEMP så länge
 		playSprite.setSize(bw, bh);
 		playSprite.setPosition((TutorialGame.screen_width/2) - (bw/2), TutorialGame.screen_height*0.35f);
 		playSprite.flip(false, true);
 		
-		highscoreSprite = game.Textures.getSprite("data/gfx/score_background.png"); // TEMP så länge
+		highscoreSprite = game.Textures.getSprite("data/gfx/menu/button.png"); // TEMP så länge
 		highscoreSprite.setSize(bw, bh);
 		highscoreSprite.setPosition((TutorialGame.screen_width/2) - (bw/2), TutorialGame.screen_height*0.55f);
 		highscoreSprite.flip(false, true);
 
-		howToPlaySprite = game.Textures.getSprite("data/gfx/score_background.png"); // TEMP så länge
+		howToPlaySprite = game.Textures.getSprite("data/gfx/menu/button.png"); // TEMP så länge
 		howToPlaySprite.setSize(bw, bh);
 		howToPlaySprite.setPosition((TutorialGame.screen_width/2) - (bw/2), TutorialGame.screen_height*0.75f);
 		howToPlaySprite.flip(false, true);
@@ -142,8 +142,8 @@ public class MainMenu implements Screen, InputProcessor {
 		game.Batch.setProjectionMatrix(game.Camera.combined);
 		game.Batch.begin();
 
-		background.draw(game.Batch);
-		//backgroundSprite.draw(game.Batch);
+		//background.draw(game.Batch);
+		backgroundSprite.draw(game.Batch);
 		//menuSprite.draw(game.Batch);
 		playSprite.draw(game.Batch);
 		highscoreSprite.draw(game.Batch);
@@ -155,11 +155,11 @@ public class MainMenu implements Screen, InputProcessor {
 
 
 		BitmapFont.TextBounds t = game.main_menu_font.getBounds("PLAY");
-		game.main_menu_font.draw(game.Batch, "PLAY", (TutorialGame.screen_width/2) - t.width/2, TutorialGame.screen_height*0.35f + t.height/1.7f);
+		game.main_menu_font.draw(game.Batch, "PLAY", (TutorialGame.screen_width/2) - t.width/2, (playSprite.getY() + bh/2) - t.height/2);
 		t = game.main_menu_font.getBounds("SCORE");
-		game.main_menu_font.draw(game.Batch, "SCORE", (TutorialGame.screen_width/2) - t.width/2, TutorialGame.screen_height*0.55f + t.height/1.7f);
+		game.main_menu_font.draw(game.Batch, "SCORE", (TutorialGame.screen_width/2) - t.width/2, (highscoreSprite.getY() + bh/2) - t.height/2);
 		t = game.main_menu_font.getBounds("HOW TO");
-		game.main_menu_font.draw(game.Batch, "HOW TO", (TutorialGame.screen_width/2) - t.width/2, TutorialGame.screen_height*0.75f + t.height/1.7f);
+		game.main_menu_font.draw(game.Batch, "HOW TO", (TutorialGame.screen_width/2) - t.width/2, (howToPlaySprite.getY() + bh/2) - t.height/2);
 
 
 		game.Batch.end();

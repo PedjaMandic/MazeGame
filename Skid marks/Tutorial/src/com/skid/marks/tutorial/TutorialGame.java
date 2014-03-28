@@ -54,7 +54,7 @@ public class TutorialGame extends Game {
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(fontFile);
 
 		main_menu_font = generator.generateFont((int)(screen_width / 18), "PLAYHIGSCOREWT", true);
-		main_menu_font.setColor(Color.valueOf("3324ffbb"));
+		main_menu_font.setColor(new Color(1f,1f,1f,1));
 
 		highscores_font = generator.generateFont((int) (screen_width / 18),
 				"1234567890stndr", true);

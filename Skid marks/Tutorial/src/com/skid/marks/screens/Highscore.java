@@ -46,7 +46,7 @@ public class Highscore implements Screen, InputProcessor {
 		
 		buttonSize = TutorialGame.screen_height * 0.15f;
 		
-		highscore_list= game.Textures.getSprite("data/gfx/score_background.png");
+		highscore_list= game.Textures.getSprite("data/gfx/menu/button.png");
 		highscore_list.setSize(TutorialGame.screen_width * 0.6f, TutorialGame.screen_height * 0.8f);
 		highscore_list.setPosition(cx - (highscore_list.getWidth() / 2) , cy - (highscore_list.getHeight() / 2));
 		

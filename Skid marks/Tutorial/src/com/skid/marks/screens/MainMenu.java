@@ -57,10 +57,6 @@ public class MainMenu implements Screen, InputProcessor {
 		hasSound = prefs.getBoolean(SOUND);
 		game.Sounds.setSound(hasSound);
 		
-//		if(hasSound) {
-//			game.Sounds.play("music", true);
-//		}
-		
 		backgroundSprite = game.Textures.getSprite("data/gfx/menu/menu_backround2.png");
 		backgroundSprite.setRegion(0, 0, 1280, 720);
 		backgroundSprite.setSize(TutorialGame.screen_width, TutorialGame.screen_height);
@@ -160,20 +156,6 @@ public class MainMenu implements Screen, InputProcessor {
 	
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		if(quitSprite.getBoundingRectangle().contains(screenX, screenY)) {
-		} else if(soundSprite.getBoundingRectangle().contains(screenX, screenY)) {
-			if(hasSound) {
-				soundSprite.setTexture(texSoundOn);
-			} else {
-				soundSprite.setTexture(texSoundOff);
-			}
-		} else if(playSprite.getBoundingRectangle().contains(screenX, screenY)) {
-			// TODO
-		} else if(highscoreSprite.getBoundingRectangle().contains(screenX, screenY)) {
-			// TODO
-		} else if(howToPlaySprite.getBoundingRectangle().contains(screenX, screenY)) {
-			// TODO
-		}
 		return false;
 	}
 
@@ -184,10 +166,6 @@ public class MainMenu implements Screen, InputProcessor {
 		} else if(soundSprite.getBoundingRectangle().contains(screenX, screenY)) {
 			hasSound = !hasSound;
 			game.Sounds.setSound(hasSound);
-			
-//			if(hasSound) {
-//				game.Sounds.play("music", true);
-//			}
 			
 			saveSettings();
 			

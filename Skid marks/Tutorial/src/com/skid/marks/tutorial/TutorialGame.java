@@ -30,7 +30,6 @@ public class TutorialGame extends Game {
 	public TextureManager Textures;
 	public SoundManager Sounds;
 	public ParticleManager Particles;
-//	public Localization Localization;
 
 	@Override
 	public void create() {
@@ -41,7 +40,6 @@ public class TutorialGame extends Game {
 		Textures = new TextureManager();
 		Sounds = new SoundManager();
 		Particles = new ParticleManager();
-//		Localization = new Localization();
 
 		Batch = new SpriteBatch();
 		Camera = new OrthographicCamera();
@@ -71,8 +69,6 @@ public class TutorialGame extends Game {
 		generator.dispose();
 		// -----------------------------------------------------------------------
 		
-//		Sounds.play("music", true);
-		
 		this.setScreen(new MainMenu(this));
 	}
 
@@ -82,7 +78,6 @@ public class TutorialGame extends Game {
 		Textures.dispose();
 		Sounds.dispose();
 		Particles.dispose();
-//		Localization.dispose();
 
 		main_menu_font.dispose();
 		highscores_font.dispose();

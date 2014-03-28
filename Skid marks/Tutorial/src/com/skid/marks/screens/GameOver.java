@@ -58,7 +58,7 @@ public class GameOver implements Screen, InputProcessor {
 		explosion.setPosition(player.getPosition().x, player.getPosition().y);
 		explosion.reset();
 		
-		score_background = game.Textures.getSprite("data/gfx/score_background.png");
+		score_background = game.Textures.getSprite("data/gfx/menu/button.png");
 		score_background.setBounds(0, 0, Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/6);
 	}
 	
@@ -97,7 +97,6 @@ public class GameOver implements Screen, InputProcessor {
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		if(backSprite.getBoundingRectangle().contains(screenX, screenY)) {
 			game.ingame_font.setColor(Color.GRAY);
-//			game.Sounds.play("menu", true);
 			game.setScreen(new MainMenu(game));
 			game.Sounds.stopAll();
 			this.dispose();

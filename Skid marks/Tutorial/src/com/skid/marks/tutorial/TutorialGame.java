@@ -70,7 +70,9 @@ public class TutorialGame extends Game {
 
 		generator.dispose();
 		// -----------------------------------------------------------------------
-
+		
+		Sounds.play("music", true);
+		
 		this.setScreen(new MainMenu(this));
 	}
 

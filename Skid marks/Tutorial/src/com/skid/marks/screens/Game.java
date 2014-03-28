@@ -34,8 +34,8 @@ public class Game implements Screen, InputProcessor {
 		
 		score_background = game.Textures.getSprite("data/gfx/score_background.png");
 		score_background.setBounds(0, 0, Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/6);
-		if(MainMenu.hasSound)
-			game.Sounds.play("background", true);
+//		if(MainMenu.hasSound)
+//			game.Sounds.play("music", true);
 	}
 	
 	@Override

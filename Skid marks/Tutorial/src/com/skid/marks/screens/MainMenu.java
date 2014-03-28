@@ -5,11 +5,9 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Rectangle;
-import com.skid.marks.manager.particle.Star;
-import com.skid.marks.screens.Game;
 import com.skid.marks.tutorial.Background;
 import com.skid.marks.tutorial.TutorialGame;
 
@@ -24,6 +22,9 @@ public class MainMenu implements Screen, InputProcessor {
 	
 	private float cx;
 	private float cy;
+	
+	private Texture texSoundOn;
+	private Texture texSoundOff;
 	
 	private Sprite backgroundSprite;
 	private Sprite menuSprite;
@@ -57,7 +58,7 @@ public class MainMenu implements Screen, InputProcessor {
 		game.Sounds.setSound(hasSound);
 		
 		if(hasSound) {
-			game.Sounds.play("menu", true);
+			game.Sounds.play("music", true);
 		}
 		
 		backgroundSprite = game.Textures.getSprite("data/gfx/menu/menu_backround2.png");
@@ -71,7 +72,7 @@ public class MainMenu implements Screen, InputProcessor {
 		menuSprite.setSize(TutorialGame.screen_width * 0.6f, TutorialGame.screen_height * 0.8f);
 		menuSprite.setPosition(cx - (menuSprite.getWidth() / 2) , cy - (menuSprite.getHeight() / 2));
 
-		playSprite = game.Textures.getSprite("data/gfx/menu/button.png"); // TEMP så länge
+		playSprite = game.Textures.getSprite("data/gfx/menu/button.png");
 		playSprite.setSize(bw, bh);
 		playSprite.setPosition((TutorialGame.screen_width/2) - (bw/2), TutorialGame.screen_height*0.35f);
 		playSprite.flip(false, true);
@@ -86,17 +87,17 @@ public class MainMenu implements Screen, InputProcessor {
 		howToPlaySprite.setPosition((TutorialGame.screen_width/2) - (bw/2), TutorialGame.screen_height*0.75f);
 		howToPlaySprite.flip(false, true);
 
-		soundSprite = game.Textures.getSprite("data/gfx/background_sheet.png");
-		soundSprite.setRegion(256, 320, 64, 64);
+		texSoundOn = game.Textures.getTexture("data/gfx/menu/button_sound.png");
+		texSoundOff = game.Textures.getTexture("data/gfx/menu/button_soundOff.png");
+		
+		soundSprite = new Sprite(texSoundOn);
 		soundSprite.setSize(BUTTON_SIZE, BUTTON_SIZE);
 		soundSprite.setPosition(TutorialGame.screen_width * 0.05f, TutorialGame.screen_height * 0.1f);
 		soundSprite.flip(false, true);
 		
-		quitSprite = game.Textures.getSprite("data/gfx/background_sheet.png");
-		quitSprite.setRegion(256, 64, 64, 64);
+		quitSprite = game.Textures.getSprite("data/gfx/menu/button_exit.png");
 		quitSprite.setSize(BUTTON_SIZE, BUTTON_SIZE);
 		quitSprite.setPosition(TutorialGame.screen_width * 0.95f - BUTTON_SIZE, TutorialGame.screen_height * 0.1f);
-		quitSprite.flip(false, true);
 		
 		reset();
 		loadSettings();
@@ -113,23 +114,18 @@ public class MainMenu implements Screen, InputProcessor {
 		hasSound = prefs.getBoolean(SOUND);
 		
 		if(hasSound) {
-			soundSprite.setRegion(256, 320, 64, 64);
+			soundSprite.setTexture(texSoundOn);
 		} else {
-			soundSprite.setRegion(256, 256, 64, 64);
+			soundSprite.setTexture(texSoundOff);
 		}
-		soundSprite.flip(false, true);
 	}
 	
 	void reset() {
-		quitSprite.setRegion(256, 64, 64, 64);
-		quitSprite.flip(false, true);
-		
 		if(hasSound) {
-			soundSprite.setRegion(256, 320, 64, 64);
+			soundSprite.setTexture(texSoundOn);
 		} else {
-			soundSprite.setRegion(256, 256, 64, 64);
+			soundSprite.setTexture(texSoundOff);
 		}
-		soundSprite.flip(false, true);
 	}
 
 	@Override
@@ -151,9 +147,6 @@ public class MainMenu implements Screen, InputProcessor {
 		soundSprite.draw(game.Batch);
 		quitSprite.draw(game.Batch);
 
-
-
-
 		BitmapFont.TextBounds t = game.main_menu_font.getBounds("PLAY");
 		game.main_menu_font.draw(game.Batch, "PLAY", (TutorialGame.screen_width/2) - t.width/2, (playSprite.getY() + bh/2) - t.height/2);
 		t = game.main_menu_font.getBounds("SCORE");
@@ -168,15 +161,12 @@ public class MainMenu implements Screen, InputProcessor {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		if(quitSprite.getBoundingRectangle().contains(screenX, screenY)) {
-			quitSprite.setRegion(320, 64, 64, 64);
-			quitSprite.flip(false, true);
 		} else if(soundSprite.getBoundingRectangle().contains(screenX, screenY)) {
 			if(hasSound) {
-				soundSprite.setRegion(320, 320, 64, 64);
+				soundSprite.setTexture(texSoundOn);
 			} else {
-				soundSprite.setRegion(320, 256, 64, 64);
+				soundSprite.setTexture(texSoundOff);
 			}
-			soundSprite.flip(false, true);
 		} else if(playSprite.getBoundingRectangle().contains(screenX, screenY)) {
 			// TODO
 		} else if(highscoreSprite.getBoundingRectangle().contains(screenX, screenY)) {
@@ -196,7 +186,7 @@ public class MainMenu implements Screen, InputProcessor {
 			game.Sounds.setSound(hasSound);
 			
 			if(hasSound) {
-				game.Sounds.play("menu", true);
+				game.Sounds.play("music", true);
 			}
 			
 			saveSettings();

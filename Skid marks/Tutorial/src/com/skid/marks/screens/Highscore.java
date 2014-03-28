@@ -50,11 +50,9 @@ public class Highscore implements Screen, InputProcessor {
 		highscore_list.setSize(TutorialGame.screen_width * 0.6f, TutorialGame.screen_height * 0.8f);
 		highscore_list.setPosition(cx - (highscore_list.getWidth() / 2) , cy - (highscore_list.getHeight() / 2));
 		
-		main_menu_button = game.Textures.getSprite("data/gfx/background_sheet.png");
+		main_menu_button = game.Textures.getSprite("data/gfx/menu/button_back.png");
 		main_menu_button.setSize(buttonSize, buttonSize);
 		main_menu_button.setPosition(TutorialGame.screen_width - buttonSize * 1.2f, TutorialGame.screen_height - buttonSize * 1.2f);
-		main_menu_button.setRegion(256, 128, 64, 64);
-		main_menu_button.flip(false, true);
 		
 		Highscore.LoadPrefs();
 		
@@ -173,20 +171,11 @@ public class Highscore implements Screen, InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		
-		if(main_menu_button.getBoundingRectangle().contains(screenX, screenY)){
-			main_menu_button.setRegion(320, 128, 64, 64);
-			main_menu_button.flip(false, true);
-		}
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		
-		main_menu_button.setRegion(256, 128, 64, 64);
-		main_menu_button.flip(false, true);
-		
 		if(main_menu_button.getBoundingRectangle().contains(screenX, screenY)){
 			game.setScreen(new MainMenu(game));
 		}

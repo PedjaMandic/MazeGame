@@ -21,6 +21,7 @@ public class SoundManager {
 		// Music
 		music.put("background", Gdx.audio.newMusic(Gdx.files.internal("data/sfx/background.mp3")));
 		music.put("menu", Gdx.audio.newMusic(Gdx.files.internal("data/sfx/menu.mp3")));
+		music.put("music", Gdx.audio.newMusic(Gdx.files.internal("data/sfx/music.mp3")));
 	}
 	
 	public void dispose() {
@@ -52,7 +53,7 @@ public class SoundManager {
 			s.play(0.01f);
 		} else if(music.containsKey(name)) {
 			Music m = music.get(name);
-			m.setVolume(0.01f);
+			m.setVolume(0.05f);
 			m.setLooping(true);
 			m.play();
 		}

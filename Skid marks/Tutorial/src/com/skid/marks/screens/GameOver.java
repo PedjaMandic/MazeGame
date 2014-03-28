@@ -44,17 +44,13 @@ public class GameOver implements Screen, InputProcessor {
 		
 		buttonSize = sh * 0.15f;
 		
-		backSprite = game.Textures.getSprite("data/gfx/background_sheet.png");
+		backSprite = game.Textures.getSprite("data/gfx/menu/button_back.png");
 		backSprite.setSize(buttonSize, buttonSize);
-		backSprite.setPosition(sw - buttonSize * 1.2f, sh - buttonSize * 1.2f);
-		backSprite.setRegion(256, 128, 64, 64);
-		backSprite.flip(false, true);
+		backSprite.setPosition(buttonSize * 0.2f, sh - buttonSize * 1.2f);
 		
-		playSprite = game.Textures.getSprite("data/gfx/background_sheet.png");
+		playSprite = game.Textures.getSprite("data/gfx/menu/button_replay.png");
 		playSprite.setSize(buttonSize, buttonSize);
-		playSprite.setPosition(buttonSize * 0.2f, sh - buttonSize * 1.2f);
-		playSprite.setRegion(256, 192, 64, 64);
-		playSprite.flip(false, true);
+		playSprite.setPosition(sw - buttonSize * 1.2f, sh - buttonSize * 1.2f);
 		
 		explosion = new ParticleEffect();
 		explosion.load(Gdx.files.internal("data/gfx/particle/explosion2.p"),
@@ -94,27 +90,14 @@ public class GameOver implements Screen, InputProcessor {
 	
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		if(backSprite.getBoundingRectangle().contains(screenX, screenY)) {
-			backSprite.setRegion(320, 128, 64, 64);
-			backSprite.flip(false, true);
-		} else if(playSprite.getBoundingRectangle().contains(screenX, screenY)) {
-			playSprite.setRegion(320, 192, 64, 64);
-			playSprite.flip(false, true);
-		}
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		backSprite.setRegion(256, 128, 64, 64);
-		backSprite.flip(false, true);
-		
-		playSprite.setRegion(256, 192, 64, 64);
-		playSprite.flip(false, true);
-		
 		if(backSprite.getBoundingRectangle().contains(screenX, screenY)) {
 			game.ingame_font.setColor(Color.GRAY);
-			game.Sounds.play("menu", true);
+//			game.Sounds.play("menu", true);
 			game.setScreen(new MainMenu(game));
 			this.dispose();
 		} else if(playSprite.getBoundingRectangle().contains(screenX, screenY)) {

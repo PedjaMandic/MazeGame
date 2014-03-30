@@ -19,9 +19,8 @@ public class SoundManager {
 		sounds.put("explosion", Gdx.audio.newSound(Gdx.files.internal("data/sfx/explosion.wav")));
 		
 		// Music
-		music.put("background", Gdx.audio.newMusic(Gdx.files.internal("data/sfx/background.mp3")));
-		music.put("menu", Gdx.audio.newMusic(Gdx.files.internal("data/sfx/menu.mp3")));
 		music.put("music", Gdx.audio.newMusic(Gdx.files.internal("data/sfx/music.mp3")));
+		music.put("menu", Gdx.audio.newMusic(Gdx.files.internal("data/sfx/menu_music.mp3")));
 	}
 	
 	public void dispose() {
@@ -92,5 +91,9 @@ public class SoundManager {
 			soundOn = false;
 			stopAll();
 		}
+	}
+	
+	public boolean isPlaying(String name) {
+		return music.get(name).isPlaying();
 	}
 }

@@ -155,7 +155,8 @@ public class MainMenu implements Screen, InputProcessor {
 		game.main_menu_font.draw(game.Batch, "SCORE", (TutorialGame.screen_width/2) - t.width/2, (highscoreSprite.getY() + bh/2) - t.height/2);
 		t = game.main_menu_font.getBounds("HOW TO");
 		game.main_menu_font.draw(game.Batch, "HOW TO", (TutorialGame.screen_width/2) - t.width/2, (howToPlaySprite.getY() + bh/2) - t.height/2);
-
+		t = game.title_font.getBounds("Name of the Game");
+		game.title_font.draw(game.Batch, "Name of the Game", TutorialGame.screen_width/2 - t.width/2, TutorialGame.screen_height*0.1f);
 
 		game.Batch.end();
 	}

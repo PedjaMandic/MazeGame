@@ -20,6 +20,7 @@ public class TutorialGame extends Game {
 	public BitmapFont highscores_font;
 	public BitmapFont ingame_font;
 	public BitmapFont info_font;
+	public BitmapFont title_font;
 
 	public static float screen_width, screen_height;
 
@@ -54,9 +55,9 @@ public class TutorialGame extends Game {
 		main_menu_font = generator.generateFont((int)(screen_width / 18), "PLAYHIGSCOREWT", true);
 		main_menu_font.setColor(new Color(1f,1f,1f,1));
 
-		highscores_font = generator.generateFont((int) (screen_width / 18),
-				"1234567890stndr", true);
-		highscores_font.setColor(new Color(1, 1, 1, 0.5f));
+		highscores_font = generator.generateFont((int) (screen_width / 20),
+				"1234567890stndr:", true);
+		highscores_font.setColor(new Color(1, 1, 1, 1));
 
 		ingame_font = generator.generateFont((int) (screen_width / 36),
 				"1234567890Scor:Llev", true);
@@ -66,6 +67,9 @@ public class TutorialGame extends Game {
 				"qwertyuioplkjhgfdsazxcvbnm.,QWERTYUIOPLKJHGFDSAZXCVBNM", true);
 		ingame_font.setColor(new Color(1, 1, 1, 0.5f));
 
+		title_font = generator.generateFont((int)screen_width / 12, 
+				"qwertyuioplkjhgfdsazxcvbnm.,QWERTYUIOPLKJHGFDSAZXCVBNM", true);
+		title_font.setColor(new Color(1,1,1,1));
 		generator.dispose();
 		// -----------------------------------------------------------------------
 		
@@ -83,6 +87,7 @@ public class TutorialGame extends Game {
 		highscores_font.dispose();
 		ingame_font.dispose();
 		info_font.dispose();
+		title_font.dispose();
 	}
 
 	@Override

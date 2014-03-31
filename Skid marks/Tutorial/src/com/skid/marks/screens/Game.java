@@ -3,6 +3,7 @@ package com.skid.marks.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -32,6 +33,8 @@ public class Game implements Screen, InputProcessor {
 		player.init();
 
 		level = new Level(game);
+		
+		game.ingame_font.setColor(Color.WHITE);
 		
 		score_background = game.Textures.getSprite("data/gfx/menu/button.png");
 		score_background.setBounds(0, 0, Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/6);

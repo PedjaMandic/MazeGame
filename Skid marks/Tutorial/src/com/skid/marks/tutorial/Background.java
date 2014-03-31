@@ -61,7 +61,6 @@ public class Background {
 			float lerpValue = lerpTimer / LERP_TIME;
 
 			Background.currentColor.lerp(targetColor, lerpValue);
-			game.ingame_font.setColor(currentColor);
 
 			lerpTimer += time;
 			if(lerpTimer >= LERP_TIME) {

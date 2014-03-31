@@ -61,11 +61,11 @@ public class TutorialGame extends Game {
 
 		ingame_font = generator.generateFont((int) (screen_width / 36),
 				"1234567890Scor:Llev", true);
-		ingame_font.setColor(new Color(1, 1, 1, 0.5f));
+		ingame_font.setColor(new Color(1, 1, 1, 1f));
 
 		info_font = generator.generateFont((int) screen_width / 36,
 				"qwertyuioplkjhgfdsazxcvbnm.,QWERTYUIOPLKJHGFDSAZXCVBNM", true);
-		ingame_font.setColor(new Color(1, 1, 1, 0.5f));
+		info_font.setColor(new Color(1, 1, 1, 1f));
 
 		title_font = generator.generateFont((int)screen_width / 12, 
 				"qwertyuioplkjhgfdsazxcvbnm.,QWERTYUIOPLKJHGFDSAZXCVBNM", true);
@@ -110,5 +110,28 @@ public class TutorialGame extends Game {
 
 	@Override
 	public void resume() {
+		FileHandle fontFile = Gdx.app.getFiles().internal(
+				"data/gfx/fonts/Cooper Black.ttf");
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(fontFile);
+
+		main_menu_font = generator.generateFont((int)(screen_width / 18), "PLAYHIGSCOREWT", true);
+		main_menu_font.setColor(new Color(1f,1f,1f,1));
+
+		highscores_font = generator.generateFont((int) (screen_width / 20),
+				"1234567890stndr:", true);
+		highscores_font.setColor(new Color(1, 1, 1, 1));
+
+		ingame_font = generator.generateFont((int) (screen_width / 36),
+				"1234567890Scor:Llev", true);
+		ingame_font.setColor(new Color(1, 1, 1, 1f));
+
+		info_font = generator.generateFont((int) screen_width / 36,
+				"qwertyuioplkjhgfdsazxcvbnm.,QWERTYUIOPLKJHGFDSAZXCVBNM", true);
+		info_font.setColor(new Color(1, 1, 1, 1f));
+
+		title_font = generator.generateFont((int)screen_width / 12, 
+				"qwertyuioplkjhgfdsazxcvbnm.,QWERTYUIOPLKJHGFDSAZXCVBNM", true);
+		title_font.setColor(new Color(1,1,1,1));
+		generator.dispose();
 	}
 }

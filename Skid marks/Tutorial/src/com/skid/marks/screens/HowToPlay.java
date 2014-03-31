@@ -5,6 +5,8 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFont.HAlignment;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.skid.marks.tutorial.Background;
 import com.skid.marks.tutorial.TutorialGame;
@@ -20,13 +22,17 @@ public class HowToPlay implements Screen, InputProcessor {
 	
 	private Background background;
 	
+	private float buttonSize;
+	
 	private Sprite image;
 	private Sprite backgroundSprite;
+	private Sprite main_menu_button;
 	
 	private String howTo1;
 	private String howTo2;
 	
 	private String info_text;
+	BitmapFont.HAlignment hAlign;
 	
 	private final TutorialGame game;
 	
@@ -40,6 +46,8 @@ public class HowToPlay implements Screen, InputProcessor {
 		
 		currentPage = Page.what0;
 		
+		buttonSize = TutorialGame.screen_height * 0.15f;
+		
 		backgroundSprite = game.Textures.getSprite("data/gfx/menu/menu_backround2.png");
 		backgroundSprite.setRegion(0, 0, 1280, 720);
 		backgroundSprite.setSize(TutorialGame.screen_width, TutorialGame.screen_height);
@@ -48,13 +56,17 @@ public class HowToPlay implements Screen, InputProcessor {
 		
 		//forward_button = game.Textures.getSprite("tbd");
 		//back_button = game.Textures.getSprite("tbd");
-		image = game.Textures.getSprite("data/gfx/ss2.png");
-		image.setBounds(Gdx.graphics.getWidth()*0.1f, Gdx.graphics.getHeight()*0.1f, Gdx.graphics.getWidth()*0.8f, Gdx.graphics.getHeight()*0.8f);
+		image = game.Textures.getSprite("data/gfx/how_to_play.png");
+		image.setBounds(Gdx.graphics.getWidth()*0.5f, Gdx.graphics.getHeight()*0.3f, Gdx.graphics.getHeight()*0.7f, Gdx.graphics.getHeight()*0.7f);
 		
 		howTo1 = "This is you";
 		howTo2 = "Avoid these";
 		
-		info_text = "You are the flying triangle. Try to avoid the wall of rectangles. You will follow your touch on the screen.";
+		info_text = "You are the flying triangle. \nTry to avoid the wall of rectangles. \nYou will follow your touch on the screen.";
+		
+		main_menu_button = game.Textures.getSprite("data/gfx/menu/button_back.png");
+		main_menu_button.setSize(buttonSize, buttonSize);
+		main_menu_button.setPosition(TutorialGame.screen_width - buttonSize * 1.2f, TutorialGame.screen_height - buttonSize * 1.2f);
 		
 	}
 
@@ -80,6 +92,7 @@ public class HowToPlay implements Screen, InputProcessor {
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		/*
 		switch(currentPage){
 		case what0:
 			currentPage = Page.what1;
@@ -102,6 +115,11 @@ public class HowToPlay implements Screen, InputProcessor {
 			
 			break;
 		}
+		*/
+		if(main_menu_button.getBoundingRectangle().contains(screenX, screenY)){
+			game.setScreen(new MainMenu(game));
+		}
+		
 		return false;
 	}
 
@@ -128,7 +146,10 @@ public class HowToPlay implements Screen, InputProcessor {
 		
 		game.Batch.begin();
 		backgroundSprite.draw(game.Batch);
-		
+		main_menu_button.draw(game.Batch);
+		game.info_font.drawMultiLine(game.Batch, info_text, TutorialGame.screen_width*0.1f, TutorialGame.screen_height*0.1f, -1f, HAlignment.LEFT);
+		image.draw(game.Batch);
+		/*
 		switch(currentPage){
 		
 		case what0:
@@ -152,6 +173,7 @@ public class HowToPlay implements Screen, InputProcessor {
 		default:
 			break;
 		}
+		*/
 		
 		game.Batch.end();
 	}

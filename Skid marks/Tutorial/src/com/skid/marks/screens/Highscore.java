@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.skid.marks.tutorial.TutorialGame;
+import com.sun.xml.internal.ws.encoding.SwACodec;
 
 public class Highscore implements Screen, InputProcessor {
 	
@@ -34,6 +35,10 @@ public class Highscore implements Screen, InputProcessor {
 	
 	private float buttonSize;
 	
+	private boolean reset;
+	private Sprite resetYes;
+	private Sprite resetNo;
+	
 	public Highscore(final TutorialGame game){
 		this.game = game;
 		Gdx.input.setInputProcessor(this);
@@ -55,13 +60,21 @@ public class Highscore implements Screen, InputProcessor {
 		
 		
 		//TODO lägg till en annan textur( Pedja får rita en )
-		resetSprite = game.Textures.getSprite("data/gfx/menu/button_back.png");
+		resetSprite = game.Textures.getSprite("data/gfx/menu/button.png");
 		resetSprite.setSize(buttonSize, buttonSize);
 		resetSprite.setPosition(TutorialGame.screen_width * 0.05f, TutorialGame.screen_height - buttonSize * 1.2f);
 		
 		main_menu_button = game.Textures.getSprite("data/gfx/menu/button_back.png");
 		main_menu_button.setSize(buttonSize, buttonSize);
 		main_menu_button.setPosition(TutorialGame.screen_width - buttonSize * 1.2f, TutorialGame.screen_height - buttonSize * 1.2f);
+		
+		resetYes = game.Textures.getSprite("data/gfx/menu/button_replay.png");
+		resetYes.setSize(buttonSize, buttonSize);
+		resetYes.setPosition(TutorialGame.screen_width / 2 - buttonSize / 2, TutorialGame.screen_height / 2 - buttonSize / 2);
+		
+		resetNo = game.Textures.getSprite("data/gfx/menu/button_back.png");
+		resetNo.setSize(buttonSize, buttonSize);
+		resetNo.setPosition(TutorialGame.screen_width / 2 + buttonSize / 2, TutorialGame.screen_height / 2 - buttonSize / 2);
 		
 		Highscore.LoadPrefs();
 		
@@ -142,6 +155,15 @@ public class Highscore implements Screen, InputProcessor {
 		game.highscores_font.draw(game.Batch, "3rd : " + scores_third, TutorialGame.screen_width/2 - t.width/2, highscore_list.getY() + highscore_list.getHeight()*0.8f - t.height/2);
 		t = game.title_font.getBounds("HIGHSCORES");
 		game.title_font.draw(game.Batch, "HIGHSCORES", TutorialGame.screen_width/2 - t.width/2, TutorialGame.screen_height*0.1f);
+		
+		t = game.main_menu_font.getBounds("RESET");
+		game.title_font.draw(game.Batch, "RESET", resetSprite.getX(), resetSprite.getY());
+		
+		if(reset) {
+			resetYes.draw(game.Batch);
+			resetNo.draw(game.Batch);
+		}
+		
 		game.Batch.end();
 	}
 	
@@ -193,8 +215,16 @@ public class Highscore implements Screen, InputProcessor {
 			game.setScreen(new MainMenu(game));
 		}
 		if(resetSprite.getBoundingRectangle().contains(screenX, screenY)) {
-			ResetScores();
-			InitHighscore();
+			reset = true;
+		}
+		if(reset) {
+			if(resetYes.getBoundingRectangle().contains(screenX, screenY)) {
+				ResetScores();
+				InitHighscore();
+				reset = false;
+			} else if(resetNo.getBoundingRectangle().contains(screenX, screenY)) {
+				reset = false;
+			}
 		}
 		return false;
 	}

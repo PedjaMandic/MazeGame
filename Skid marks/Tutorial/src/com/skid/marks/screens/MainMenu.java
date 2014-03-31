@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.skid.marks.tutorial.Background;
 import com.skid.marks.tutorial.TutorialGame;
 
 public class MainMenu implements Screen, InputProcessor {
@@ -31,10 +30,11 @@ public class MainMenu implements Screen, InputProcessor {
 	private Sprite soundSprite;
 	private Sprite quitSprite;
 	
-	// Button size och position
+	// Storlek på de stora knapparna i menyn
 	float bw = TutorialGame.screen_width*0.3f;
 	float bh = TutorialGame.screen_height*0.23f;
 	
+	// Storlek på de små knapparna i menyn
 	private final float BUTTON_SIZE = TutorialGame.screen_width*0.07f;
 	
 	public static boolean hasSound = true;

@@ -7,7 +7,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.skid.marks.tutorial.Background;
 import com.skid.marks.tutorial.TutorialGame;
 
 public class Highscore implements Screen, InputProcessor {
@@ -31,6 +30,7 @@ public class Highscore implements Screen, InputProcessor {
 	private Sprite highscore_list;
 	private Sprite main_menu_button;
 	private Sprite backgroundSprite;
+	private Sprite resetSprite;
 	
 	private float buttonSize;
 	
@@ -52,6 +52,12 @@ public class Highscore implements Screen, InputProcessor {
 		highscore_list= game.Textures.getSprite("data/gfx/menu/button.png");
 		highscore_list.setSize(TutorialGame.screen_width * 0.6f, TutorialGame.screen_height * 0.8f);
 		highscore_list.setPosition(cx - (highscore_list.getWidth() / 2) , cy - (highscore_list.getHeight() / 2));
+		
+		
+		//TODO lägg till en annan textur( Pedja får rita en )
+		resetSprite = game.Textures.getSprite("data/gfx/menu/button_back.png");
+		resetSprite.setSize(buttonSize, buttonSize);
+		resetSprite.setPosition(TutorialGame.screen_width * 0.05f, TutorialGame.screen_height - buttonSize * 1.2f);
 		
 		main_menu_button = game.Textures.getSprite("data/gfx/menu/button_back.png");
 		main_menu_button.setSize(buttonSize, buttonSize);
@@ -117,7 +123,7 @@ public class Highscore implements Screen, InputProcessor {
 	public static void ResetScores(){
 		
 		prefs.clear();
-		
+		prefs.flush();
 	}
 	
 	@Override
@@ -126,8 +132,8 @@ public class Highscore implements Screen, InputProcessor {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		game.Batch.begin();
 		backgroundSprite.draw(game.Batch);
-		//highscore_list.draw(game.Batch);
 		main_menu_button.draw(game.Batch);
+		resetSprite.draw(game.Batch);
 		BitmapFont.TextBounds t = game.highscores_font.getBounds("1st : " + scores_first);
 		game.highscores_font.draw(game.Batch, "1st : " + scores_first, TutorialGame.screen_width/2 - t.width/2, highscore_list.getY() + highscore_list.getHeight()*0.4f - t.height/2);
 		t = game.highscores_font.getBounds("2nd : " + scores_second);
@@ -185,6 +191,10 @@ public class Highscore implements Screen, InputProcessor {
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		if(main_menu_button.getBoundingRectangle().contains(screenX, screenY)){
 			game.setScreen(new MainMenu(game));
+		}
+		if(resetSprite.getBoundingRectangle().contains(screenX, screenY)) {
+			ResetScores();
+			InitHighscore();
 		}
 		return false;
 	}

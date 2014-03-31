@@ -6,6 +6,7 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.skid.marks.tutorial.TutorialGame;
 import com.sun.xml.internal.ws.encoding.SwACodec;
@@ -60,9 +61,12 @@ public class Highscore implements Screen, InputProcessor {
 		
 		
 		//TODO lägg till en annan textur( Pedja får rita en )
+		TextBounds tb = game.main_menu_font.getBounds("RESET");
 		resetSprite = game.Textures.getSprite("data/gfx/menu/button.png");
-		resetSprite.setSize(buttonSize, buttonSize);
-		resetSprite.setPosition(TutorialGame.screen_width * 0.05f, TutorialGame.screen_height - buttonSize * 1.2f);
+		resetSprite.setSize(tb.width * 1.2f, buttonSize);
+		resetSprite.setPosition(TutorialGame.screen_width * 0.03f, TutorialGame.screen_height - buttonSize * 1.2f);
+//		resetSprite.setPosition(TutorialGame.screen_width * 0.05f, TutorialGame.screen_height - buttonSize * 1.2f);
+//		resetSprite.setSize(buttonSize, buttonSize);
 		
 		main_menu_button = game.Textures.getSprite("data/gfx/menu/button_back.png");
 		main_menu_button.setSize(buttonSize, buttonSize);
@@ -70,11 +74,11 @@ public class Highscore implements Screen, InputProcessor {
 		
 		resetYes = game.Textures.getSprite("data/gfx/menu/button_replay.png");
 		resetYes.setSize(buttonSize, buttonSize);
-		resetYes.setPosition(TutorialGame.screen_width / 2 - buttonSize / 2, TutorialGame.screen_height / 2 - buttonSize / 2);
+		resetYes.setPosition(TutorialGame.screen_width * 0.4f - buttonSize / 2, TutorialGame.screen_height / 2 - buttonSize / 2);
 		
 		resetNo = game.Textures.getSprite("data/gfx/menu/button_back.png");
 		resetNo.setSize(buttonSize, buttonSize);
-		resetNo.setPosition(TutorialGame.screen_width / 2 + buttonSize / 2, TutorialGame.screen_height / 2 - buttonSize / 2);
+		resetNo.setPosition(TutorialGame.screen_width * 0.6f - buttonSize / 2, TutorialGame.screen_height / 2 - buttonSize / 2);
 		
 		Highscore.LoadPrefs();
 		
@@ -157,7 +161,7 @@ public class Highscore implements Screen, InputProcessor {
 		game.title_font.draw(game.Batch, "HIGHSCORES", TutorialGame.screen_width/2 - t.width/2, TutorialGame.screen_height*0.1f);
 		
 		t = game.main_menu_font.getBounds("RESET");
-		game.title_font.draw(game.Batch, "RESET", resetSprite.getX(), resetSprite.getY());
+		game.main_menu_font.draw(game.Batch, "RESET", TutorialGame.screen_width * 0.05f, TutorialGame.screen_height - buttonSize * 1.2f + t.height / 2);
 		
 		if(reset) {
 			resetYes.draw(game.Batch);

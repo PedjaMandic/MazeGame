@@ -77,8 +77,8 @@ public class GameOver implements Screen, InputProcessor {
 		game.Batch.begin();
 		level.draw(game.Batch);
 		score_background.draw(game.Batch);
-		game.ingame_font.draw(game.Batch, String.format("Score: %d", score), 20, 20);
-		game.ingame_font.draw(game.Batch, String.format("Level: %d", Level.currentLevel), 20, 70);
+		game.ingame_font.draw(game.Batch, String.format("Score: %d", score), score_background.getWidth()*0.12f, score_background.getHeight()*0.2f);
+		game.ingame_font.draw(game.Batch, String.format("Level: %d", Level.currentLevel), score_background.getWidth()*0.12f, score_background.getHeight()*0.6f);
 		
 		explosion.draw(game.Batch, delta);
 		

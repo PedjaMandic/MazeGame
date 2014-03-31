@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.skid.marks.manager.particle.Star;
 import com.skid.marks.tutorial.Debug;
@@ -73,8 +74,8 @@ public class Game implements Screen, InputProcessor {
 		game.Batch.begin();
 		level.draw(game.Batch);
 		score_background.draw(game.Batch);
-		game.ingame_font.draw(game.Batch, String.format("Score: %d", (int)score), 20, 20);
-		game.ingame_font.draw(game.Batch, String.format("Level: %d", Level.currentLevel), 20, 70);
+		game.ingame_font.draw(game.Batch, String.format("Score: %d", (int)score), score_background.getWidth()*0.12f, score_background.getHeight()*0.2f);
+		game.ingame_font.draw(game.Batch, String.format("Level: %d", Level.currentLevel), score_background.getWidth()*0.12f, score_background.getHeight()*0.6f);
 		player.draw(game.Batch);
 
 		Debug.render(game.Batch);

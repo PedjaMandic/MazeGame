@@ -21,9 +21,12 @@ public class HowToPlay implements Screen, InputProcessor {
 	private Background background;
 	
 	private Sprite image;
+	private Sprite backgroundSprite;
 	
 	private String howTo1;
 	private String howTo2;
+	
+	private String info_text;
 	
 	private final TutorialGame game;
 	
@@ -33,12 +36,15 @@ public class HowToPlay implements Screen, InputProcessor {
 		
 		this.game = game;
 		
-		background = new Background(game);
-		background.setColorRandom();
-		
 		Gdx.input.setInputProcessor(this);
 		
 		currentPage = Page.what0;
+		
+		backgroundSprite = game.Textures.getSprite("data/gfx/menu/menu_backround2.png");
+		backgroundSprite.setRegion(0, 0, 1280, 720);
+		backgroundSprite.setSize(TutorialGame.screen_width, TutorialGame.screen_height);
+		backgroundSprite.setPosition(0, 0);
+		backgroundSprite.flip(false, true);
 		
 		//forward_button = game.Textures.getSprite("tbd");
 		//back_button = game.Textures.getSprite("tbd");
@@ -48,29 +54,27 @@ public class HowToPlay implements Screen, InputProcessor {
 		howTo1 = "This is you";
 		howTo2 = "Avoid these";
 		
+		info_text = "You are the flying triangle. Try to avoid the wall of rectangles. You will follow your touch on the screen.";
+		
 	}
 
 	@Override
 	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -103,19 +107,16 @@ public class HowToPlay implements Screen, InputProcessor {
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -125,11 +126,8 @@ public class HowToPlay implements Screen, InputProcessor {
 		Gdx.gl.glClearColor(100/255f, 100/255f, 1.0f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		background.update(delta);
-		
 		game.Batch.begin();
-		
-		background.draw(game.Batch);
+		backgroundSprite.draw(game.Batch);
 		
 		switch(currentPage){
 		
@@ -160,37 +158,31 @@ public class HowToPlay implements Screen, InputProcessor {
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
 		
 	}
 

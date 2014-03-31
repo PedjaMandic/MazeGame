@@ -15,8 +15,6 @@ public class MainMenu implements Screen, InputProcessor {
 	
 	private final TutorialGame game;
 	
-	private Background background;
-	
 	public static final String SETTINGS_FILE = "settings";
 	public static final String SOUND = "sound";
 	
@@ -27,7 +25,6 @@ public class MainMenu implements Screen, InputProcessor {
 	private Texture texSoundOff;
 	
 	private Sprite backgroundSprite;
-	private Sprite menuSprite;
 	private Sprite playSprite;
 	private Sprite highscoreSprite;
 	private Sprite howToPlaySprite;
@@ -38,16 +35,13 @@ public class MainMenu implements Screen, InputProcessor {
 	float bw = TutorialGame.screen_width*0.3f;
 	float bh = TutorialGame.screen_height*0.23f;
 	
-	private final float BUTTON_SIZE = 80f;
+	private final float BUTTON_SIZE = TutorialGame.screen_width*0.07f;
 	
 	public static boolean hasSound = true;
 	
 	public MainMenu(final TutorialGame game){
 		this.game = game;
 		Gdx.input.setInputProcessor(this);
-		
-		background = new Background(game);
-		background.setColorRandom();
 		
 		cx = TutorialGame.screen_width/2;
 		cy = TutorialGame.screen_height/2;
@@ -68,25 +62,20 @@ public class MainMenu implements Screen, InputProcessor {
 		backgroundSprite.setSize(TutorialGame.screen_width, TutorialGame.screen_height);
 		backgroundSprite.setPosition(0, 0);
 		backgroundSprite.flip(false, true);
-		
-		menuSprite = game.Textures.getSprite("data/gfx/background_sheet.png");
-		menuSprite.setRegion(0, 0, 256, 512);
-		menuSprite.setSize(TutorialGame.screen_width * 0.6f, TutorialGame.screen_height * 0.8f);
-		menuSprite.setPosition(cx - (menuSprite.getWidth() / 2) , cy - (menuSprite.getHeight() / 2));
 
 		playSprite = game.Textures.getSprite("data/gfx/menu/button.png");
 		playSprite.setSize(bw, bh);
-		playSprite.setPosition((TutorialGame.screen_width/2) - (bw/2), TutorialGame.screen_height*0.35f);
+		playSprite.setPosition(cx - (bw/2), TutorialGame.screen_height*0.35f);
 		playSprite.flip(false, true);
 		
 		highscoreSprite = game.Textures.getSprite("data/gfx/menu/button.png"); // TEMP så länge
 		highscoreSprite.setSize(bw, bh);
-		highscoreSprite.setPosition((TutorialGame.screen_width/2) - (bw/2), TutorialGame.screen_height*0.55f);
+		highscoreSprite.setPosition(cx - (bw/2), TutorialGame.screen_height*0.55f);
 		highscoreSprite.flip(false, true);
 
 		howToPlaySprite = game.Textures.getSprite("data/gfx/menu/button.png"); // TEMP så länge
 		howToPlaySprite.setSize(bw, bh);
-		howToPlaySprite.setPosition((TutorialGame.screen_width/2) - (bw/2), TutorialGame.screen_height*0.75f);
+		howToPlaySprite.setPosition(cx - (bw/2), TutorialGame.screen_height*0.75f);
 		howToPlaySprite.flip(false, true);
 
 		texSoundOn = game.Textures.getTexture("data/gfx/menu/button_sound.png");
@@ -134,15 +123,11 @@ public class MainMenu implements Screen, InputProcessor {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(100/255f, 100/255f, 1.0f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
-		background.update(delta);
 
 		game.Batch.setProjectionMatrix(game.Camera.combined);
 		game.Batch.begin();
 
-		//background.draw(game.Batch);
 		backgroundSprite.draw(game.Batch);
-		//menuSprite.draw(game.Batch);
 		playSprite.draw(game.Batch);
 		highscoreSprite.draw(game.Batch);
 		howToPlaySprite.draw(game.Batch);

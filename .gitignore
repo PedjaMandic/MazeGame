@@ -1,6 +1,5 @@
 *target*
 *.apk
-*.jar
 *.war
 *.ear
 *.class

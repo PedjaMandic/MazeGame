@@ -9,13 +9,11 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.trihard.game.Level;
 import com.trihard.game.Player;
-import com.trihard.game.TutorialGame;
-import com.trihard.screens.Game;
-import com.trihard.screens.MainMenu;
+import com.trihard.game.TriHard;
 
 public class GameOver implements Screen, InputProcessor {
 	
-	private final TutorialGame game;
+	private final TriHard game;
 	
 	private Level level;
 
@@ -32,7 +30,7 @@ public class GameOver implements Screen, InputProcessor {
 	
 	private ParticleEffect explosion;
 	
-	public GameOver(final TutorialGame game, Level level, Player player, int score) {
+	public GameOver(final TriHard game, Level level, Player player, int score) {
 		this.game = game;
 		Gdx.input.setInputProcessor(this);
 		
@@ -102,7 +100,7 @@ public class GameOver implements Screen, InputProcessor {
 			this.dispose();
 		} else if(playSprite.getBoundingRectangle().contains(screenX, screenY)) {
 			game.ingame_font.setColor(Color.GRAY);
-			game.setScreen(new Game(game));
+			game.setScreen(new Play(game));
 			this.dispose();
 		}
 		return false;

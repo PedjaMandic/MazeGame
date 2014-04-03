@@ -8,11 +8,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.trihard.game.Level;
-import com.trihard.game.TutorialGame;
+import com.trihard.game.TriHard;
 
 public class Star implements BaseParticle {
 
-	private TutorialGame game;
+	private TriHard game;
 	
 	private Rectangle bounds;
 	private Vector2 position;
@@ -24,7 +24,7 @@ public class Star implements BaseParticle {
 	private float sw;
 	private float sh;
 	
-	public Star(TutorialGame game) {
+	public Star(TriHard game) {
 		this.game = game;
 		init();
 	}

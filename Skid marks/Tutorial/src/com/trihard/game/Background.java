@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Background {
-	private final TutorialGame game;
+	private final TriHard game;
 	
 	private Color[] colors = {
 			new Color(0/255.0f, 0/255.0f, 0/255.0f, 1.0f), 			// Svart	-	Testning
@@ -37,14 +37,14 @@ public class Background {
 	private float speed;
 	private final float BASE_SPEED = 50.0f;
 	
-	public Background(final TutorialGame game) {
+	public Background(final TriHard game) {
 		this.game = game;
 		
 		background = game.Textures.getSprite("data/gfx/background.png");
 		tint = game.Textures.getSprite("data/gfx/background_tint2.png");
 		
-		background.setSize(TutorialGame.screen_width, TutorialGame.screen_height);
-		tint.setSize(TutorialGame.screen_width, TutorialGame.screen_height);
+		background.setSize(TriHard.screen_width, TriHard.screen_height);
+		tint.setSize(TriHard.screen_width, TriHard.screen_height);
 		this.speed = BASE_SPEED;
 		
 		Background.currentColor = new Color(colors[colorIndex]);

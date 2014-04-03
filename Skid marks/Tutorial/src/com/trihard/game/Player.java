@@ -13,7 +13,7 @@ import com.trihard.manager.particle.Trail;
 
 public class Player {
 
-	private TutorialGame game;
+	private TriHard game;
 	
 	private Rectangle bounds;
 	private Vector2 position;
@@ -32,13 +32,13 @@ public class Player {
 	
 	private ArrayList<BaseParticle> trail;
 	
-	public Player(TutorialGame game) {
+	public Player(TriHard game) {
 		this.game = game;
 	}
 
 	public void init() {
-		SIZE = TutorialGame.screen_height / 16;
-		MOVE_SPEED = TutorialGame.screen_height;
+		SIZE = TriHard.screen_height / 16;
+		MOVE_SPEED = TriHard.screen_height;
 		
 		bounds = new Rectangle();
 		bounds.setSize(SIZE, SIZE);
@@ -53,9 +53,9 @@ public class Player {
 	}
 	
 	public void reset() {
-		position = new Vector2(TutorialGame.screen_width * 1/6f, (TutorialGame.screen_height / 2) - (SIZE / 2));
+		position = new Vector2(TriHard.screen_width * 1/6f, (TriHard.screen_height / 2) - (SIZE / 2));
 		isMouseToched = false;
-		mouseTochedY = (TutorialGame.screen_height / 2) - (SIZE / 2);
+		mouseTochedY = (TriHard.screen_height / 2) - (SIZE / 2);
 	}
 
 	public void update(float delta) {
@@ -74,13 +74,13 @@ public class Player {
 			}
 		}
 		
-		float tempRot = ((mouseTochedY - position.y) / (TutorialGame.screen_height / 4)) * 45;
+		float tempRot = ((mouseTochedY - position.y) / (TriHard.screen_height / 4)) * 45;
 		rotation = MathUtils.clamp(tempRot, -45, 45);
 		
 		if(position.y < 0) {
 			position.y = 0;
-		} else if(position.y + SIZE > TutorialGame.screen_height) {
-			position.y = TutorialGame.screen_height - SIZE;
+		} else if(position.y + SIZE > TriHard.screen_height) {
+			position.y = TriHard.screen_height - SIZE;
 		}
 		
 		UpdateTrail(delta);

@@ -1,4 +1,4 @@
-package com.skid.marks.tutorial;
+package com.trihard.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -9,12 +9,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.skid.marks.manager.SoundManager;
-import com.skid.marks.manager.TextureManager;
-import com.skid.marks.manager.particle.ParticleManager;
-import com.skid.marks.screens.MainMenu;
+import com.trihard.manager.SoundManager;
+import com.trihard.manager.TextureManager;
+import com.trihard.manager.particle.ParticleManager;
+import com.trihard.screens.MainMenu;
 
-public class TutorialGame extends Game {
+public class TriHard extends Game {
 
 	public BitmapFont main_menu_font;
 	public BitmapFont highscores_font;

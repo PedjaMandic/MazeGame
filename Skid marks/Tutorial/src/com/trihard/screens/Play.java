@@ -5,17 +5,16 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.trihard.game.Debug;
 import com.trihard.game.Level;
 import com.trihard.game.Player;
-import com.trihard.game.TutorialGame;
+import com.trihard.game.TriHard;
 import com.trihard.manager.particle.Star;
 
-public class Game implements Screen, InputProcessor {
+public class Play implements Screen, InputProcessor {
 
-	private final TutorialGame game;
+	private final TriHard game;
 	
 	private Level level;
 	private Player player;
@@ -23,7 +22,7 @@ public class Game implements Screen, InputProcessor {
 	
 	private Sprite score_background;
 	
-	public Game(TutorialGame game) {
+	public Play(TriHard game) {
 		this.game = game;
 		Gdx.input.setInputProcessor(this);
 		Highscore.LoadPrefs();

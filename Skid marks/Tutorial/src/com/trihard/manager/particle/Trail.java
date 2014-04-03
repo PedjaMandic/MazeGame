@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.trihard.game.Background;
 import com.trihard.game.Level;
-import com.trihard.game.TutorialGame;
+import com.trihard.game.TriHard;
 
 public class Trail implements BaseParticle{
 	
@@ -22,9 +22,9 @@ public class Trail implements BaseParticle{
 	
 	private Sprite sprite;
 	
-	private TutorialGame game;
+	private TriHard game;
 	
-	public Trail(TutorialGame game, float pos){
+	public Trail(TriHard game, float pos){
 		this.positionY = pos;
 		this.game = game;
 		Init();

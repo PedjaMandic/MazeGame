@@ -2,7 +2,7 @@ package com.trihard.tutorial;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.trihard.game.TutorialGame;
+import com.trihard.game.TriHard;
 
 public class Main {
 	public static void main(String[] args) {
@@ -14,6 +14,6 @@ public class Main {
 		
 		cfg.resizable = false;
 		
-		new LwjglApplication(new TutorialGame(), cfg);
+		new LwjglApplication(new TriHard(), cfg);
 	}
 }

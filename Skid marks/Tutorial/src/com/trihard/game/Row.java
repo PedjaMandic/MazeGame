@@ -13,7 +13,7 @@ public class Row {
 		this.X = X;
 	
 		leftTot = center - tunnelWidth/2;
-		rightTot = TutorialGame.screen_height - (center + tunnelWidth/2);
+		rightTot = TriHard.screen_height - (center + tunnelWidth/2);
 		leftWidth = 0;
 		rightWidth = 0;
 	}
@@ -21,10 +21,10 @@ public class Row {
 	public void Renew(float center, float tunnelWidth, float width, boolean active)
 	{
 		this.active = active;
-		X = X + TutorialGame.screen_width + width;
+		X = X + TriHard.screen_width + width;
 		
 		leftTot = center - tunnelWidth/2;
-		rightTot = TutorialGame.screen_height - (center + tunnelWidth/2);
+		rightTot = TriHard.screen_height - (center + tunnelWidth/2);
 		leftWidth = 0;
 		rightWidth = 0;
 	}
@@ -34,10 +34,10 @@ public class Row {
 	
 	public void update(float delta) {
 		
-		float dist = TutorialGame.screen_width * 1f/8f;
-		float ratio = 0.5f *  ((TutorialGame.screen_width - X) / dist) + 0.5f;
+		float dist = TriHard.screen_width * 1f/8f;
+		float ratio = 0.5f *  ((TriHard.screen_width - X) / dist) + 0.5f;
 		
-		if(TutorialGame.screen_width*7f/8 < X) {
+		if(TriHard.screen_width*7f/8 < X) {
 			leftWidth = ratio * leftTot;
 			rightWidth = ratio * rightTot;
 			if(leftWidth > leftTot) {
@@ -46,9 +46,9 @@ public class Row {
 			if(rightWidth > rightTot) {
 				rightWidth = rightTot;
 			}
-		} else if(TutorialGame.screen_width*1f/8 > X) {
-			leftWidth -= (TutorialGame.screen_height*1f * delta);
-			rightWidth -= (TutorialGame.screen_height*1f * delta);
+		} else if(TriHard.screen_width*1f/8 > X) {
+			leftWidth -= (TriHard.screen_height*1f * delta);
+			rightWidth -= (TriHard.screen_height*1f * delta);
 		}
 		
 	}

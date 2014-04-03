@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Level {
 	
-	private TutorialGame game;
+	private TriHard game;
 	
 	private Random random;
 	private Sprite sprite;
@@ -40,7 +40,7 @@ public class Level {
 	public static boolean isBetweenLevels;
 	private Sprite pauseSprite;
 
-	public Level(TutorialGame game)
+	public Level(TriHard game)
 	{
 		this.game = game;
 		this.random = new Random();
@@ -49,13 +49,13 @@ public class Level {
 	}
 	
 	public void reset() {
-		TutorialGame.screen_width = Gdx.graphics.getWidth();
-		TutorialGame.screen_height = Gdx.graphics.getHeight();
-		tunnelWidth = TutorialGame.screen_height*0.5f;
-		nrOfRows = 1+(int)TutorialGame.screen_width/40;
-		rowHeight = TutorialGame.screen_width / (nrOfRows-1);
-		distanceBetweenPoints = TutorialGame.screen_width/4;
-		levelSpeed = TutorialGame.screen_width * 0.8f;
+		TriHard.screen_width = Gdx.graphics.getWidth();
+		TriHard.screen_height = Gdx.graphics.getHeight();
+		tunnelWidth = TriHard.screen_height*0.5f;
+		nrOfRows = 1+(int)TriHard.screen_width/40;
+		rowHeight = TriHard.screen_width / (nrOfRows-1);
+		distanceBetweenPoints = TriHard.screen_width/4;
+		levelSpeed = TriHard.screen_width * 0.8f;
 		currentPoint = 0.5f;
 		nextPoint = 0.5f;
 		isBetweenLevels = true;
@@ -78,7 +78,7 @@ public class Level {
 		rows = new Row[nrOfRows];
 		for(int i = 0; i < rows.length; i++)
 		{
-			rows[i] = new Row(TutorialGame.screen_height/2, tunnelWidth, (rows.length - (i-1))*rowHeight, !isBetweenLevels);
+			rows[i] = new Row(TriHard.screen_height/2, tunnelWidth, (rows.length - (i-1))*rowHeight, !isBetweenLevels);
 
 		}
 		lowestRow = nrOfRows-1;
@@ -101,7 +101,7 @@ public class Level {
 		{
 			if(rect.y < rows[start].leftWidth)
 				return true;
-			if(rect.y+rect.height > (TutorialGame.screen_height - rows[start].rightWidth))
+			if(rect.y+rect.height > (TriHard.screen_height - rows[start].rightWidth))
 				return true;
 		}
 		
@@ -111,7 +111,7 @@ public class Level {
 			{
 				if(rect.y + rect.height/2f < rows[(nrOfRows+i)%nrOfRows].leftWidth)
 					return true;
-				if((rect.y+rect.height/2f) > (TutorialGame.screen_height - rows[(nrOfRows+i)%nrOfRows].rightWidth))
+				if((rect.y+rect.height/2f) > (TriHard.screen_height - rows[(nrOfRows+i)%nrOfRows].rightWidth))
 					return true;
 			}
 		}
@@ -177,7 +177,7 @@ public class Level {
 		{
 			distanceSinceLastPoint -= distanceBetweenPoints;
 
-			float convertedHalfTW = (tunnelWidth/TutorialGame.screen_height)/2;
+			float convertedHalfTW = (tunnelWidth/TriHard.screen_height)/2;
 			currentPoint = nextPoint;
 			float deltaValue = -maximumPointDifference + random.nextFloat()*(maximumPointDifference*2);
 			nextPoint = currentPoint +deltaValue;
@@ -203,7 +203,7 @@ public class Level {
 		}
 		while(rows[lowestRow].X <= -rowHeight)
 		{
-			float activePoint = (currentPoint + (ratio * (nextPoint - currentPoint)))*TutorialGame.screen_height;
+			float activePoint = (currentPoint + (ratio * (nextPoint - currentPoint)))*TriHard.screen_height;
 			
 			rows[lowestRow].Renew(activePoint, tunnelWidth, rowHeight, !isBetweenLevels);
 			lowestRow--;
@@ -220,13 +220,13 @@ public class Level {
 		
 		if(isBetweenLevels && currentLevel >= 1)
 		{
-			float xPos = (float)Math.pow(totalPauseTime/2 - timeUntilLevelStarts, 4f)*TutorialGame.screen_width/2;
+			float xPos = (float)Math.pow(totalPauseTime/2 - timeUntilLevelStarts, 4f)*TriHard.screen_width/2;
 			
 			if(timeUntilLevelStarts > totalPauseTime/2)
-				xPos = TutorialGame.screen_width/2 + xPos;
+				xPos = TriHard.screen_width/2 + xPos;
 			else
-				xPos = TutorialGame.screen_width/2 - xPos;
-			pauseSprite.setBounds(xPos, TutorialGame.screen_height/4, TutorialGame.screen_width/4, TutorialGame.screen_height/8);
+				xPos = TriHard.screen_width/2 - xPos;
+			pauseSprite.setBounds(xPos, TriHard.screen_height/4, TriHard.screen_width/4, TriHard.screen_height/8);
 			pauseSprite.draw(batch);
 		}
 		
@@ -235,10 +235,10 @@ public class Level {
 			if(rows[i].active)
 			{
 				sprite.flip(false, true);
-				sprite.setBounds(rows[i].X, -TutorialGame.screen_height + rows[i].leftWidth, rowHeight, TutorialGame.screen_height);
+				sprite.setBounds(rows[i].X, -TriHard.screen_height + rows[i].leftWidth, rowHeight, TriHard.screen_height);
 				sprite.draw(batch);
 				sprite.flip(false, true);
-				sprite.setBounds(rows[i].X, TutorialGame.screen_height - rows[i].rightWidth, rowHeight, TutorialGame.screen_height);
+				sprite.setBounds(rows[i].X, TriHard.screen_height - rows[i].rightWidth, rowHeight, TriHard.screen_height);
 				sprite.draw(batch);
 			}
 		}

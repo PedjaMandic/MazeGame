@@ -50,7 +50,7 @@ public class HowToPlay implements Screen, InputProcessor {
 		
 		main_menu_button = game.Textures.getSprite("data/gfx/menu/button_back.png");
 		main_menu_button.setSize(buttonSize, buttonSize);
-		main_menu_button.setPosition(TutorialGame.screen_width - buttonSize * 1.2f, TutorialGame.screen_height - buttonSize * 1.2f);
+		main_menu_button.setPosition(TutorialGame.screen_width * 0.975f - buttonSize, TutorialGame.screen_height*0.95f - buttonSize);
 		
 	}
 

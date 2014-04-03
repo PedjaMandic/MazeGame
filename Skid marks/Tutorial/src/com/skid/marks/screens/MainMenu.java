@@ -18,7 +18,6 @@ public class MainMenu implements Screen, InputProcessor {
 	public static final String SOUND = "sound";
 	
 	private float cx;
-	private float cy;
 	
 	private Texture texSoundOn;
 	private Texture texSoundOff;
@@ -35,7 +34,7 @@ public class MainMenu implements Screen, InputProcessor {
 	float bh = TutorialGame.screen_height*0.23f;
 	
 	// Storlek på de små knapparna i menyn
-	private final float BUTTON_SIZE = TutorialGame.screen_width*0.07f;
+	private final float BUTTON_SIZE = TutorialGame.screen_height*0.15f;
 	
 	public static boolean hasSound = true;
 	
@@ -44,7 +43,6 @@ public class MainMenu implements Screen, InputProcessor {
 		Gdx.input.setInputProcessor(this);
 		
 		cx = TutorialGame.screen_width/2;
-		cy = TutorialGame.screen_height/2;
 		
 		Preferences prefs = Gdx.app.getPreferences(SETTINGS_FILE);
 		
@@ -83,12 +81,12 @@ public class MainMenu implements Screen, InputProcessor {
 		
 		soundSprite = new Sprite(texSoundOn);
 		soundSprite.setSize(BUTTON_SIZE, BUTTON_SIZE);
-		soundSprite.setPosition(TutorialGame.screen_width * 0.05f, TutorialGame.screen_height * 0.1f);
+		soundSprite.setPosition(TutorialGame.screen_width * 0.025f, TutorialGame.screen_height * 0.05f);
 		soundSprite.flip(false, true);
 		
 		quitSprite = game.Textures.getSprite("data/gfx/menu/button_exit.png");
 		quitSprite.setSize(BUTTON_SIZE, BUTTON_SIZE);
-		quitSprite.setPosition(TutorialGame.screen_width * 0.95f - BUTTON_SIZE, TutorialGame.screen_height * 0.1f);
+		quitSprite.setPosition(TutorialGame.screen_width * 0.975f - BUTTON_SIZE, TutorialGame.screen_height * 0.05f);
 		
 		reset();
 		loadSettings();

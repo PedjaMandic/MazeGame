@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.skid.marks.tutorial.TutorialGame;
-import com.sun.xml.internal.ws.encoding.SwACodec;
 
 public class Highscore implements Screen, InputProcessor {
 	
@@ -59,18 +58,14 @@ public class Highscore implements Screen, InputProcessor {
 		highscore_list.setSize(TutorialGame.screen_width * 0.6f, TutorialGame.screen_height * 0.8f);
 		highscore_list.setPosition(cx - (highscore_list.getWidth() / 2) , cy - (highscore_list.getHeight() / 2));
 		
-		
-		//TODO lägg till en annan textur( Pedja får rita en )
 		TextBounds tb = game.main_menu_font.getBounds("RESET");
 		resetSprite = game.Textures.getSprite("data/gfx/menu/button.png");
 		resetSprite.setSize(tb.width * 1.2f, buttonSize);
-		resetSprite.setPosition(TutorialGame.screen_width * 0.03f, TutorialGame.screen_height - buttonSize * 1.2f);
-//		resetSprite.setPosition(TutorialGame.screen_width * 0.05f, TutorialGame.screen_height - buttonSize * 1.2f);
-//		resetSprite.setSize(buttonSize, buttonSize);
+		resetSprite.setPosition(TutorialGame.screen_width * 0.025f, TutorialGame.screen_height*0.95f - buttonSize);
 		
 		main_menu_button = game.Textures.getSprite("data/gfx/menu/button_back.png");
 		main_menu_button.setSize(buttonSize, buttonSize);
-		main_menu_button.setPosition(TutorialGame.screen_width - buttonSize * 1.2f, TutorialGame.screen_height - buttonSize * 1.2f);
+		main_menu_button.setPosition(TutorialGame.screen_width * 0.975f - buttonSize, TutorialGame.screen_height*0.95f - buttonSize);
 		
 		resetYes = game.Textures.getSprite("data/gfx/menu/button_replay.png");
 		resetYes.setSize(buttonSize, buttonSize);
@@ -161,7 +156,7 @@ public class Highscore implements Screen, InputProcessor {
 		game.title_font.draw(game.Batch, "HIGHSCORES", TutorialGame.screen_width/2 - t.width/2, TutorialGame.screen_height*0.1f);
 		
 		t = game.main_menu_font.getBounds("RESET");
-		game.main_menu_font.draw(game.Batch, "RESET", TutorialGame.screen_width * 0.05f, TutorialGame.screen_height - buttonSize * 1.2f + t.height / 2);
+		game.main_menu_font.draw(game.Batch, "RESET", (resetSprite.getX() + resetSprite.getWidth()/2) - t.width/2, (resetSprite.getY() + resetSprite.getHeight()/2) - t.height/2);
 		
 		if(reset) {
 			resetYes.draw(game.Batch);

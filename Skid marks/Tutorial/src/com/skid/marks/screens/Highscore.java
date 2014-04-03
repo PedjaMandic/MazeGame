@@ -71,7 +71,7 @@ public class Highscore implements Screen, InputProcessor {
 		resetYes.setSize(buttonSize, buttonSize);
 		resetYes.setPosition(TutorialGame.screen_width * 0.4f - buttonSize / 2, TutorialGame.screen_height / 2 - buttonSize / 2);
 		
-		resetNo = game.Textures.getSprite("data/gfx/menu/button_back.png");
+		resetNo = game.Textures.getSprite("data/gfx/menu/button_exit.png");
 		resetNo.setSize(buttonSize, buttonSize);
 		resetNo.setPosition(TutorialGame.screen_width * 0.6f - buttonSize / 2, TutorialGame.screen_height / 2 - buttonSize / 2);
 		
@@ -161,6 +161,8 @@ public class Highscore implements Screen, InputProcessor {
 		if(reset) {
 			resetYes.draw(game.Batch);
 			resetNo.draw(game.Batch);
+			t = game.info_font.getBounds("Are you sure you wish to reset?");
+			game.info_font.draw(game.Batch, "Are you sure you wish to reset?", TutorialGame.screen_width/2 - t.width/2, TutorialGame.screen_height/2 - t.height/2 - buttonSize);
 		}
 		
 		game.Batch.end();

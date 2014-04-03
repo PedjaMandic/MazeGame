@@ -64,7 +64,7 @@ public class TutorialGame extends Game {
 		ingame_font.setColor(new Color(1, 1, 1, 1f));
 
 		info_font = generator.generateFont((int) screen_width / 36,
-				"qwertyuioplkjhgfdsazxcvbnm.,QWERTYUIOPLKJHGFDSAZXCVBNM", true);
+				"qwertyuioplkjhgfdsazxcvbnm.,QWERTYUIOPLKJHGFDSAZXCVBNM?", true);
 		info_font.setColor(new Color(1, 1, 1, 1f));
 
 		title_font = generator.generateFont((int)screen_width / 12, 

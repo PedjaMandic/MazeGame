@@ -1,4 +1,4 @@
-package com.skid.marks.manager;
+package com.trihard.manager;
 
 import java.util.HashMap;
 import java.util.Map;

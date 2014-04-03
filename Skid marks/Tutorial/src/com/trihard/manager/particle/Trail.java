@@ -1,12 +1,12 @@
-package com.skid.marks.manager.particle;
+package com.trihard.manager.particle;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.skid.marks.tutorial.Background;
-import com.skid.marks.tutorial.Level;
-import com.skid.marks.tutorial.TutorialGame;
+import com.trihard.game.Background;
+import com.trihard.game.Level;
+import com.trihard.game.TutorialGame;
 
 public class Trail implements BaseParticle{
 	

@@ -1,7 +1,8 @@
-package com.skid.marks.tutorial;
+package com.trihard.tutorial;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.trihard.game.TutorialGame;
 
 public class Main {
 	public static void main(String[] args) {

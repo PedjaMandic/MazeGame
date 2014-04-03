@@ -1,4 +1,4 @@
-package com.skid.marks.tutorial;
+package com.trihard.game;
 
 import java.util.Random;
 

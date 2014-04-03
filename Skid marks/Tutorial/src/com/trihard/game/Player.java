@@ -1,4 +1,4 @@
-package com.skid.marks.tutorial;
+package com.trihard.game;
 
 import java.util.ArrayList;
 
@@ -8,8 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.skid.marks.manager.particle.BaseParticle;
-import com.skid.marks.manager.particle.Trail;
+import com.trihard.manager.particle.BaseParticle;
+import com.trihard.manager.particle.Trail;
 
 public class Player {
 

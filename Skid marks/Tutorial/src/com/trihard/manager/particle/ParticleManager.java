@@ -1,4 +1,4 @@
-package com.skid.marks.manager.particle;
+package com.trihard.manager.particle;
 
 import java.util.ArrayList;
 

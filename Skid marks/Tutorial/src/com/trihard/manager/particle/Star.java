@@ -1,4 +1,4 @@
-package com.skid.marks.manager.particle;
+package com.trihard.manager.particle;
 
 import java.util.Random;
 
@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.skid.marks.tutorial.Level;
-import com.skid.marks.tutorial.TutorialGame;
+import com.trihard.game.Level;
+import com.trihard.game.TutorialGame;
 
 public class Star implements BaseParticle {
 

@@ -1,4 +1,4 @@
-package com.skid.marks.screens;
+package com.trihard.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
@@ -7,11 +7,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.skid.marks.manager.particle.Star;
-import com.skid.marks.tutorial.Debug;
-import com.skid.marks.tutorial.Level;
-import com.skid.marks.tutorial.Player;
-import com.skid.marks.tutorial.TutorialGame;
+import com.trihard.game.Debug;
+import com.trihard.game.Level;
+import com.trihard.game.Player;
+import com.trihard.game.TutorialGame;
+import com.trihard.manager.particle.Star;
 
 public class Game implements Screen, InputProcessor {
 

@@ -19,8 +19,8 @@ public class SoundManager {
 		sounds.put("explosion", Gdx.audio.newSound(Gdx.files.internal("data/sfx/explosion.wav")));
 		
 		// Music
-		music.put("music", Gdx.audio.newMusic(Gdx.files.internal("data/sfx/level_music.mp3")));
-		music.put("menu", Gdx.audio.newMusic(Gdx.files.internal("data/sfx/menu_music.mp3")));
+		music.put("music", Gdx.audio.newMusic(Gdx.files.internal("data/sfx/level_music.ogg")));
+		music.put("menu", Gdx.audio.newMusic(Gdx.files.internal("data/sfx/menu_music.ogg")));
 	}
 	
 	public void dispose() {

@@ -56,7 +56,7 @@ public class Highscore implements Screen, InputProcessor {
 		backgroundSprite.setPosition(0, 0);
 		backgroundSprite.flip(false, true);
 		
-		highscoreList= game.Textures.getSprite("data/gfx/menu/button.png");
+		highscoreList = game.Textures.getSprite("data/gfx/menu/button.png");
 		highscoreList.setSize(TriHard.screenWidth * 0.6f, TriHard.screenHeight * 0.8f);
 		highscoreList.setPosition(centerX - (highscoreList.getWidth() / 2) , centerY - (highscoreList.getHeight() / 2));
 		
@@ -69,7 +69,7 @@ public class Highscore implements Screen, InputProcessor {
 		mainMenuButton.setSize(buttonSize, buttonSize);
 		mainMenuButton.setPosition(TriHard.screenWidth * 0.975f - buttonSize, TriHard.screenHeight*0.95f - buttonSize);
 		
-		resetYes = game.Textures.getSprite("data/gfx/menu/button_replay.png");
+		resetYes = game.Textures.getSprite("data/gfx/menu/button_ok.png");
 		resetYes.setSize(buttonSize, buttonSize);
 		resetYes.setPosition(TriHard.screenWidth * 0.4f - buttonSize / 2, TriHard.screenHeight / 2 - buttonSize / 2);
 		

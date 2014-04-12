@@ -79,8 +79,8 @@ public class MainMenu implements Screen, InputProcessor {
 		howToPlaySprite.setPosition(cx - (bw/2), TriHard.screenHeight*0.75f);
 		howToPlaySprite.flip(false, true);
 
-		texSoundOn = game.Textures.getTexture("data/gfx/menu/button_sound.png");
-		texSoundOff = game.Textures.getTexture("data/gfx/menu/button_soundOff.png");
+		texSoundOn = game.Textures.getTexture("data/gfx/menu/button_sound_on.png");
+		texSoundOff = game.Textures.getTexture("data/gfx/menu/button_sound_off.png");
 		
 		soundSprite = new Sprite(texSoundOn);
 		soundSprite.setSize(BUTTON_SIZE, BUTTON_SIZE);

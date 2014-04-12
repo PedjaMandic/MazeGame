@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Level {
 	
-	private TriHard game;
+	private final TriHard game;
 	
 	private Random random; //for randomisation
 	private Sprite sprite; //sprite for rows
@@ -40,8 +40,7 @@ public class Level {
 	private Sprite pauseSprite; //sprite that holds the "New Level" text that flies by during intermission
 
 	//constructor
-	public Level(TriHard game)
-	{
+	public Level(final TriHard game) {
 		this.game = game;
 		this.random = new Random();
 		this.background = new Background(game);
@@ -50,13 +49,13 @@ public class Level {
 	
 	//resets all values to their default. Is called when the player starts/restarts the game
 	public void reset() {
-		TriHard.screen_width = Gdx.graphics.getWidth();
-		TriHard.screen_height = Gdx.graphics.getHeight();
-		tunnelWidth = TriHard.screen_height*0.5f; //default tunnelwidth is half a screen wide.
-		nrOfRows = 1+(int)TriHard.screen_width/40; //on a 1280x720 resolution, this results in 32 rows. The higher resolution, the more rows. The extra +1 is for smoothness
-		rowWidth = TriHard.screen_width / (nrOfRows-1);
-		distanceBetweenPoints = TriHard.screen_width/4; //nextpoint is determined after a fourth of a screen
-		levelSpeed = TriHard.screen_width * 0.8f;
+		TriHard.screenWidth = Gdx.graphics.getWidth();
+		TriHard.screenHeight = Gdx.graphics.getHeight();
+		tunnelWidth = TriHard.screenHeight*0.5f; //default tunnelwidth is half a screen wide.
+		nrOfRows = 1+(int)TriHard.screenWidth/40; //on a 1280x720 resolution, this results in 32 rows. The higher resolution, the more rows. The extra +1 is for smoothness
+		rowWidth = TriHard.screenWidth / (nrOfRows-1);
+		distanceBetweenPoints = TriHard.screenWidth/4; //nextpoint is determined after a fourth of a screen
+		levelSpeed = TriHard.screenWidth * 0.8f;
 		currentPoint = 0.5f; //percentage of the games height where the current point is
 		nextPoint = 0.5f; //to avoid problems, the next point has the same percentage
 		isBetweenLevels = true; //the game starts in intermission
@@ -68,15 +67,15 @@ public class Level {
 		distanceSinceLastPoint = 0.0f;
 		maximumPointDifference = 0.4f; //in order to not have too much of a difficulty in the game, maximum change interval between points is 40%. This is never changed
 		
-		sprite = game.Textures.getSprite("data/gfx/rows_2.1.png"); //all the rows look the same, and thus share the same sprite
-		pauseSprite = game.Textures.getSprite("data/gfx/newlevel2.png"); //the pausetext needs it's own sprite
+		sprite = game.Textures.getSprite("data/gfx/rows.png"); //all the rows look the same, and thus share the same sprite
+		pauseSprite = game.Textures.getSprite("data/gfx/new_level.png"); //the pausetext needs it's own sprite
 		pauseSprite.setColor(Color.WHITE); 
 		
 		rows = new Row[nrOfRows]; //the array that holds the rows
 		for(int i = 0; i < rows.length; i++)
 		{
 			 //all the rows are set as a straight line as default. Not that it matters since it'll be part of the intermission
-			rows[i] = new Row(TriHard.screen_height/2, tunnelWidth, (rows.length - (i-1))*rowWidth, !isBetweenLevels);
+			rows[i] = new Row(TriHard.screenHeight/2, tunnelWidth, (rows.length - (i-1))*rowWidth, !isBetweenLevels);
 		}
 		lowestRow = nrOfRows-1; //the lowest row is last place in the array
 		
@@ -84,8 +83,7 @@ public class Level {
 	
 	//collision-detection, that checks only against the rows that "contain" the same Y coordinates as the player
 	//rect is (usually) the player rectangle
-	public boolean HasCollided(Rectangle rect)
-	{
+	public boolean hasCollided(Rectangle rect) {
 		//this part determines which part of the row-array "contains" the player
 		int start = (nrOfRows + lowestRow - (int)(rect.x/rowWidth)-1)%nrOfRows;
 		int nrOfExtraRowsToCheck = 0;
@@ -101,7 +99,7 @@ public class Level {
 		{
 			if(rect.y < rows[start].leftWidth)
 				return true;
-			if(rect.y+rect.height > (TriHard.screen_height - rows[start].rightWidth))
+			if(rect.y+rect.height > (TriHard.screenHeight - rows[start].rightWidth))
 				return true;
 		}
 		
@@ -112,7 +110,7 @@ public class Level {
 			{
 				if(rect.y + rect.height/2f < rows[(nrOfRows+i)%nrOfRows].leftWidth)
 					return true;
-				if((rect.y+rect.height/2f) > (TriHard.screen_height - rows[(nrOfRows+i)%nrOfRows].rightWidth))
+				if((rect.y+rect.height/2f) > (TriHard.screenHeight - rows[(nrOfRows+i)%nrOfRows].rightWidth))
 					return true;
 			}
 		}
@@ -125,15 +123,14 @@ public class Level {
 	}
 	
 	//triggers once per intermission, when it ends
-	private void endPauseTrigger()
-	{
+	private void endPauseTrigger() {
 		//increase in difficulty
 		if(currentLevel < 9){
 			currentLevel++; //a higher level
 			tunnelWidth *= 0.95f; //tighter tunnel
 			levelSpeed *= 1.05f; //faster level
 			timeBetweenLevels *= 1.05f; //longer level
-			Player.MOVE_SPEED *= 1.05f; //the player can move faster
+			Player.TURN_SPEED *= 1.05f; //the player can move faster
 		}
 		
 		//special background colors for certain levels
@@ -142,23 +139,21 @@ public class Level {
 		else if (currentLevel == 9)
 			background.setColor(Color.BLACK);
 		else
-			background.setColorRandom(); //does not set a random color (but it used to)
+			background.setColorNext(); //does not set a random color (but it used to)
 		
 		timeUntilLevelStarts+= totalPauseTime; //reset pause timer for the next intermission
 		isBetweenLevels = false; //end of intermission
 	}
 	
 	//triggers once per intermission, when it starts
-	private void startPauseTrigger()
-	{
+	private void startPauseTrigger() {
 		timeUntilLevelEnds += timeBetweenLevels; //reset the level timer for the next level
 		isBetweenLevels = true; //start of intermission
 	}
 	
 	//the main update function
 	//delta is the amount of time since the last update
-	public void update(float delta)
-	{		
+	public void update(float delta) {		
 		background.update(delta); //background update (movement and such)
 		
 		//TIMERS
@@ -186,7 +181,7 @@ public class Level {
 		{
 			distanceSinceLastPoint -= distanceBetweenPoints; //reset distance
 
-			float convertedHalfTW = (tunnelWidth/TriHard.screen_height)/2; //conversion for half the current tunnelwidth in a percentage for easy reference and less calculations
+			float convertedHalfTW = (tunnelWidth/TriHard.screenHeight)/2; //conversion for half the current tunnelwidth in a percentage for easy reference and less calculations
 			
 			currentPoint = nextPoint;
 			float deltaValue = -maximumPointDifference + random.nextFloat()*(maximumPointDifference*2); //how much the points will differ
@@ -217,7 +212,7 @@ public class Level {
 		while(rows[lowestRow].X <= -rowWidth)
 		{
 			float ratio = distanceSinceLastPoint / distanceBetweenPoints;
-			float activePoint = (currentPoint + (ratio * (nextPoint - currentPoint)))*TriHard.screen_height;
+			float activePoint = (currentPoint + (ratio * (nextPoint - currentPoint)))*TriHard.screenHeight;
 			
 			rows[lowestRow].Renew(activePoint, tunnelWidth, rowWidth, !isBetweenLevels);
 			lowestRow--;
@@ -228,8 +223,7 @@ public class Level {
 	
 	//draw-function
 	//batch allows the drawing of sprites
-	public void draw(SpriteBatch batch)
-	{
+	public void draw(SpriteBatch batch) {
 		background.draw(batch); //draws the background
 		
 		game.Particles.render(batch, Gdx.graphics.getDeltaTime()); //draws particles
@@ -237,13 +231,13 @@ public class Level {
 		//determines the position of and draws the pausesprite
 		if(isBetweenLevels && currentLevel >= 1)
 		{
-			float xPos = (float)Math.pow(totalPauseTime/2 - timeUntilLevelStarts, 4f)*TriHard.screen_width/2; //results in a form of swooshing effect
+			float xPos = (float)Math.pow(totalPauseTime/2 - timeUntilLevelStarts, 4f)*TriHard.screenWidth/2; //results in a form of swooshing effect
 			
 			if(timeUntilLevelStarts > totalPauseTime/2)
-				xPos = TriHard.screen_width/2 + xPos;
+				xPos = TriHard.screenWidth/2 + xPos;
 			else
-				xPos = TriHard.screen_width/2 - xPos;
-			pauseSprite.setBounds(xPos, TriHard.screen_height/4, TriHard.screen_width/4, TriHard.screen_height/8);
+				xPos = TriHard.screenWidth/2 - xPos;
+			pauseSprite.setBounds(xPos, TriHard.screenHeight/4, TriHard.screenWidth/4, TriHard.screenHeight/8);
 			pauseSprite.draw(batch);
 		}
 		
@@ -254,10 +248,10 @@ public class Level {
 			{
 				//flips the sprite twice, once for each side of the tunnel
 				sprite.flip(false, true);
-				sprite.setBounds(rows[i].X, -TriHard.screen_height + rows[i].leftWidth, rowWidth, TriHard.screen_height);
+				sprite.setBounds(rows[i].X, -TriHard.screenHeight + rows[i].leftWidth, rowWidth, TriHard.screenHeight);
 				sprite.draw(batch);
 				sprite.flip(false, true);
-				sprite.setBounds(rows[i].X, TriHard.screen_height - rows[i].rightWidth, rowWidth, TriHard.screen_height);
+				sprite.setBounds(rows[i].X, TriHard.screenHeight - rows[i].rightWidth, rowWidth, TriHard.screenHeight);
 				sprite.draw(batch);
 			}
 		}

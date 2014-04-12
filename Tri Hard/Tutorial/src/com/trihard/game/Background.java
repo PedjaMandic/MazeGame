@@ -4,18 +4,23 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+/*
+ * Used in Level.java for changing the background color
+ * when the Player gets to a new level.
+ **/
 public class Background {
+	
 	private final TriHard game;
 	
 	private Color[] colors = {
-			new Color(0/255.0f, 0/255.0f, 0/255.0f, 1.0f), 			// Svart	-	Testning
-			new Color(255/255.0f, 0/255.0f, 204/255.0f, 1.0f), 	// Rosa
-			new Color(31/255.0f, 255/255.0f, 46/255.0f, 1.0f), 		// Grön
-			new Color(42/255.0f, 31/255.0f, 255/255.0f, 1.0f), 		// Blå
-			new Color(255/255.0f, 31/255.0f, 68/255.0f, 1.0f),		// Röd
-			new Color(31/255.0f, 255/255.0f, 218/255.0f, 1.0f),		// Teal
-			new Color(255/255.0f, 124/255.0f, 31/255.0f, 1.0f),		// Orange
-			new Color(142/255.0f, 56/255.0f, 255/255.0f, 1.0f),		// Lila
+			new Color(0/255.0f, 0/255.0f, 0/255.0f, 1.0f),		// Black
+			new Color(255/255.0f, 0/255.0f, 204/255.0f, 1.0f),	// Pink
+			new Color(31/255.0f, 255/255.0f, 46/255.0f, 1.0f),	// Green
+			new Color(42/255.0f, 31/255.0f, 255/255.0f, 1.0f),	// Blue
+			new Color(255/255.0f, 31/255.0f, 68/255.0f, 1.0f),	// Red
+			new Color(31/255.0f, 255/255.0f, 218/255.0f, 1.0f),	// Teal
+			new Color(255/255.0f, 124/255.0f, 31/255.0f, 1.0f),	// Orange
+			new Color(142/255.0f, 56/255.0f, 255/255.0f, 1.0f),	// Purple
 	};
 	
 	public static Color currentColor;
@@ -25,38 +30,35 @@ public class Background {
 	private boolean doLerp;
 	private float lerpTimer;
 	
-	private final float LERP_TIME = 3.0f; // Hur länge vi ska lerpa (Färgövergång i en sek)
+	// Interval in i secs between color change.
+	private final float LERP_TIME = 3.0f;
 	
-	private boolean pause;
-	
+	// The background being rendered.
 	private Sprite background;
+	// Used on top of background for nice effect.
 	private Sprite tint;
+	// Current position of the background.
 	private float positionX;
-
 	
-	private float speed;
-	private final float BASE_SPEED = 50.0f;
+	// How fast the background should move.
+	// Gives the illusion of moving in space.
+	private final float SPEED = 50.0f;
 	
 	public Background(final TriHard game) {
 		this.game = game;
 		
 		background = game.Textures.getSprite("data/gfx/background.png");
-		tint = game.Textures.getSprite("data/gfx/background_tint2.png");
+		tint = game.Textures.getSprite("data/gfx/background_tint.png");
 		
-		background.setSize(TriHard.screen_width, TriHard.screen_height);
-		tint.setSize(TriHard.screen_width, TriHard.screen_height);
-		this.speed = BASE_SPEED;
+		background.setSize(TriHard.screenWidth, TriHard.screenHeight);
+		tint.setSize(TriHard.screenWidth, TriHard.screenHeight);
 		
 		Background.currentColor = new Color(colors[colorIndex]);
 
 		this.targetColor = new Color();
 	}
 	
-	float timer;
 	public void update(float time) {
-		if(pause)
-			return;
-		
 		if(doLerp) {
 			float lerpValue = lerpTimer / LERP_TIME;
 
@@ -70,7 +72,7 @@ public class Background {
 			}
 		}
 
-		positionX -= speed * time;
+		positionX -= SPEED * time;
 		if(positionX < -background.getWidth()) {
 			positionX = 0;
 		}
@@ -85,23 +87,21 @@ public class Background {
 		tint.draw(batch);
 	}
 	
+	/*
+	 * Sets the background color to specified color.
+	 **/
 	public void setColor(Color color) {
 		doLerp = true;
 		targetColor.set(color);
 	}
 	
-	public void setColorRandom() {
+	/*
+	 * Sets the background color to the next one in the colors array.
+	 **/
+	public void setColorNext() {
 		lerpTimer = 0;
 		doLerp = true;
 		targetColor.set(colors[++colorIndex]);
-	}
-	
-	public void pause() {
-		pause = true;
-	}
-	
-	public void resume() {
-		pause = false;
 	}
 	
 }

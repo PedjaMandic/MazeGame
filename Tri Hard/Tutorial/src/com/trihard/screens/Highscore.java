@@ -16,20 +16,20 @@ public class Highscore implements Screen, InputProcessor {
 	
 	private static Preferences prefs;
 	
-	private float cx;
-	private float cy;
+	private float centerX;
+	private float centerY;
 	
 	public static final String SCORES_FILE = "score_file";
 	public static final String KEY_FIRST = "first";
 	public static final String KEY_SECOND= "second";
 	public static final String KEY_THIRD= "third";
 	
-	private static int scores_first;
-	private static int scores_second;
-	private static int scores_third;
+	private static int scoresFirst;
+	private static int scoresSecond;
+	private static int scoresThird;
 
-	private Sprite highscore_list;
-	private Sprite main_menu_button;
+	private Sprite highscoreList;
+	private Sprite mainMenuButton;
 	private Sprite backgroundSprite;
 	private Sprite resetSprite;
 	
@@ -39,137 +39,166 @@ public class Highscore implements Screen, InputProcessor {
 	private Sprite resetYes;
 	private Sprite resetNo;
 	
-	public Highscore(final TriHard game){
+	private TextBounds textBounds;
+	
+	public Highscore(final TriHard game) {
 		this.game = game;
 		Gdx.input.setInputProcessor(this);
 		
-		cx = TriHard.screen_width/2;
-		cy = TriHard.screen_height/2;
+		centerX = TriHard.screenWidth / 2;
+		centerY = TriHard.screenHeight / 2;
 		
-		buttonSize = TriHard.screen_height * 0.15f;
+		buttonSize = TriHard.screenHeight * 0.15f;
 		
-		backgroundSprite = game.Textures.getSprite("data/gfx/menu/menu_backround2.png");
+		backgroundSprite = game.Textures.getSprite("data/gfx/menu/main_menu.png");
 		backgroundSprite.setRegion(0, 0, 1280, 720);
-		backgroundSprite.setSize(TriHard.screen_width, TriHard.screen_height);
+		backgroundSprite.setSize(TriHard.screenWidth, TriHard.screenHeight);
 		backgroundSprite.setPosition(0, 0);
 		backgroundSprite.flip(false, true);
 		
-		highscore_list= game.Textures.getSprite("data/gfx/menu/button.png");
-		highscore_list.setSize(TriHard.screen_width * 0.6f, TriHard.screen_height * 0.8f);
-		highscore_list.setPosition(cx - (highscore_list.getWidth() / 2) , cy - (highscore_list.getHeight() / 2));
+		highscoreList= game.Textures.getSprite("data/gfx/menu/button.png");
+		highscoreList.setSize(TriHard.screenWidth * 0.6f, TriHard.screenHeight * 0.8f);
+		highscoreList.setPosition(centerX - (highscoreList.getWidth() / 2) , centerY - (highscoreList.getHeight() / 2));
 		
-		TextBounds tb = game.main_menu_font.getBounds("RESET");
+		TextBounds tb = game.mainMenuFont.getBounds("RESET");
 		resetSprite = game.Textures.getSprite("data/gfx/menu/button.png");
 		resetSprite.setSize(tb.width * 1.2f, buttonSize);
-		resetSprite.setPosition(TriHard.screen_width * 0.025f, TriHard.screen_height*0.95f - buttonSize);
+		resetSprite.setPosition(TriHard.screenWidth * 0.025f, TriHard.screenHeight*0.95f - buttonSize);
 		
-		main_menu_button = game.Textures.getSprite("data/gfx/menu/button_back.png");
-		main_menu_button.setSize(buttonSize, buttonSize);
-		main_menu_button.setPosition(TriHard.screen_width * 0.975f - buttonSize, TriHard.screen_height*0.95f - buttonSize);
+		mainMenuButton = game.Textures.getSprite("data/gfx/menu/button_back.png");
+		mainMenuButton.setSize(buttonSize, buttonSize);
+		mainMenuButton.setPosition(TriHard.screenWidth * 0.975f - buttonSize, TriHard.screenHeight*0.95f - buttonSize);
 		
 		resetYes = game.Textures.getSprite("data/gfx/menu/button_replay.png");
 		resetYes.setSize(buttonSize, buttonSize);
-		resetYes.setPosition(TriHard.screen_width * 0.4f - buttonSize / 2, TriHard.screen_height / 2 - buttonSize / 2);
+		resetYes.setPosition(TriHard.screenWidth * 0.4f - buttonSize / 2, TriHard.screenHeight / 2 - buttonSize / 2);
 		
 		resetNo = game.Textures.getSprite("data/gfx/menu/button_exit.png");
 		resetNo.setSize(buttonSize, buttonSize);
-		resetNo.setPosition(TriHard.screen_width * 0.6f - buttonSize / 2, TriHard.screen_height / 2 - buttonSize / 2);
+		resetNo.setPosition(TriHard.screenWidth * 0.6f - buttonSize / 2, TriHard.screenHeight / 2 - buttonSize / 2);
 		
-		Highscore.LoadPrefs();
+		Highscore.loadPrefs();
 		
-		InitHighscore();
+		initHighscore();
 	}
 	
-	private static int GetScore(String file_key){
-		
+	private static int getScore(String file_key) {
 		int value;
 		value = prefs.getInteger(file_key, 0);
 
 		return value;
 	}
 	
-	public static void SaveScore(int place, int score){
-		
-		if(place == 1){
-			scores_third = scores_second;
-			scores_second = scores_first;
-			scores_first = score;
+	public static void saveScore(int place, int score) {
+		if(place == 1) {
+			scoresThird = scoresSecond;
+			scoresSecond = scoresFirst;
+			scoresFirst = score;
 			prefs.putInteger(KEY_FIRST, score);
-			prefs.putInteger(KEY_SECOND, scores_second);
-			prefs.putInteger(KEY_THIRD, scores_third);
-		}
-		if(place == 2){
-			scores_third = scores_second;
-			scores_second = score;
+			prefs.putInteger(KEY_SECOND, scoresSecond);
+			prefs.putInteger(KEY_THIRD, scoresThird);
+		} else if(place == 2) {
+			scoresThird = scoresSecond;
+			scoresSecond = score;
 			prefs.putInteger(KEY_SECOND, score);
-			prefs.putInteger(KEY_THIRD, scores_third);
-		}
-		if(place == 3){
-			scores_third = score;
+			prefs.putInteger(KEY_THIRD, scoresThird);
+		} else if(place == 3) {
+			scoresThird = score;
 			prefs.putInteger(KEY_THIRD, score);
 		}
 		prefs.flush();
 	}
 	
-	public static int CheckScore(int score){
-		
-		if(score>scores_first){
+	public static int checkScore(int score) {
+		if(score > scoresFirst) {
 			return 1;
-		}
-		if(score>scores_second){
+		} else if(score > scoresSecond) {
 			return 2;
-		}
-		if(score>scores_third){
+		} else if(score > scoresThird) {
 			return 3;
 		}
 		return 0;
 	}
 	
-	public static void InitHighscore(){
-		
-		scores_first = GetScore(KEY_FIRST);
-		scores_second = GetScore(KEY_SECOND);
-		scores_third = GetScore(KEY_THIRD);
+	public static void initHighscore() {
+		scoresFirst = getScore(KEY_FIRST);
+		scoresSecond = getScore(KEY_SECOND);
+		scoresThird = getScore(KEY_THIRD);
 	}
 	
-	public static void ResetScores(){
-		
+	public static void resetScores() {
 		prefs.clear();
 		prefs.flush();
+	}
+	
+	public static void loadPrefs() {
+		prefs = Gdx.app.getPreferences(SCORES_FILE);
 	}
 	
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(100/255f, 100/255f, 1.0f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
 		game.Batch.begin();
 		backgroundSprite.draw(game.Batch);
-		main_menu_button.draw(game.Batch);
+		mainMenuButton.draw(game.Batch);
 		resetSprite.draw(game.Batch);
-		BitmapFont.TextBounds t = game.highscores_font.getBounds("1st : " + scores_first);
-		game.highscores_font.draw(game.Batch, "1st : " + scores_first, TriHard.screen_width/2 - t.width/2, highscore_list.getY() + highscore_list.getHeight()*0.4f - t.height/2);
-		t = game.highscores_font.getBounds("2nd : " + scores_second);
-		game.highscores_font.draw(game.Batch, "2nd : " + scores_second, TriHard.screen_width/2 - t.width/2, highscore_list.getY() + highscore_list.getHeight()*0.6f - t.height/2);
-		t = game.highscores_font.getBounds("3rd : " + scores_third);
-		game.highscores_font.draw(game.Batch, "3rd : " + scores_third, TriHard.screen_width/2 - t.width/2, highscore_list.getY() + highscore_list.getHeight()*0.8f - t.height/2);
-		t = game.title_font.getBounds("HIGHSCORES");
-		game.title_font.draw(game.Batch, "HIGHSCORES", TriHard.screen_width/2 - t.width/2, TriHard.screen_height*0.1f);
 		
-		t = game.main_menu_font.getBounds("RESET");
-		game.main_menu_font.draw(game.Batch, "RESET", (resetSprite.getX() + resetSprite.getWidth()/2) - t.width/2, (resetSprite.getY() + resetSprite.getHeight()/2) - t.height/2);
+		textBounds = game.highScoresFont.getBounds("1st : " + scoresFirst);
+		game.highScoresFont.draw(game.Batch, "1st : " + scoresFirst,
+				TriHard.screenWidth/2 - textBounds.width/2,
+				highscoreList.getY() + highscoreList.getHeight()*0.4f - textBounds.height/2);
+		
+		textBounds = game.highScoresFont.getBounds("2nd : " + scoresSecond);
+		game.highScoresFont.draw(game.Batch, "2nd : " + scoresSecond,
+				TriHard.screenWidth/2 - textBounds.width/2,
+				highscoreList.getY() + highscoreList.getHeight()*0.6f - textBounds.height/2);
+		
+		textBounds = game.highScoresFont.getBounds("3rd : " + scoresThird);
+		game.highScoresFont.draw(game.Batch, "3rd : " + scoresThird,
+				TriHard.screenWidth/2 - textBounds.width/2,
+				highscoreList.getY() + highscoreList.getHeight()*0.8f - textBounds.height/2);
+		
+		textBounds = game.titleFont.getBounds("HIGHSCORES");
+		game.titleFont.draw(game.Batch, "HIGHSCORES",
+				TriHard.screenWidth/2 - textBounds.width/2,
+				TriHard.screenHeight*0.1f);
+		
+		textBounds = game.mainMenuFont.getBounds("RESET");
+		game.mainMenuFont.draw(game.Batch, "RESET",
+				(resetSprite.getX() + resetSprite.getWidth()/2) - textBounds.width/2,
+				(resetSprite.getY() + resetSprite.getHeight()/2) - textBounds.height/2);
 		
 		if(reset) {
 			resetYes.draw(game.Batch);
 			resetNo.draw(game.Batch);
-			t = game.info_font.getBounds("Are you sure you wish to reset?");
-			game.info_font.draw(game.Batch, "Are you sure you wish to reset?", TriHard.screen_width/2 - t.width/2, TriHard.screen_height/2 - t.height/2 - buttonSize);
+			textBounds = game.infoFont.getBounds("Are you sure you wish to reset?");
+			game.infoFont.draw(game.Batch, "Are you sure you wish to reset?",
+					TriHard.screenWidth/2 - textBounds.width/2,
+					TriHard.screenHeight/2 - textBounds.height/2 - buttonSize);
 		}
 		
 		game.Batch.end();
 	}
 	
-	public static void LoadPrefs(){
-		prefs = Gdx.app.getPreferences(SCORES_FILE);
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		if(mainMenuButton.getBoundingRectangle().contains(screenX, screenY)) {
+			game.setScreen(new MainMenu(game));
+		} else if(resetSprite.getBoundingRectangle().contains(screenX, screenY)) {
+			reset = true;
+		}
+		if(reset) {
+			if(resetYes.getBoundingRectangle().contains(screenX, screenY)) {
+				resetScores();
+				initHighscore();
+				reset = false;
+			} else if(resetNo.getBoundingRectangle().contains(screenX, screenY)) {
+				reset = false;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -207,26 +236,6 @@ public class Highscore implements Screen, InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		return false;
-	}
-
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		if(main_menu_button.getBoundingRectangle().contains(screenX, screenY)){
-			game.setScreen(new MainMenu(game));
-		}
-		if(resetSprite.getBoundingRectangle().contains(screenX, screenY)) {
-			reset = true;
-		}
-		if(reset) {
-			if(resetYes.getBoundingRectangle().contains(screenX, screenY)) {
-				ResetScores();
-				InitHighscore();
-				reset = false;
-			} else if(resetNo.getBoundingRectangle().contains(screenX, screenY)) {
-				reset = false;
-			}
-		}
 		return false;
 	}
 

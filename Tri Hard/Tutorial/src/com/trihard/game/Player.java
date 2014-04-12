@@ -11,34 +11,47 @@ import com.badlogic.gdx.math.Vector2;
 import com.trihard.manager.particle.BaseParticle;
 import com.trihard.manager.particle.Trail;
 
+/*
+ * The Player!
+ **/
 public class Player {
 
-	private TriHard game;
+	private final TriHard game;
 	
-	private Rectangle bounds;
-	private Vector2 position;
-	private Sprite sprite;
+	// How fast the player can move up and down
+	public static float TURN_SPEED;
 	
-	public static float MOVE_SPEED;
+	// Size of the player in pixels
 	public static float SIZE;
 	
+	// Used for collision
+	private Rectangle bounds;
 	
-	// Mouse click X
+	// Position of the player
+	private Vector2 position;
+	
+	// Image of the player (triangle)
+	private Sprite sprite;
+	
+	// Where on the screen we have touched (Y-coord only)
 	private float mouseTochedY;
-	// Mouse touch
+	
+	// If we have touched(clicked) the screen
 	private boolean isMouseToched;
 	
+	// The current rotation of the player (triangle)
 	private float rotation;
 	
 	private ArrayList<BaseParticle> trail;
 	
-	public Player(TriHard game) {
+	public Player(final TriHard game) {
 		this.game = game;
+		this.init();
 	}
 
-	public void init() {
-		SIZE = TriHard.screen_height / 16;
-		MOVE_SPEED = TriHard.screen_height;
+	void init() {
+		SIZE = TriHard.screenHeight / 16;
+		TURN_SPEED = TriHard.screenHeight;
 		
 		bounds = new Rectangle();
 		bounds.setSize(SIZE, SIZE);
@@ -53,9 +66,9 @@ public class Player {
 	}
 	
 	public void reset() {
-		position = new Vector2(TriHard.screen_width * 1/6f, (TriHard.screen_height / 2) - (SIZE / 2));
+		position = new Vector2(TriHard.screenWidth * 1/6f, (TriHard.screenHeight / 2) - (SIZE / 2));
 		isMouseToched = false;
-		mouseTochedY = (TriHard.screen_height / 2) - (SIZE / 2);
+		mouseTochedY = (TriHard.screenHeight / 2) - (SIZE / 2);
 	}
 
 	public void update(float delta) {
@@ -64,7 +77,7 @@ public class Player {
 			mouseTochedY = Gdx.input.getY() - (SIZE / 2);
 		}
 		
-		float fm = MOVE_SPEED * delta;
+		float fm = TURN_SPEED * delta;
 		if(position.y < (mouseTochedY - fm) || position.y > (mouseTochedY + fm))
 		{
 			if(position.y < mouseTochedY) {
@@ -74,23 +87,22 @@ public class Player {
 			}
 		}
 		
-		float tempRot = ((mouseTochedY - position.y) / (TriHard.screen_height / 4)) * 45;
+		float tempRot = ((mouseTochedY - position.y) / (TriHard.screenHeight / 4)) * 45;
 		rotation = MathUtils.clamp(tempRot, -45, 45);
 		
 		if(position.y < 0) {
 			position.y = 0;
-		} else if(position.y + SIZE > TriHard.screen_height) {
-			position.y = TriHard.screen_height - SIZE;
+		} else if(position.y + SIZE > TriHard.screenHeight) {
+			position.y = TriHard.screenHeight - SIZE;
 		}
 		
 		UpdateTrail(delta);
 		
-		// Uppdatera boundingbox
+		// Update collision box
 		bounds.setPosition(position);
 	}
 
 	public void draw(SpriteBatch batch) {
-		
 		DrawTrail(batch);
 		
 		sprite.setRotation(rotation);
@@ -106,12 +118,13 @@ public class Player {
 	public Vector2 getPosition() {
 		return this.position;
 	}
+	
 	/*
 	 * Updates the trail behind the player.
 	 * Removes the trail if alive is false
 	 * Adds a new trail every update
 	 */
-	private void UpdateTrail(float time){
+	private void UpdateTrail(float time) {
 		Trail t = new Trail(game, getPosition().y);
 		trail.add(t);
 		
@@ -125,8 +138,8 @@ public class Player {
 	/*
 	 * Draws the trail behind the player
 	 */
-	private void DrawTrail(SpriteBatch batch){
-		for(int i = 0; i < trail.size(); i++){
+	private void DrawTrail(SpriteBatch batch) {
+		for(int i = 0; i < trail.size(); i++) {
 			Trail t = (Trail) trail.get(i);
 			t.draw(batch);
 		}

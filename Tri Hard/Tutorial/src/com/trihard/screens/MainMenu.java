@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.trihard.game.TriHard;
 
@@ -30,19 +31,21 @@ public class MainMenu implements Screen, InputProcessor {
 	private Sprite quitSprite;
 	
 	// Storlek på de stora knapparna i menyn
-	float bw = TriHard.screen_width*0.3f;
-	float bh = TriHard.screen_height*0.23f;
+	float bw = TriHard.screenWidth*0.3f;
+	float bh = TriHard.screenHeight*0.23f;
 	
 	// Storlek på de små knapparna i menyn
-	private final float BUTTON_SIZE = TriHard.screen_height*0.15f;
+	private final float BUTTON_SIZE = TriHard.screenHeight*0.15f;
 	
 	public static boolean hasSound = true;
 	
-	public MainMenu(final TriHard game){
+	private TextBounds textBounds;
+	
+	public MainMenu(final TriHard game) {
 		this.game = game;
 		Gdx.input.setInputProcessor(this);
 		
-		cx = TriHard.screen_width/2;
+		cx = TriHard.screenWidth/2;
 		
 		Preferences prefs = Gdx.app.getPreferences(SETTINGS_FILE);
 		
@@ -55,25 +58,25 @@ public class MainMenu implements Screen, InputProcessor {
 			}
 		}
 		
-		backgroundSprite = game.Textures.getSprite("data/gfx/menu/menu_backround2.png");
+		backgroundSprite = game.Textures.getSprite("data/gfx/menu/main_menu.png");
 		backgroundSprite.setRegion(0, 0, 1280, 720);
-		backgroundSprite.setSize(TriHard.screen_width, TriHard.screen_height);
+		backgroundSprite.setSize(TriHard.screenWidth, TriHard.screenHeight);
 		backgroundSprite.setPosition(0, 0);
 		backgroundSprite.flip(false, true);
 
 		playSprite = game.Textures.getSprite("data/gfx/menu/button.png");
 		playSprite.setSize(bw, bh);
-		playSprite.setPosition(cx - (bw/2), TriHard.screen_height*0.35f);
+		playSprite.setPosition(cx - (bw/2), TriHard.screenHeight*0.35f);
 		playSprite.flip(false, true);
 		
 		highscoreSprite = game.Textures.getSprite("data/gfx/menu/button.png"); // TEMP så länge
 		highscoreSprite.setSize(bw, bh);
-		highscoreSprite.setPosition(cx - (bw/2), TriHard.screen_height*0.55f);
+		highscoreSprite.setPosition(cx - (bw/2), TriHard.screenHeight*0.55f);
 		highscoreSprite.flip(false, true);
 
 		howToPlaySprite = game.Textures.getSprite("data/gfx/menu/button.png"); // TEMP så länge
 		howToPlaySprite.setSize(bw, bh);
-		howToPlaySprite.setPosition(cx - (bw/2), TriHard.screen_height*0.75f);
+		howToPlaySprite.setPosition(cx - (bw/2), TriHard.screenHeight*0.75f);
 		howToPlaySprite.flip(false, true);
 
 		texSoundOn = game.Textures.getTexture("data/gfx/menu/button_sound.png");
@@ -81,12 +84,12 @@ public class MainMenu implements Screen, InputProcessor {
 		
 		soundSprite = new Sprite(texSoundOn);
 		soundSprite.setSize(BUTTON_SIZE, BUTTON_SIZE);
-		soundSprite.setPosition(TriHard.screen_width * 0.025f, TriHard.screen_height * 0.05f);
+		soundSprite.setPosition(TriHard.screenWidth * 0.025f, TriHard.screenHeight * 0.05f);
 		soundSprite.flip(false, true);
 		
 		quitSprite = game.Textures.getSprite("data/gfx/menu/button_exit.png");
 		quitSprite.setSize(BUTTON_SIZE, BUTTON_SIZE);
-		quitSprite.setPosition(TriHard.screen_width * 0.975f - BUTTON_SIZE, TriHard.screen_height * 0.05f);
+		quitSprite.setPosition(TriHard.screenWidth * 0.975f - BUTTON_SIZE, TriHard.screenHeight * 0.05f);
 		
 		reset();
 		loadSettings();
@@ -132,14 +135,25 @@ public class MainMenu implements Screen, InputProcessor {
 		soundSprite.draw(game.Batch);
 		quitSprite.draw(game.Batch);
 
-		BitmapFont.TextBounds t = game.main_menu_font.getBounds("PLAY");
-		game.main_menu_font.draw(game.Batch, "PLAY", (TriHard.screen_width/2) - t.width/2, (playSprite.getY() + bh/2) - t.height/2);
-		t = game.main_menu_font.getBounds("SCORE");
-		game.main_menu_font.draw(game.Batch, "SCORE", (TriHard.screen_width/2) - t.width/2, (highscoreSprite.getY() + bh/2) - t.height/2);
-		t = game.main_menu_font.getBounds("HOW TO");
-		game.main_menu_font.draw(game.Batch, "HOW TO", (TriHard.screen_width/2) - t.width/2, (howToPlaySprite.getY() + bh/2) - t.height/2);
-		t = game.title_font.getBounds("Tri Hard");
-		game.title_font.draw(game.Batch, "Tri Hard", TriHard.screen_width/2 - t.width/2, TriHard.screen_height*0.1f);
+		textBounds = game.mainMenuFont.getBounds("PLAY");
+		game.mainMenuFont.draw(game.Batch, "PLAY",
+				(TriHard.screenWidth/2) - textBounds.width/2,
+				(playSprite.getY() + bh/2) - textBounds.height/2);
+		
+		textBounds = game.mainMenuFont.getBounds("SCORE");
+		game.mainMenuFont.draw(game.Batch, "SCORE",
+				(TriHard.screenWidth/2) - textBounds.width/2,
+				(highscoreSprite.getY() + bh/2) - textBounds.height/2);
+		
+		textBounds = game.mainMenuFont.getBounds("HOW TO");
+		game.mainMenuFont.draw(game.Batch,
+				"HOW TO", (TriHard.screenWidth/2) - textBounds.width/2,
+				(howToPlaySprite.getY() + bh/2) - textBounds.height/2);
+		
+		textBounds = game.titleFont.getBounds("Tri Hard");
+		game.titleFont.draw(game.Batch, "Tri Hard",
+				TriHard.screenWidth/2 - textBounds.width/2,
+				TriHard.screenHeight*0.1f);
 
 		game.Batch.end();
 	}

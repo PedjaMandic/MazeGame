@@ -16,13 +16,14 @@ import com.trihard.screens.MainMenu;
 
 public class TriHard extends Game {
 
-	public BitmapFont main_menu_font;
-	public BitmapFont highscores_font;
-	public BitmapFont ingame_font;
-	public BitmapFont info_font;
-	public BitmapFont title_font;
-
-	public static float screen_width, screen_height;
+	public static float screenWidth;
+	public static float screenHeight;
+	
+	public BitmapFont mainMenuFont;
+	public BitmapFont highScoresFont;
+	public BitmapFont ingameFont;
+	public BitmapFont infoFont;
+	public BitmapFont titleFont;
 
 	public SpriteBatch Batch;
 	public OrthographicCamera Camera;
@@ -34,9 +35,8 @@ public class TriHard extends Game {
 
 	@Override
 	public void create() {
-
-		screen_width = Gdx.graphics.getWidth();
-		screen_height = Gdx.graphics.getHeight();
+		screenWidth = Gdx.graphics.getWidth();
+		screenHeight = Gdx.graphics.getHeight();
 
 		Textures = new TextureManager();
 		Sounds = new SoundManager();
@@ -44,7 +44,7 @@ public class TriHard extends Game {
 
 		Batch = new SpriteBatch();
 		Camera = new OrthographicCamera();
-		Camera.setToOrtho(true, screen_width, screen_height);
+		Camera.setToOrtho(true, screenWidth, screenHeight);
 
 		// Skapar alla fonts
 		// -----------------------------------------------------------------------
@@ -52,24 +52,24 @@ public class TriHard extends Game {
 				"data/gfx/fonts/Cooper Black.ttf");
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(fontFile);
 
-		main_menu_font = generator.generateFont((int)(screen_width / 18), "PLAYHIGSCOREWT", true);
-		main_menu_font.setColor(new Color(1f,1f,1f,1));
+		mainMenuFont = generator.generateFont((int)(screenWidth / 18), "PLAYHIGSCOREWT", true);
+		mainMenuFont.setColor(new Color(1f,1f,1f,1));
 
-		highscores_font = generator.generateFont((int) (screen_width / 20),
+		highScoresFont = generator.generateFont((int) (screenWidth / 20),
 				"1234567890stndr:", true);
-		highscores_font.setColor(new Color(1, 1, 1, 1));
+		highScoresFont.setColor(new Color(1, 1, 1, 1));
 
-		ingame_font = generator.generateFont((int) (screen_width / 36),
+		ingameFont = generator.generateFont((int) (screenWidth / 36),
 				"1234567890Scor:Llev", true);
-		ingame_font.setColor(new Color(1, 1, 1, 1f));
+		ingameFont.setColor(new Color(1, 1, 1, 1f));
 
-		info_font = generator.generateFont((int) screen_width / 36,
+		infoFont = generator.generateFont((int) screenWidth / 36,
 				"qwertyuioplkjhgfdsazxcvbnm.,QWERTYUIOPLKJHGFDSAZXCVBNM?", true);
-		info_font.setColor(new Color(1, 1, 1, 1f));
+		infoFont.setColor(new Color(1, 1, 1, 1f));
 
-		title_font = generator.generateFont((int)screen_width / 12, 
+		titleFont = generator.generateFont((int)screenWidth / 12, 
 				"qwertyuioplkjhgfdsazxcvbnm.,QWERTYUIOPLKJHGFDSAZXCVBNM", true);
-		title_font.setColor(new Color(1,1,1,1));
+		titleFont.setColor(new Color(1,1,1,1));
 		generator.dispose();
 		// -----------------------------------------------------------------------
 		
@@ -83,11 +83,11 @@ public class TriHard extends Game {
 		Sounds.dispose();
 		Particles.dispose();
 
-		main_menu_font.dispose();
-		highscores_font.dispose();
-		ingame_font.dispose();
-		info_font.dispose();
-		title_font.dispose();
+		mainMenuFont.dispose();
+		highScoresFont.dispose();
+		ingameFont.dispose();
+		infoFont.dispose();
+		titleFont.dispose();
 	}
 
 	@Override
@@ -114,24 +114,24 @@ public class TriHard extends Game {
 				"data/gfx/fonts/Cooper Black.ttf");
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(fontFile);
 
-		main_menu_font = generator.generateFont((int)(screen_width / 18), "PLAYHIGSCOREWT", true);
-		main_menu_font.setColor(new Color(1f,1f,1f,1));
+		mainMenuFont = generator.generateFont((int)(screenWidth / 18), "PLAYHIGSCOREWT", true);
+		mainMenuFont.setColor(new Color(1f,1f,1f,1));
 
-		highscores_font = generator.generateFont((int) (screen_width / 20),
+		highScoresFont = generator.generateFont((int) (screenWidth / 20),
 				"1234567890stndr:", true);
-		highscores_font.setColor(new Color(1, 1, 1, 1));
+		highScoresFont.setColor(new Color(1, 1, 1, 1));
 
-		ingame_font = generator.generateFont((int) (screen_width / 36),
+		ingameFont = generator.generateFont((int) (screenWidth / 36),
 				"1234567890Scor:Llev", true);
-		ingame_font.setColor(new Color(1, 1, 1, 1f));
+		ingameFont.setColor(new Color(1, 1, 1, 1f));
 
-		info_font = generator.generateFont((int) screen_width / 36,
+		infoFont = generator.generateFont((int) screenWidth / 36,
 				"qwertyuioplkjhgfdsazxcvbnm.,QWERTYUIOPLKJHGFDSAZXCVBNM", true);
-		info_font.setColor(new Color(1, 1, 1, 1f));
+		infoFont.setColor(new Color(1, 1, 1, 1f));
 
-		title_font = generator.generateFont((int)screen_width / 12, 
+		titleFont = generator.generateFont((int)screenWidth / 12, 
 				"qwertyuioplkjhgfdsazxcvbnm.,QWERTYUIOPLKJHGFDSAZXCVBNM", true);
-		title_font.setColor(new Color(1,1,1,1));
+		titleFont.setColor(new Color(1,1,1,1));
 		generator.dispose();
 	}
 }

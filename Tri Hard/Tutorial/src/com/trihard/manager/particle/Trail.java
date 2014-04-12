@@ -8,7 +8,7 @@ import com.trihard.game.Background;
 import com.trihard.game.Level;
 import com.trihard.game.TriHard;
 
-public class Trail implements BaseParticle{
+public class Trail implements BaseParticle {
 	
 	private float positionX;
 	private float positionY;
@@ -24,7 +24,7 @@ public class Trail implements BaseParticle{
 	
 	private TriHard game;
 	
-	public Trail(TriHard game, float pos){
+	public Trail(TriHard game, float pos) {
 		this.positionY = pos;
 		this.game = game;
 		Init();
@@ -34,7 +34,7 @@ public class Trail implements BaseParticle{
 	 * Initializes the main components of the trail.
 	 * Loads in the correct texture to the sprite.
 	 */
-	private void Init(){		
+	private void Init() {		
 		//Load texture
 		sprite = game.Textures.getSprite("data/gfx/particle.png");
 		

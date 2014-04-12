@@ -19,23 +19,22 @@ public class Play implements Screen, InputProcessor {
 	private Player player;
 	private float score = 0;
 	
-	private Sprite score_background;
+	private Sprite scoreBackground;
 	
 	public Play(TriHard game) {
 		this.game = game;
 		Gdx.input.setInputProcessor(this);
-		Highscore.LoadPrefs();
+		Highscore.loadPrefs();
 		
 		game.Particles.clear();
 		player = new Player(game);
-		player.init();
 
 		level = new Level(game);
 		
-		game.ingame_font.setColor(Color.WHITE);
+		game.ingameFont.setColor(Color.WHITE);
 		
-		score_background = game.Textures.getSprite("data/gfx/menu/button.png");
-		score_background.setBounds(0, 0, Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/6);
+		scoreBackground = game.Textures.getSprite("data/gfx/menu/button.png");
+		scoreBackground.setBounds(0, 0, Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/6);
 		if(MainMenu.hasSound)
 			game.Sounds.play("music", true);
 	}
@@ -60,12 +59,12 @@ public class Play implements Screen, InputProcessor {
 		
 		level.update(time);
 		
-		if(level.HasCollided(player.getBounds()))
+		if(level.hasCollided(player.getBounds()))
 		{
 			game.Sounds.play("explosion");
 			game.setScreen(new GameOver(game, level, player, (int)score));
 			
-			Highscore.InitHighscore();
+			Highscore.initHighscore();
 			isHighscore((int)score);
 		}
 		
@@ -74,22 +73,22 @@ public class Play implements Screen, InputProcessor {
 		game.Batch.setProjectionMatrix(game.Camera.combined);
 		game.Batch.begin();
 		level.draw(game.Batch);
-		score_background.draw(game.Batch);
-		game.ingame_font.draw(game.Batch, String.format("Score: %d", (int)score), score_background.getWidth()*0.12f, score_background.getHeight()*0.2f);
-		game.ingame_font.draw(game.Batch, String.format("Level: %d", Level.currentLevel), score_background.getWidth()*0.12f, score_background.getHeight()*0.6f);
+		scoreBackground.draw(game.Batch);
+		game.ingameFont.draw(game.Batch, String.format("Score: %d", (int)score), scoreBackground.getWidth()*0.12f, scoreBackground.getHeight()*0.2f);
+		game.ingameFont.draw(game.Batch, String.format("Level: %d", Level.currentLevel), scoreBackground.getWidth()*0.12f, scoreBackground.getHeight()*0.6f);
 		player.draw(game.Batch);
 		game.Batch.end();
 	}
 	
 	private void isHighscore(int newscore) {
-		int checker = Highscore.CheckScore(newscore);
+		int checker = Highscore.checkScore(newscore);
 		
 		if(checker == 1) {
-			Highscore.SaveScore(1, newscore);
+			Highscore.saveScore(1, newscore);
 		} else if(checker == 2) {
-			Highscore.SaveScore(2, newscore);
-		} else if(checker==3) {
-			Highscore.SaveScore(3, newscore);
+			Highscore.saveScore(2, newscore);
+		} else if(checker == 3) {
+			Highscore.saveScore(3, newscore);
 		}
 	}
 

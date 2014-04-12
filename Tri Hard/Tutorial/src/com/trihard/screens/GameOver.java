@@ -25,9 +25,6 @@ public class GameOver implements Screen, InputProcessor {
 	
 	private float buttonSize;
 	
-	private float sw;
-	private float sh;
-	
 	private ParticleEffect explosion;
 	
 	public GameOver(final TriHard game, Level level, Player player, int score) {
@@ -36,21 +33,16 @@ public class GameOver implements Screen, InputProcessor {
 		
 		this.level = level;
 		this.score = score;
-		
-		sw = Gdx.graphics.getWidth();
-		sh = Gdx.graphics.getHeight();
-		
-		buttonSize = sh * 0.15f;
+
+		buttonSize = TriHard.screenHeight * 0.15f;
 		
 		backSprite = game.Textures.getSprite("data/gfx/menu/button_back.png");
 		backSprite.setSize(buttonSize, buttonSize);
-//		backSprite.setPosition(buttonSize * 0.2f, sh - buttonSize * 1.2f);
-		backSprite.setPosition(TriHard.screen_width * 0.4f - buttonSize / 2, TriHard.screen_height / 2 - buttonSize / 2);
+		backSprite.setPosition(TriHard.screenWidth * 0.4f - buttonSize / 2, TriHard.screenHeight / 2 - buttonSize / 2);
 		
 		playSprite = game.Textures.getSprite("data/gfx/menu/button_replay.png");
 		playSprite.setSize(buttonSize, buttonSize);
-//		playSprite.setPosition(sw - buttonSize * 1.2f, sh - buttonSize * 1.2f);
-		playSprite.setPosition(TriHard.screen_width * 0.6f - buttonSize / 2, TriHard.screen_height / 2 - buttonSize / 2);
+		playSprite.setPosition(TriHard.screenWidth * 0.6f - buttonSize / 2, TriHard.screenHeight / 2 - buttonSize / 2);
 		
 		explosion = new ParticleEffect();
 		explosion.load(Gdx.files.internal("data/gfx/particle/explosion.p"),
@@ -77,8 +69,8 @@ public class GameOver implements Screen, InputProcessor {
 		game.Batch.begin();
 		level.draw(game.Batch);
 		score_background.draw(game.Batch);
-		game.ingame_font.draw(game.Batch, String.format("Score: %d", score), score_background.getWidth()*0.12f, score_background.getHeight()*0.2f);
-		game.ingame_font.draw(game.Batch, String.format("Level: %d", Level.currentLevel), score_background.getWidth()*0.12f, score_background.getHeight()*0.6f);
+		game.ingameFont.draw(game.Batch, String.format("Score: %d", score), score_background.getWidth()*0.12f, score_background.getHeight()*0.2f);
+		game.ingameFont.draw(game.Batch, String.format("Level: %d", Level.currentLevel), score_background.getWidth()*0.12f, score_background.getHeight()*0.6f);
 		
 		explosion.draw(game.Batch, delta);
 		
@@ -96,12 +88,12 @@ public class GameOver implements Screen, InputProcessor {
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		if(backSprite.getBoundingRectangle().contains(screenX, screenY)) {
-			game.ingame_font.setColor(Color.GRAY);
+			game.ingameFont.setColor(Color.GRAY);
 //			game.Sounds.stopAll();
 			game.setScreen(new MainMenu(game));
 			this.dispose();
 		} else if(playSprite.getBoundingRectangle().contains(screenX, screenY)) {
-			game.ingame_font.setColor(Color.GRAY);
+			game.ingameFont.setColor(Color.GRAY);
 			game.setScreen(new Play(game));
 			this.dispose();
 		}

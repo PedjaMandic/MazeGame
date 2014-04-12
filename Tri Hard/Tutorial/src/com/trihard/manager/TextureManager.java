@@ -28,7 +28,7 @@ public class TextureManager {
 		return tex;
 	}
 	
-	// Returnera en sprite som är flippad rätt
+	// Returns a sprite with flipY == true
 	public Sprite getSprite(String path) {
 		Texture tex = getTexture(path);
 		Sprite sprite = new Sprite(tex);

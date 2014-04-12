@@ -12,7 +12,7 @@ import com.trihard.game.TriHard;
 
 public class Star implements BaseParticle {
 
-	private TriHard game;
+	private final TriHard game;
 	
 	private Rectangle bounds;
 	private Vector2 position;
@@ -21,22 +21,16 @@ public class Star implements BaseParticle {
 	
 	private float speed = 10;
 	
-	private float sw;
-	private float sh;
-	
-	public Star(TriHard game) {
+	public Star(final TriHard game) {
 		this.game = game;
 		init();
 	}
 	
-	private void init() {		
-		sw = Gdx.graphics.getWidth();
-		sh = Gdx.graphics.getHeight();
-		
+	private void init() {
 		//Random start position;
 		Random rand = new Random();
-		float x = sw;
-		float y = rand.nextFloat() * sh;
+		float x = TriHard.screenWidth;
+		float y = rand.nextFloat() * TriHard.screenHeight;
 		float scale = 3 + rand.nextInt(4);
 		float alpha = rand.nextFloat();
 		speed = 10 * rand.nextFloat();
@@ -78,9 +72,9 @@ public class Star implements BaseParticle {
 
 	@Override
 	public boolean isAlive() {
-		return !(position.x > sw ||
+		return !(position.x > TriHard.screenWidth ||
 				position.x < 0 ||
-				position.y > sh ||
+				position.y > TriHard.screenHeight ||
 				position.y < 0);
 	}
 

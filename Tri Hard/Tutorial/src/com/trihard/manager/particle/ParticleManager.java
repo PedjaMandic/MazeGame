@@ -41,9 +41,8 @@ public class ParticleManager {
 			part.update(time);
 			if(part.isAlive() == false) {
 				particles.remove(i);
+				continue;
 			}
-		}
-		for(BaseParticle part : particles) {
 			part.draw(batch);
 		}
 	}

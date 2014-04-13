@@ -60,22 +60,21 @@ public class Highscore implements Screen, InputProcessor {
 		highscoreList.setSize(TriHard.screenWidth * 0.6f, TriHard.screenHeight * 0.8f);
 		highscoreList.setPosition(centerX - (highscoreList.getWidth() / 2) , centerY - (highscoreList.getHeight() / 2));
 		
-		TextBounds tb = game.mainMenuFont.getBounds("RESET");
-		resetSprite = game.Textures.getSprite("data/gfx/menu/button.png");
-		resetSprite.setSize(tb.width * 1.2f, buttonSize);
+		resetSprite = game.Textures.getSprite("data/gfx/menu/button_delete.png");
+		resetSprite.setSize(buttonSize, buttonSize);
 		resetSprite.setPosition(TriHard.screenWidth * 0.025f, TriHard.screenHeight*0.95f - buttonSize);
 		
 		mainMenuButton = game.Textures.getSprite("data/gfx/menu/button_back.png");
 		mainMenuButton.setSize(buttonSize, buttonSize);
 		mainMenuButton.setPosition(TriHard.screenWidth * 0.975f - buttonSize, TriHard.screenHeight*0.95f - buttonSize);
 		
-		resetYes = game.Textures.getSprite("data/gfx/menu/button_ok.png");
-		resetYes.setSize(buttonSize, buttonSize);
-		resetYes.setPosition(TriHard.screenWidth * 0.4f - buttonSize / 2, TriHard.screenHeight / 2 - buttonSize / 2);
-		
 		resetNo = game.Textures.getSprite("data/gfx/menu/button_exit.png");
 		resetNo.setSize(buttonSize, buttonSize);
-		resetNo.setPosition(TriHard.screenWidth * 0.6f - buttonSize / 2, TriHard.screenHeight / 2 - buttonSize / 2);
+		resetNo.setPosition(TriHard.screenWidth * 0.4f - buttonSize / 2, TriHard.screenHeight / 2 - buttonSize / 2);
+		
+		resetYes = game.Textures.getSprite("data/gfx/menu/button_ok.png");
+		resetYes.setSize(buttonSize, buttonSize);
+		resetYes.setPosition(TriHard.screenWidth * 0.6f - buttonSize / 2, TriHard.screenHeight / 2 - buttonSize / 2);
 		
 		Highscore.loadPrefs();
 		
@@ -164,11 +163,6 @@ public class Highscore implements Screen, InputProcessor {
 		game.titleFont.draw(game.Batch, "HIGHSCORES",
 				TriHard.screenWidth/2 - textBounds.width/2,
 				TriHard.screenHeight*0.1f);
-		
-		textBounds = game.mainMenuFont.getBounds("RESET");
-		game.mainMenuFont.draw(game.Batch, "RESET",
-				(resetSprite.getX() + resetSprite.getWidth()/2) - textBounds.width/2,
-				(resetSprite.getY() + resetSprite.getHeight()/2) - textBounds.height/2);
 		
 		if(reset) {
 			resetYes.draw(game.Batch);

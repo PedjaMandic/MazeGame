@@ -19,6 +19,7 @@ public class Highscore implements Screen, InputProcessor {
 	private float centerX;
 	private float centerY;
 	
+	// filväg och nycklar till highscores
 	public static final String SCORES_FILE = "score_file";
 	public static final String KEY_FIRST = "first";
 	public static final String KEY_SECOND= "second";
@@ -28,6 +29,7 @@ public class Highscore implements Screen, InputProcessor {
 	private static int scoresSecond;
 	private static int scoresThird;
 
+	// Sprites till knappar och layout
 	private Sprite highscoreList;
 	private Sprite mainMenuButton;
 	private Sprite backgroundSprite;
@@ -45,6 +47,8 @@ public class Highscore implements Screen, InputProcessor {
 		this.game = game;
 		Gdx.input.setInputProcessor(this);
 		
+		
+		// initierar knappar och texturer till highscore menyn ---------------
 		centerX = TriHard.screenWidth / 2;
 		centerY = TriHard.screenHeight / 2;
 		
@@ -75,6 +79,7 @@ public class Highscore implements Screen, InputProcessor {
 		resetYes = game.Textures.getSprite("data/gfx/menu/button_ok.png");
 		resetYes.setSize(buttonSize, buttonSize);
 		resetYes.setPosition(TriHard.screenWidth * 0.6f - buttonSize / 2, TriHard.screenHeight / 2 - buttonSize / 2);
+		// ---------------------------------------------------------------------
 		
 		Highscore.loadPrefs();
 		
@@ -88,6 +93,7 @@ public class Highscore implements Screen, InputProcessor {
 		return value;
 	}
 	
+	// metod som sparar 1 score på specifik plats mha nyckel
 	public static void saveScore(int place, int score) {
 		if(place == 1) {
 			scoresThird = scoresSecond;
@@ -108,6 +114,7 @@ public class Highscore implements Screen, InputProcessor {
 		prefs.flush();
 	}
 	
+	// kollar om en score kommer till highscore listan
 	public static int checkScore(int score) {
 		if(score > scoresFirst) {
 			return 1;
@@ -119,12 +126,14 @@ public class Highscore implements Screen, InputProcessor {
 		return 0;
 	}
 	
+	// laddar in scores från minnet
 	public static void initHighscore() {
 		scoresFirst = getScore(KEY_FIRST);
 		scoresSecond = getScore(KEY_SECOND);
 		scoresThird = getScore(KEY_THIRD);
 	}
 	
+	// rensar alla scores från minnet
 	public static void resetScores() {
 		prefs.clear();
 		prefs.flush();
@@ -140,6 +149,8 @@ public class Highscore implements Screen, InputProcessor {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		game.Batch.begin();
+		
+		// ritar ut knappar och texter på highscoremenyn ---------------------------
 		backgroundSprite.draw(game.Batch);
 		mainMenuButton.draw(game.Batch);
 		resetSprite.draw(game.Batch);
@@ -163,7 +174,9 @@ public class Highscore implements Screen, InputProcessor {
 		game.titleFont.draw(game.Batch, "HIGHSCORES",
 				TriHard.screenWidth/2 - textBounds.width/2,
 				TriHard.screenHeight*0.1f);
+		// ---------------------------------------------------------------------------
 		
+		// ritar ut alternativ när resetknappen tryckts ned
 		if(reset) {
 			resetYes.draw(game.Batch);
 			resetNo.draw(game.Batch);

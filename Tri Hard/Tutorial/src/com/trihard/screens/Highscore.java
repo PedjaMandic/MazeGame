@@ -5,7 +5,6 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.trihard.game.TriHard;
@@ -48,7 +47,8 @@ public class Highscore implements Screen, InputProcessor {
 		Gdx.input.setInputProcessor(this);
 		
 		
-		// initierar knappar och texturer till highscore menyn ---------------
+		// initierar knappar och texturer till highscore menyn
+		// ---------------------------------------------------------------------
 		centerX = TriHard.screenWidth / 2;
 		centerY = TriHard.screenHeight / 2;
 		
@@ -150,7 +150,8 @@ public class Highscore implements Screen, InputProcessor {
 		
 		game.Batch.begin();
 		
-		// ritar ut knappar och texter på highscoremenyn ---------------------------
+		// ritar ut knappar och texter på highscoremenyn 
+		// ---------------------------------------------------------------------
 		backgroundSprite.draw(game.Batch);
 		mainMenuButton.draw(game.Batch);
 		resetSprite.draw(game.Batch);
@@ -174,7 +175,7 @@ public class Highscore implements Screen, InputProcessor {
 		game.titleFont.draw(game.Batch, "HIGHSCORES",
 				TriHard.screenWidth/2 - textBounds.width/2,
 				TriHard.screenHeight*0.1f);
-		// ---------------------------------------------------------------------------
+		// ---------------------------------------------------------------------
 		
 		// ritar ut alternativ när resetknappen tryckts ned
 		if(reset) {

@@ -11,13 +11,6 @@ import com.trihard.game.TriHard;
 
 public class HowToPlay implements Screen, InputProcessor {
 	
-	enum Page {
-		what0,
-		what1,
-		what2,
-		how0
-	}
-	
 	private float buttonSize;
 	
 	private Sprite image;
@@ -33,6 +26,8 @@ public class HowToPlay implements Screen, InputProcessor {
 		this.game = game;
 		Gdx.input.setInputProcessor(this);
 		
+		//initierar knappar, bilder och text
+		// ---------------------------------------------------------------------
 		buttonSize = TriHard.screenHeight * 0.15f;
 		
 		backgroundSprite = game.Textures.getSprite("data/gfx/menu/main_menu.png");
@@ -49,6 +44,7 @@ public class HowToPlay implements Screen, InputProcessor {
 		mainMenuButton = game.Textures.getSprite("data/gfx/menu/button_back.png");
 		mainMenuButton.setSize(buttonSize, buttonSize);
 		mainMenuButton.setPosition(TriHard.screenWidth * 0.975f - buttonSize, TriHard.screenHeight*0.95f - buttonSize);
+		// ---------------------------------------------------------------------
 	}
 	
 	@Override

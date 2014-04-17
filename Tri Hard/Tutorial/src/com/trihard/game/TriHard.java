@@ -92,6 +92,7 @@ public class TriHard extends Game {
 
 	@Override
 	public void render() {
+		// This renders the current set Screen
 		super.render();
 
 		if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {

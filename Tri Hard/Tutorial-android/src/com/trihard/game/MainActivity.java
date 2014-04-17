@@ -13,6 +13,10 @@ public class MainActivity extends AndroidApplication {
         
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
         cfg.useGL20 = false;
+        cfg.useAccelerometer = false;
+        cfg.useCompass = false;
+        cfg.useWakelock = false;
+        cfg.hideStatusBar = true;
         
         initialize(new TriHard(), cfg);
     }

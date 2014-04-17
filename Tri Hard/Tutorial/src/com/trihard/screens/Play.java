@@ -59,8 +59,7 @@ public class Play implements Screen, InputProcessor {
 		
 		level.update(time);
 		
-		if(level.hasCollided(player.getBounds()))
-		{
+		if(level.hasCollided(player.getBounds())) {
 			game.Sounds.play("explosion");
 			game.setScreen(new GameOver(game, level, player, (int)score));
 			

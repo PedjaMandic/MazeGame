@@ -26,7 +26,7 @@ public class Star implements BaseParticle {
 	}
 	
 	private void init() {
-		//Random start position;
+		// Random start position;
 		Random rand = new Random();
 		float x = TriHard.screenWidth;
 		float y = rand.nextFloat() * TriHard.screenHeight;
@@ -34,7 +34,7 @@ public class Star implements BaseParticle {
 		float alpha = rand.nextFloat();
 		speed = 10 * rand.nextFloat();
 		
-		//Random riktning på vart den åker
+		// Give the particle random direction
 		direction = new Vector2(-rand.nextFloat() - 0.2f, 0);
 		
 		position = new Vector2(x, y);

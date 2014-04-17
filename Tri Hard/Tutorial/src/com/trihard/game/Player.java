@@ -77,9 +77,9 @@ public class Player {
 			mouseTochedY = Gdx.input.getY() - (SIZE / 2);
 		}
 		
+		// This is to prevent flickering when the player moves
 		float fm = TURN_SPEED * delta;
-		if(position.y < (mouseTochedY - fm) || position.y > (mouseTochedY + fm))
-		{
+		if(position.y < (mouseTochedY - fm) || position.y > (mouseTochedY + fm)) {
 			if(position.y < mouseTochedY) {
 				position.y += fm;
 			} else if(position.y > mouseTochedY) {

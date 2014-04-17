@@ -74,11 +74,11 @@ public class Highscore implements Screen, InputProcessor {
 		
 		resetNo = game.Textures.getSprite("data/gfx/menu/button_exit.png");
 		resetNo.setSize(buttonSize, buttonSize);
-		resetNo.setPosition(TriHard.screenWidth * 0.4f - buttonSize / 2, TriHard.screenHeight / 2 - buttonSize / 2);
+		resetNo.setPosition(TriHard.screenWidth * 0.6f - buttonSize / 2, TriHard.screenHeight / 2 - buttonSize / 2);
 		
 		resetYes = game.Textures.getSprite("data/gfx/menu/button_ok.png");
 		resetYes.setSize(buttonSize, buttonSize);
-		resetYes.setPosition(TriHard.screenWidth * 0.6f - buttonSize / 2, TriHard.screenHeight / 2 - buttonSize / 2);
+		resetYes.setPosition(TriHard.screenWidth * 0.4f - buttonSize / 2, TriHard.screenHeight / 2 - buttonSize / 2);
 		// ---------------------------------------------------------------------
 		
 		Highscore.loadPrefs();

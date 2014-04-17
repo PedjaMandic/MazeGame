@@ -89,7 +89,6 @@ public class GameOver implements Screen, InputProcessor {
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		if(backSprite.getBoundingRectangle().contains(screenX, screenY)) {
 			game.ingameFont.setColor(Color.GRAY);
-//			game.Sounds.stopAll();
 			game.setScreen(new MainMenu(game));
 			this.dispose();
 		} else if(playSprite.getBoundingRectangle().contains(screenX, screenY)) {
